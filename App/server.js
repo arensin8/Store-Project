@@ -2,6 +2,7 @@ const { log } = require('console');
 const express = require('express');
 const { default: mongoose } = require('mongoose');
 const path = require('path');
+const { AllRoutes } = require('./router/router');
 
 module.exports = class application{
     #app = express();
@@ -32,7 +33,9 @@ module.exports = class application{
             console.log('connected to mongodb');
        }) 
     }
-    createRoutes(){}
+    createRoutes(){
+        this.#app.use(AllRoutes)
+    }
     errorHandling(){
         this.#app.use((req,res,next) =>{
             return res.status(404).json({
