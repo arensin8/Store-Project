@@ -4,10 +4,9 @@ const Schema = new mongoose.Schema({
   first_name: { type: String },
   last_name: { type: String },
   username: { type: String },
-  phone: { type: String, default: "main" },
-  email: { type: String, default: "main" },
-  password: { type: String, default: "main" },
-  phone: { type: String, default: "main" },
+  phone: { type: String},
+  email: { type: String },
+  password: { type: String},
   otp: {
     type: Object,
     default: {
