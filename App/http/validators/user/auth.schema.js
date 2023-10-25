@@ -1,10 +1,9 @@
-const Joi = require('@hapi/joi')
+const Joi = require('@hapi/joi');
+const { error } = require('@hapi/joi/lib/base');
 
 const authSchema = Joi.object({
-        email : Joi.string().lowercase().trim().email().required(),
-        password : Joi.string().min(6).max(16).trim().required()
-});
-
+        phone : Joi.string().length(9).pattern(/^0[0-9]{8}$/).error( new Error('Mobile number is incorrect'))
+})
 module.exports = {
         authSchema
 }

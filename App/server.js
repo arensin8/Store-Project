@@ -5,6 +5,8 @@ const path = require("path");
 const { AllRoutes } = require("./router/router");
 const morgan = require("morgan");
 const createError = require('http-errors')
+const swaggerUI = require('swagger-ui-express')
+const swaggerJsDoc = require('swagger-jsdoc')
 
 module.exports = class application {
   #app = express();
@@ -24,6 +26,25 @@ module.exports = class application {
     this.#app.use(express.json());
     this.#app.use(express.urlencoded({ extended: true }));
     this.#app.use(express.static(path.join(__dirname, "..", "public")));
+    this.#app.use('/api-doc',swaggerUI.serve , swaggerUI.setup(swaggerJsDoc({
+      swaggerDefinition : {
+        info : {
+          title : "Aren's Store",
+          version : '1.0.0',
+          description : "The biggest clothing store in Armenia",
+          contact:{
+            name :'Aren Sinaei',
+            email :"arensinani4@gmail.com"
+          }
+        },
+        servers:[
+          {
+            url : 'http://localhost:5000'
+          }
+        ]
+      },
+      apis :['app/router/*/*.js']
+    })));
   }
   createServer() {
     const http = require("http");
