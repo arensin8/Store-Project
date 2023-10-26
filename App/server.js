@@ -4,9 +4,9 @@ const { default: mongoose } = require("mongoose");
 const path = require("path");
 const { AllRoutes } = require("./router/router");
 const morgan = require("morgan");
-const createError = require('http-errors')
-const swaggerUI = require('swagger-ui-express')
-const swaggerJsDoc = require('swagger-jsdoc')
+const createError = require("http-errors");
+const swaggerUI = require("swagger-ui-express");
+const swaggerJsDoc = require("swagger-jsdoc");
 
 module.exports = class application {
   #app = express();
@@ -26,25 +26,31 @@ module.exports = class application {
     this.#app.use(express.json());
     this.#app.use(express.urlencoded({ extended: true }));
     this.#app.use(express.static(path.join(__dirname, "..", "public")));
-    this.#app.use('/api-doc',swaggerUI.serve , swaggerUI.setup(swaggerJsDoc({
-      swaggerDefinition : {
-        info : {
-          title : "Aren's Store",
-          version : '1.0.0',
-          description : "The biggest clothing store in Armenia",
-          contact:{
-            name :'Aren Sinaei',
-            email :"arensinani4@gmail.com"
-          }
-        },
-        servers:[
-          {
-            url : 'http://localhost:5000'
-          }
-        ]
-      },
-      apis :['app/router/*/*.js']
-    })));
+    this.#app.use(
+      "/api-doc",
+      swaggerUI.serve,
+      swaggerUI.setup(
+        swaggerJsDoc({
+          swaggerDefinition: {
+            info: {
+              title: "Aren's Store",
+              version: "1.0.0",
+              description: "The biggest clothing store in Armenia",
+              contact: {
+                name: "Aren Sinaei",
+                email: "arensinani4@gmail.com",
+              },
+            },
+            servers: [
+              {
+                url: "http://localhost:5000",
+              },
+            ],
+          },
+          apis: ["app/router/*/*.js"],
+        })
+      )
+    );
   }
   createServer() {
     const http = require("http");
@@ -52,44 +58,45 @@ module.exports = class application {
       console.log("run > http://localhost:" + this.#PORT);
     });
   }
-  connectToMongoDB() {
-    mongoose.connect(this.#DB_URL, {}).then(() => {
-      console.log("connected to mongodb");
-    })
-    .catch((err) => {
-        console.log(err);
-    });
-    mongoose.connection.on('connected' , () => {
-        console.log('mongoose connected to DB');
-    });
-    mongoose.connection.on('disconnected' , () => {
-        console.log('mongoose disconnected to DB');
-    });
-    //for closing connection to mongo after Ctrl+C and ...
-    process.on('SIGINT', async () => {
-        await mongoose.connection.close(0);
-        console.log('stopped connection');
+  async connectToMongoDB() {
+    try {
+      await mongoose.connect(this.#DB_URL);
+      console.log("Connected to MongoDB");
+
+      // Add your event listeners here, if needed.
+      mongoose.connection.on("connected", () => {
+        console.log("mongoose connected to DB");
+      });
+      mongoose.connection.on("error", (error) => {
+        console.error("Mongoose connection error:", error);
+      });
+      process.on("SIGINT", async () => {
+        await mongoose.connection.close();
+        console.log("disconnected");
         process.exit(0);
-    })
+      });
+    } catch (error) {
+      console.error("Error connecting to MongoDB:", error.message);
+    }
   }
   createRoutes() {
     this.#app.use(AllRoutes);
   }
   errorHandling() {
     this.#app.use((req, res, next) => {
-     next(createError.NotFound('Address not found!'))
+      next(createError.NotFound("Address not found!"));
     });
     this.#app.use((error, req, res, next) => {
-      const serverError = createError.InternalServerError()
+      const serverError = createError.InternalServerError();
       const statusCode = error.status || serverError.status;
       const message = error.message || serverError.message;
       return res.status(statusCode).json({
-        data : null ,
-        errors : {
+        data: null,
+        errors: {
           statusCode,
-          message
-        }
-       } );
+          message,
+        },
+      });
     });
   }
 };
