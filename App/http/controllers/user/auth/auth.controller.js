@@ -5,8 +5,9 @@ const {
 } = require("../../../validators/user/auth.schema");
 const {
   randomNumberGen,
-  signAccessToken,
-  SignAccessToken,
+  SignAccessToken, 
+  verifyRefreshToken,
+  SignRefreshToken,
 } = require("../../../../utils/functions");
 const { UserModel } = require("../../../../models/users");
 const { EXPIRES_IN, USER_ROLE } = require("../../../../utils/constans");
@@ -46,10 +47,11 @@ class UserAuthController extends Controller {
       if (+user.otp.expiresIn < now)
         throw createError.Unauthorized("your code is expired");
       const accessToken = await SignAccessToken(user._id);
-
+      const refreshToken = await SignRefreshToken(user._id)
       return res.status(200).json({
         data: {
           accessToken,
+          refreshToken
         },
       });
     } catch (error) {
@@ -57,6 +59,23 @@ class UserAuthController extends Controller {
     }
   }
 
+  async refreshToken(req,res,next){
+    try {
+      const {refreshToken} = req.body;
+      const {mobile } = await verifyRefreshToken(refreshToken)
+      const user = await UserModel.findOne({mobile})
+      const accessToken = await SignAccessToken(user._id)
+      const newRefreshToken = await SignRefreshToken(user._id)
+      res.json({
+        data : {
+          accessToken,
+          refreshToken : newRefreshToken
+        }
+      })
+    } catch (error) {
+      next(error)
+    }
+  }
   async saveUser(phone, code) {
     const now = new Date().getTime();
     let otp = {

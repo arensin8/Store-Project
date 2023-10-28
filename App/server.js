@@ -7,6 +7,7 @@ const morgan = require("morgan");
 const createError = require("http-errors");
 const swaggerUI = require("swagger-ui-express");
 const swaggerJsDoc = require("swagger-jsdoc");
+const cors = require("cors");
 
 module.exports = class application {
   #app = express();
@@ -20,8 +21,10 @@ module.exports = class application {
     this.createServer();
     this.createRoutes();
     this.errorHandling();
+    this.initRedis()
   }
   configApplication() {
+    this.#app.use(cors());
     this.#app.use(morgan("dev"));
     this.#app.use(express.json());
     this.#app.use(express.urlencoded({ extended: true }));
@@ -78,6 +81,9 @@ module.exports = class application {
     } catch (error) {
       console.error("Error connecting to MongoDB:", error.message);
     }
+  }
+  initRedis(){
+    require('./utils/init_redis')
   }
   createRoutes() {
     this.#app.use(AllRoutes);

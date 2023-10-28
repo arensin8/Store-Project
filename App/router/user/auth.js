@@ -33,7 +33,6 @@ const router = require("express").Router();
  *                       description : Internal server error
  */
 router.post("/get-otp", UserAuthController.getOtp);
-router.post("/check-otp", UserAuthController.checkOtp);
 /**
  * @swagger
  *  /user/check-otp:
@@ -62,6 +61,27 @@ router.post("/check-otp", UserAuthController.checkOtp);
  *                  500 :
  *                       description : Internal server error
  */
+router.post("/check-otp", UserAuthController.checkOtp);
+
+/**
+ * @swagger
+ *  /user/refresh-token:
+ *      post :
+ *            tags : [User-authentication]
+ *            summary : send refresh token for get new token and refresh it
+ *            description : fresh token
+ *            parameters :
+ *            -   name : refreshToken
+ *                in : body
+ *                required : true
+ *                type : string
+ *            responses:
+ *                  200:
+ *                      description : Success
+ *
+ */
+router.post("/refresh-token", UserAuthController.refreshToken);
+
 module.exports = {
   UserAuthRoutes: router,
 };
