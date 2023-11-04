@@ -50,7 +50,7 @@ module.exports = class application {
               },
             ],
           },
-          apis: ["app/router/*/*.js"],
+          apis: ["app/router/**/*.js"],
         })
       )
     );
