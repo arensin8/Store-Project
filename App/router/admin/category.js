@@ -24,6 +24,64 @@ const router = require("express").Router();
  *                      description : Success
  */
 router.post("/add", CategoryController.addCategory);
+/**
+ * @swagger
+ *  /admin/category/parents:
+ *      get :
+ *            tags : [Admin-Panel]
+ *            summary : Get all parents of categories
+ *            responses:
+ *                  200:
+ *                      description : Success
+ */
+router.get("/parents", CategoryController.getAllParents);
+
+/**
+ * @swagger
+ *  /admin/category/children/{parent} :
+ *      get :
+ *            tags : [Admin-Panel]
+ *            summary : Get all children of parent
+ *            parameters:
+ *                -    in : path
+ *                     type : string
+ *                     name: parent
+ *                     required: true
+ *            responses:
+ *                  200:
+ *                      description : Success
+ */
+router.get("/children/:parent", CategoryController.getChildOfParents);
+
+
+/**
+ * @swagger
+ *  /admin/category/all :
+ *      get :
+ *            tags : [Admin-Panel]
+ *            summary : Get all categories
+ *            responses:
+ *                  200:
+ *                      description : Success
+ */
+router.get("/all", CategoryController.getAllCategories);
+
+/**
+ * @swagger
+ *  /admin/category/remove/{id} :
+ *      delete :
+ *            tags : [Admin-Panel]
+ *            summary : remove category by object-id
+ *            parameters:
+ *                -    in : path
+ *                     type : string
+ *                     name: id
+ *                     required: true
+ *            responses:
+ *                  200:
+ *                      description : Success
+ */
+router.delete("/remove/:id", CategoryController.removeCategory);
 
 module.exports = {
   CategoryRoutes: router,
