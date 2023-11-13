@@ -85,6 +85,18 @@ router.delete("/remove/:id", CategoryController.removeCategory);
 
 /**
  * @swagger
+ *  /admin/category/list-of-all :
+ *      get :
+ *            tags : [Admin-Panel]
+ *            summary : Get all categories without populate and nested structure
+ *            responses:
+ *                  200:
+ *                      description : Success
+ */
+router.get("/list-of-all", CategoryController.getAllCategoriesWithoutPopulate);
+
+/**
+ * @swagger
  *  /admin/category/{id} :
  *      get :
  *            tags : [Admin-Panel]
@@ -99,6 +111,30 @@ router.delete("/remove/:id", CategoryController.removeCategory);
  *                      description : Success
  */
 router.get("/:id", CategoryController.getCategoryById);
+
+/**
+ * @swagger
+ *  /admin/category/update/{id} :
+ *      patch :
+ *            tags : [Admin-Panel]
+ *            summary : Edit or update category with object id
+ *            parameters:
+ *                -    in : path
+ *                     type : string
+ *                     name: id
+ *                     required: true
+ *                -    in : formData
+ *                     name: title
+ *                     type : string
+ *                     required: true
+ *            responses:
+ *                  200:
+ *                      description : Success
+ *                  500:
+ *                      description : Internal Server error
+ */
+router.patch("/update/:id", CategoryController.editCategoryTitle);
+
 
 module.exports = {
   CategoryRoutes: router,
