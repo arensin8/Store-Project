@@ -5,6 +5,7 @@ class BlogController extends Controller {
   async createBlog(req, res, next) {
     try {
       const blogDataForm = await createBlogSchema.validateAsync(req.body);
+      req.body.image = req.body.filename;
       return res.json(blogDataForm);
     } catch (error) {
       next(error);

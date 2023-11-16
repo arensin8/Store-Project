@@ -24,7 +24,7 @@ router.get("/", BlogController.getListOfBlogs);
  *      post :
  *            tags : [Blogs(AdminPanel)]
  *            summary : create a new blog
- *            consumer :
+ *            consumes :
  *                -     multipart/form-data
  *            parameters :
  *            -   name : title
