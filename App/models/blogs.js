@@ -5,7 +5,7 @@ const {default : mongoose} = require('mongoose');
 const commentSchema = new mongoose.Schema({
         user : {type : mongoose.Types.ObjectId , ref :'users' , required : true},
         comment : {type : String , required : true},
-        createdAt : {type : Date  , default : new Date().now()},
+        createdAt : {type : Date  , default : new Date().getTime()},
         parent : {type : mongoose.Types.ObjectId},
 })
 const Schema = new mongoose.Schema({
@@ -23,5 +23,5 @@ const Schema = new mongoose.Schema({
 } , {timestamps : true , versionKey : false})
 
 module.exports = {
-        CategoriesModel : mongoose.model("blog", Schema)
+        BlogsModel : mongoose.model("blog", Schema)
 }

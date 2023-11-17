@@ -1,6 +1,8 @@
 const JWT = require("jsonwebtoken");
 const createError = require("http-errors");
 const { UserModel } = require("../models/users");
+const fs = require('fs')
+const path = require('path')
 const {
   ACCESS_TOKEN_SECRET_KEY,
   REFRESH_TOKEN_SECRET_KEY,
@@ -59,9 +61,15 @@ function verifyRefreshToken(token) {
   });
 }
 
+function deleteFileInPublic( fileAddress){
+  const pathFile = path.join(__dirname, "..", ".." , "public" , fileAddress)
+  fs.unlinkSync(pathFile)
+}
+
 module.exports = {
   randomNumberGen,
   SignAccessToken,
   SignRefreshToken,
   verifyRefreshToken,
+  deleteFileInPublic
 };
