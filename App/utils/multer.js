@@ -22,14 +22,14 @@ function createRoute(req) {
   fs.mkdirSync(directory, { recursive: true });
   return directory;
 }
-const fileFilter = function(req,file,cb){
-  const ext = path.extname(file.originalname)
-  const mimeTypes = ['.webp','.jpg','.jpeg','.png','.gif'];
-  if(mimeTypes.includes(ext)){
-    return cb(null,true)
+const fileFilter = function (req, file, cb) {
+  const ext = path.extname(file.originalname);
+  const mimeTypes = [".webp", ".jpg", ".jpeg", ".png", ".gif"];
+  if (mimeTypes.includes(ext)) {
+    return cb(null, true);
   }
-  return cb(createHttpError.BadRequest('File format is invalid'))
-}
+  return cb(createHttpError.BadRequest("File format is invalid"));
+};
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -43,8 +43,12 @@ const storage = multer.diskStorage({
     cb(null, fileName);
   },
 });
-
-const uploadFile = multer({ storage , fileFilter});
+const maxSize = 1 * 1000 * 1000; //1Mb
+const uploadFile = multer({
+  storage,
+  fileFilter,
+  limits: { fileSize: maxSize },
+});
 
 module.exports = {
   uploadFile,

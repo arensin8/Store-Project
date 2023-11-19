@@ -12,6 +12,13 @@ const router = require("express").Router();
  *      get :
  *            tags : [Blogs(AdminPanel)]
  *            summary : get all blogs
+ *            parameters :
+ *            -   name : accesstoken
+ *                in : header
+ *                example : Bearer token...
+ *                value : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjA5NTE2NzI0NSIsImlhdCI6MTcwMDQyMDQ1NywiZXhwIjoxNzAwNTA2ODU3fQ.REc4UQgejTChMUosHuWNB7xZGWdeow1ZJ4pXgw4SulA
+ *                required : true
+ *                type : string
  *            responses:
  *                  200:
  *                      description : Success
@@ -27,6 +34,12 @@ router.get("/", BlogController.getListOfBlogs);
  *            consumes :
  *                -     multipart/form-data
  *            parameters :
+ *            -   name : accesstoken
+ *                in : header
+ *                example : Bearer token...
+ *                value : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjA5NTE2NzI0NSIsImlhdCI6MTcwMDQyMDQ1NywiZXhwIjoxNzAwNTA2ODU3fQ.REc4UQgejTChMUosHuWNB7xZGWdeow1ZJ4pXgw4SulA
+ *                required : true
+ *                type : string
  *            -   name : title
  *                in : formData
  *                required : true
@@ -45,7 +58,7 @@ router.get("/", BlogController.getListOfBlogs);
  *                type : string
  *            -   name : category
  *                in : formData
- *                required : false
+ *                required : true
  *                type : string
  *            -   name : image
  *                in : formData
@@ -53,9 +66,14 @@ router.get("/", BlogController.getListOfBlogs);
  *                type : file
  *            responses:
  *                  201:
- *                      description : Success
+ *                      description : Created
  */
-router.post("/add", uploadFile.single('image'), stringToArray('tags'), BlogController.createBlog);
+router.post(
+  "/add",
+  uploadFile.single("image"),
+  stringToArray("tags"),
+  BlogController.createBlog
+);
 module.exports = {
   BlogAdminApiRoutes: router,
 };
