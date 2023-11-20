@@ -3,6 +3,7 @@ const { deleteFileInPublic } = require("../../../utils/functions");
 const { createBlogSchema } = require("../../validators/admin/blog.schema");
 const Controller = require("../controller");
 const path = require("path");
+const createError = require("http-errors");
 
 class BlogController extends Controller {
   async createBlog(req, res, next) {
@@ -39,6 +40,14 @@ class BlogController extends Controller {
   }
   async getBlogById(req, res, next) {
     try {
+      const { id } = req.params;
+      const blog = await this.findBlog(id);
+      return res.status(200).json({
+        data: {
+          statusCode: 200,
+          blog,
+        },
+      });
     } catch (error) {
       next(error);
     }
@@ -95,6 +104,17 @@ class BlogController extends Controller {
     }
   }
   async deleteBlogById(req, res, next) {
+    const { id } = req.params;
+    await this.findBlog(id);
+    const result = await BlogsModel.deleteOne({ _id: id });
+    if (result.deletedCount == 0)
+      throw createError.InternalServerError("Delete failed");
+    res.status(200).json({
+      data: {
+        statusCode: 200,
+        message: "Deleted successfully",
+      },
+    });
     try {
     } catch (error) {
       next(error);
@@ -105,6 +125,18 @@ class BlogController extends Controller {
     } catch (error) {
       next(error);
     }
+  }
+  async findBlog(id) {
+    const blog = await BlogsModel.findById(id).populate([
+      { path: "category" },
+      {
+        path: "author",
+        // select: ["phone", "first_name", "last_name", "username"],
+      },
+    ]);
+    if (!blog) return createError.NotFound("Blog not found");
+    delete blog.category.children;
+    return blog;
   }
 }
 

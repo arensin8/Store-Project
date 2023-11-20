@@ -74,6 +74,52 @@ router.post(
   stringToArray("tags"),
   BlogController.createBlog
 );
+
+/**
+ * @swagger
+ *  /admin/blogs/{id}:
+ *      get :
+ *            tags : [Blogs(AdminPanel)]
+ *            summary : get blog by id and populate fields
+ *            parameters :
+ *            -   name : accesstoken
+ *                in : header
+ *                example : Bearer token...
+ *                value : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjA5NTE2NzI0NSIsImlhdCI6MTcwMDQyMDQ1NywiZXhwIjoxNzAwNTA2ODU3fQ.REc4UQgejTChMUosHuWNB7xZGWdeow1ZJ4pXgw4SulA
+ *                required : true
+ *                type : string
+ *            -   name : id
+ *                in : path
+ *                required : true
+ *                type : string
+ *            responses:
+ *                  200:
+ *                      description : Success
+ */
+router.get("/:id", BlogController.getBlogById);
+
+/**
+ * @swagger
+ *  /admin/blogs/{id}:
+ *      delete :
+ *            tags : [Blogs(AdminPanel)]
+ *            summary : delete blog by id and populate fields
+ *            parameters :
+ *            -   name : accesstoken
+ *                in : header
+ *                example : Bearer token...
+ *                value : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjA5NTE2NzI0NSIsImlhdCI6MTcwMDQyMDQ1NywiZXhwIjoxNzAwNTA2ODU3fQ.REc4UQgejTChMUosHuWNB7xZGWdeow1ZJ4pXgw4SulA
+ *                required : true
+ *                type : string
+ *            -   name : id
+ *                in : path
+ *                required : true
+ *                type : string
+ *            responses:
+ *                  200:
+ *                      description : Success
+ */
+router.delete("/:id", BlogController.deleteBlogById);
 module.exports = {
   BlogAdminApiRoutes: router,
 };
