@@ -9,7 +9,6 @@ class BlogController extends Controller {
   async createBlog(req, res, next) {
     try {
       const blogDataBody = await createBlogSchema.validateAsync(req.body);
-
       req.body.image = path.join(
         blogDataBody.fileUploadPath,
         blogDataBody.filename
@@ -122,7 +121,33 @@ class BlogController extends Controller {
   }
   async updateBlogById(req, res, next) {
     try {
+      const { id } = req.params;
+      await this.findBlog(id);
+      if (req?.body?.fileUploadPath && req?.body?.filename) {
+        req.body.image = path.join(req.body.fileUploadPath, req.body.filename);
+        req.body.image = req.body.image.replace(/\\/g, "/");
+      }
+      const data = req.body;
+      let nullishData = ["", " ", 0, "0", null, undefined];
+      let blackListFields = ["comments", "likes", "dislikes", "bookmarks" , "author"];
+      Object.keys(data).forEach((key) => {
+        if (blackListFields.includes(key)) delete data[key];
+        if (typeof data[key] == "string") data[key] = data[key].trim();
+        if (nullishData.includes(data[key])) delete data[key];
+        if (Array.isArray(data[key] && Array.length > 0))
+          data[key] == data[key].map((item) => item.trim());
+      });
+      const updateResult = await BlogsModel.updateOne({_id : id },{$set : data});
+      if(updateResult.modifiedCount == 0) throw createError.InternalServerError('Blog updating failed')
+
+      return res.status(200).json({
+        data: {
+          statusCode: 200,
+          message: "Blog updated successfully",
+        },
+      });
     } catch (error) {
+      deleteFileInPublic(req?.body.image);
       next(error);
     }
   }

@@ -61,9 +61,12 @@ function verifyRefreshToken(token) {
   });
 }
 
-function deleteFileInPublic( fileAddress){
-  const pathFile = path.join(__dirname, "..", ".." , "public" , fileAddress)
-  fs.unlinkSync(pathFile)
+function deleteFileInPublic( fileAddress ){
+  if(fileAddress){
+    const pathFile = path.join(__dirname, "..", ".." , "public" , fileAddress)
+    fs.unlinkSync(pathFile)
+
+  }
 }
 
 module.exports = {

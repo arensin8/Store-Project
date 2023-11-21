@@ -33,14 +33,20 @@ const fileFilter = function (req, file, cb) {
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    const filePath = createRoute(req);
-    cb(null, filePath);
+    if (file.originalname) {
+      const filePath = createRoute(req);
+      return cb(null, filePath);
+    }
+    cb(null, null);
   },
   filename: (req, file, cb) => {
-    const ext = path.extname(file.originalname);
-    const fileName = String(new Date().getTime() + ext);
-    req.body.filename = fileName;
-    cb(null, fileName);
+    if (file.originalname) {
+      const ext = path.extname(file.originalname);
+      const fileName = String(new Date().getTime() + ext);
+      req.body.filename = fileName;
+      return cb(null, fileName);
+    }
+    cb(null, null);
   },
 });
 const maxSize = 1 * 1000 * 1000; //1Mb
