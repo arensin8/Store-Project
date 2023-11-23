@@ -1,12 +1,14 @@
 const createError = require("http-errors");
 const { CategoriesModel } = require("../../../models/categories");
 const Controller = require("../controller");
-const { addCategorySchema, updateCategorySchema } = require("../../validators/admin/category.schema");
+const {
+  addCategorySchema,
+  updateCategorySchema,
+} = require("../../validators/admin/category.schema");
 const categories = require("../../../models/categories");
 const { default: mongoose } = require("mongoose");
 
 class CategoryController extends Controller {
-
   async addCategory(req, res, next) {
     try {
       await addCategorySchema.validateAsync(req.body);
@@ -44,18 +46,22 @@ class CategoryController extends Controller {
   }
   async editCategoryTitle(req, res, next) {
     try {
-      const {id} = req.params;
-      const { title }= req.body;
+      const { id } = req.params;
+      const { title } = req.body;
       const category = this.checkExistCategory(id);
-      await updateCategorySchema.validateAsync(req.body)
-      const updateResult = await CategoriesModel.updateOne({_id : id} , { $set : {title : title}}) 
-      if(updateResult.modifiedCount == 0 ) throw createError.InternalServerError('failed to update')
+      await updateCategorySchema.validateAsync(req.body);
+      const updateResult = await CategoriesModel.updateOne(
+        { _id: id },
+        { $set: { title: title } }
+      );
+      if (updateResult.modifiedCount == 0)
+        throw createError.InternalServerError("failed to update");
       return res.status(200).json({
-        data : {
-          statusCode : 200,
-          message : 'updated successfully'
-        }
-      })
+        data: {
+          statusCode: 200,
+          message: "updated successfully",
+        },
+      });
     } catch (error) {
       next(error);
     }
@@ -95,28 +101,31 @@ class CategoryController extends Controller {
       //     },
       //   },
       // ]);
-      const category = await CategoriesModel.find({parent : undefined },{ __v : 0})
+      const categories = await CategoriesModel.find(
+        { parent: undefined },
+        { __v: 0 }
+      );
       return res.status(200).json({
-        statusCode: 200,
-        data: category,
+        categories: {
+          statusCode: 200,
+          data: categories,
+        },
       });
     } catch (error) {
       next(error);
     }
   }
-  async getAllCategoriesWithoutPopulate(req,res,next){
+  async getAllCategoriesWithoutPopulate(req, res, next) {
     try {
-      const categories = await CategoriesModel.aggregate([
-        { $match: {}}
-      ])
+      const categories = await CategoriesModel.aggregate([{ $match: {} }]);
       res.status(200).json({
-        data :{
-          statusCode : 200,
-          categories
-        }
-      })
+        data: {
+          statusCode: 200,
+          categories,
+        },
+      });
     } catch (error) {
-      next(error)
+      next(error);
     }
   }
   async getCategoryById(req, res, next) {
@@ -143,10 +152,10 @@ class CategoryController extends Controller {
       //     },
       //   },
       // ]);
-      
+
       return res.status(200).json({
         data: {
-          statusCode : 200,
+          statusCode: 200,
           category,
         },
       });

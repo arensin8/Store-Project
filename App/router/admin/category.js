@@ -11,6 +11,12 @@ const router = require("express").Router();
  *            tags : [Admin-Panel]
  *            summary : create new category title
  *            parameters :
+ *            -   name : accesstoken
+ *                in : header
+ *                example : Bearer token...
+ *                value : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjA5NTE4NTg5OCIsImlhdCI6MTcwMDU2MzEyNCwiZXhwIjoxNzAwNjQ5NTI0fQ.Dx5DIlYS8fdWuLFpnTJ6KZTXg2waJbbetWh6Mtt4_5c
+ *                required : true
+ *                type : string
  *            -   name : title
  *                in : formData
  *                required : true
@@ -30,6 +36,13 @@ router.post("/add", CategoryController.addCategory);
  *      get :
  *            tags : [Admin-Panel]
  *            summary : Get all parents of categories
+ *            parameters:
+ *                -    name : accesstoken
+ *                     in : header
+ *                     example : Bearer token...
+ *                     value : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjA5NTE4NTg5OCIsImlhdCI6MTcwMDU2MzEyNCwiZXhwIjoxNzAwNjQ5NTI0fQ.Dx5DIlYS8fdWuLFpnTJ6KZTXg2waJbbetWh6Mtt4_5c
+ *                     required : true
+ *                     type : string
  *            responses:
  *                  200:
  *                      description : Success
@@ -43,6 +56,12 @@ router.get("/parents", CategoryController.getAllParents);
  *            tags : [Admin-Panel]
  *            summary : Get all children of parent
  *            parameters:
+ *                -    name : accesstoken
+ *                     in : header
+ *                     example : Bearer token...
+ *                     value : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjA5NTE4NTg5OCIsImlhdCI6MTcwMDU2MzEyNCwiZXhwIjoxNzAwNjQ5NTI0fQ.Dx5DIlYS8fdWuLFpnTJ6KZTXg2waJbbetWh6Mtt4_5c
+ *                     required : true
+ *                     type : string
  *                -    in : path
  *                     type : string
  *                     name: parent
@@ -60,6 +79,13 @@ router.get("/children/:parent", CategoryController.getChildOfParents);
  *      get :
  *            tags : [Admin-Panel]
  *            summary : Get all categories
+ *            parameters:
+ *                -    name : accesstoken
+ *                     in : header
+ *                     example : Bearer token...
+ *                     value : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjA5NTE4NTg5OCIsImlhdCI6MTcwMDU2MzEyNCwiZXhwIjoxNzAwNjQ5NTI0fQ.Dx5DIlYS8fdWuLFpnTJ6KZTXg2waJbbetWh6Mtt4_5c
+ *                     required : true
+ *                     type : string
  *            responses:
  *                  200:
  *                      description : Success
@@ -73,6 +99,12 @@ router.get("/all", CategoryController.getAllCategories);
  *            tags : [Admin-Panel]
  *            summary : remove category by object-id
  *            parameters:
+ *                -    name : accesstoken
+ *                     in : header
+ *                     example : Bearer token...
+ *                     value : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjA5NTE4NTg5OCIsImlhdCI6MTcwMDU2MzEyNCwiZXhwIjoxNzAwNjQ5NTI0fQ.Dx5DIlYS8fdWuLFpnTJ6KZTXg2waJbbetWh6Mtt4_5c
+ *                     required : true
+ *                     type : string
  *                -    in : path
  *                     type : string
  *                     name: id
@@ -89,6 +121,13 @@ router.delete("/remove/:id", CategoryController.removeCategory);
  *      get :
  *            tags : [Admin-Panel]
  *            summary : Get all categories without populate and nested structure
+ *            parameters:
+ *                -    name : accesstoken
+ *                     in : header
+ *                     example : Bearer token...
+ *                     value : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjA5NTE4NTg5OCIsImlhdCI6MTcwMDU2MzEyNCwiZXhwIjoxNzAwNjQ5NTI0fQ.Dx5DIlYS8fdWuLFpnTJ6KZTXg2waJbbetWh6Mtt4_5c
+ *                     required : true
+ *                     type : string
  *            responses:
  *                  200:
  *                      description : Success
@@ -106,6 +145,12 @@ router.get("/list-of-all", CategoryController.getAllCategoriesWithoutPopulate);
  *                     type : string
  *                     name: id
  *                     required: true
+ *                -    name : accesstoken
+ *                     in : header
+ *                     example : Bearer token...
+ *                     value : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjA5NTE4NTg5OCIsImlhdCI6MTcwMDU2MzEyNCwiZXhwIjoxNzAwNjQ5NTI0fQ.Dx5DIlYS8fdWuLFpnTJ6KZTXg2waJbbetWh6Mtt4_5c
+ *                     required : true
+ *                     type : string
  *            responses:
  *                  200:
  *                      description : Success
@@ -119,6 +164,12 @@ router.get("/:id", CategoryController.getCategoryById);
  *            tags : [Admin-Panel]
  *            summary : Edit or update category with object id
  *            parameters:
+ *                -    name : accesstoken
+ *                     in : header
+ *                     example : Bearer token...
+ *                     value : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjA5NTE4NTg5OCIsImlhdCI6MTcwMDU2MzEyNCwiZXhwIjoxNzAwNjQ5NTI0fQ.Dx5DIlYS8fdWuLFpnTJ6KZTXg2waJbbetWh6Mtt4_5c
+ *                     required : true
+ *                     type : string
  *                -    in : path
  *                     type : string
  *                     name: id
