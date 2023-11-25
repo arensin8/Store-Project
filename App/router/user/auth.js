@@ -3,12 +3,49 @@ const {
 } = require("../../http/controllers/user/auth/auth.controller");
 
 const router = require("express").Router();
+
+/**
+ * @swagger
+ *  components:
+ *      schemas:
+ *          GetOTP:
+ *              type: object
+ *              required:
+ *                  -   phone
+ *              properties:
+ *                  phone:
+ *                      type: string
+ *                      description: Users phone for signup/signin
+ *          CheckOTP:
+ *              type: object
+ *              required:
+ *                  -   phone
+ *                  -   code
+ *              properties:
+ *                  phone:
+ *                      type: string
+ *                      description: Users mobile for signup/signin
+ *                  code:
+ *                      type: integer
+ *                      description: received code from getOTP 
+ *          RefreshToken:
+ *              type: object
+ *              required:
+ *                  -   refreshToken
+ *              properties:
+ *                  refreshToken:
+ *                      type: string
+ *                      description: enter refresh-token for get fresh token and refresh-token
+ */
+
+
 /**
  * @swagger
  *      tags :
  *          name : User-authentication
  *          description : user-auth section
  */
+
 /**
  * @swagger
  *  /user/get-otp:
@@ -16,12 +53,15 @@ const router = require("express").Router();
  *            tags : [User-authentication]
  *            summary : Login user into user panel via mobile number
  *            description : One time password (OTP)
- *            parameters :
- *            -   name : phone
- *                description : am-AM phone number
- *                in : formData
- *                required : true
- *                type : string
+ *            requestBody:
+ *              required: true
+ *              content: 
+ *                  application/x-www-form-urlencoded:
+ *                      schema:
+ *                          $ref: '#/components/schemas/GetOTP'
+ *                  application/json:
+ *                      schema:
+ *                          $ref: '#/components/schemas/GetOTP'
  *            responses:
  *                  201:
  *                      description : Success
@@ -40,17 +80,15 @@ router.post("/get-otp", UserAuthController.getOtp);
  *            tags : [User-authentication]
  *            summary : check-otp value in user controller
  *            description : check-otp via code-phone and expire date
- *            parameters :
- *            -   name : phone
- *                description : am-AM phone number
- *                in : formData
- *                required : true
- *                type : string
- *            -   name : code
- *                description : your sms code
- *                in : formData
- *                type : string
- *                required : true
+ *            requestBody:
+ *              required: true
+ *              content:
+ *                  application/x-www-form-urlencoded:
+ *                      schema:
+ *                          $ref: '#/components/schemas/CheckOTP'
+ *                  application/json:
+ *                      schema:
+ *                          $ref: '#/components/schemas/CheckOTP'
  *            responses:
  *                  201:
  *                      description : Success
@@ -70,11 +108,15 @@ router.post("/check-otp", UserAuthController.checkOtp);
  *            tags : [User-authentication]
  *            summary : send refresh token for get new token and refresh it
  *            description : fresh token
- *            parameters :
- *            -   name : refreshToken
- *                in : formData
- *                required : true
- *                type : string
+ *            requestBody:
+ *              required: true
+ *              content:
+ *                  application/x-www-form-urlencoded:
+ *                      schema:
+ *                          $ref: '#/components/schemas/RefreshToken'
+ *                  application/json:
+ *                      schema:
+ *                          $ref: '#/components/schemas/RefreshToken'
  *            responses:
  *                  200:
  *                      description : Success

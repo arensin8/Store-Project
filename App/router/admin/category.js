@@ -6,6 +6,23 @@ const router = require("express").Router();
 
 /**
  * @swagger
+ *  components:
+ *      schemas:
+ *          Category:
+ *              type: object
+ *              required:
+ *                  -   title
+ *              properties:
+ *                  title:
+ *                      type: string
+ *                      description: the title of category
+ *                  parent:
+ *                      type: string
+ *                      description: the title of category
+ */
+
+/**
+ * @swagger
  *  /admin/category/add:
  *      post :
  *            tags : [Admin-Panel]
@@ -17,14 +34,15 @@ const router = require("express").Router();
  *                value : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjA5NTE4NTg5OCIsImlhdCI6MTcwMDU2MzEyNCwiZXhwIjoxNzAwNjQ5NTI0fQ.Dx5DIlYS8fdWuLFpnTJ6KZTXg2waJbbetWh6Mtt4_5c
  *                required : true
  *                type : string
- *            -   name : title
- *                in : formData
- *                required : true
- *                type : string
- *            -   name : parent
- *                in : formData
- *                required : false
- *                type : string
+ *            requestBody:
+ *              required: true
+ *              content:
+ *                  application/x-www-form-urlencoded:
+ *                      schema:
+ *                          $ref: '#/components/schemas/Category'
+ *                  application/json:
+ *                      schema:
+ *                          $ref: '#/components/schemas/Category'
  *            responses:
  *                  201:
  *                      description : Success

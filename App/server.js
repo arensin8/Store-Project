@@ -21,7 +21,7 @@ module.exports = class application {
     this.createServer();
     this.createRoutes();
     this.errorHandling();
-    this.initRedis()
+    this.initRedis();
   }
   configApplication() {
     this.#app.use(cors());
@@ -35,6 +35,7 @@ module.exports = class application {
       swaggerUI.setup(
         swaggerJsDoc({
           swaggerDefinition: {
+            openapi: "3.0.0",
             info: {
               title: "Aren's Store",
               version: "1.0.0",
@@ -51,7 +52,8 @@ module.exports = class application {
             ],
           },
           apis: ["app/router/**/*.js"],
-        })
+        }),
+        { explorer: true }
       )
     );
   }
@@ -82,8 +84,8 @@ module.exports = class application {
       console.error("Error connecting to MongoDB:", error.message);
     }
   }
-  initRedis(){
-    require('./utils/init_redis')
+  initRedis() {
+    require("./utils/init_redis");
   }
   createRoutes() {
     this.#app.use(AllRoutes);
