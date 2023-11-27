@@ -1,12 +1,8 @@
-const { string } = require("@hapi/joi");
-const { default: mongoose } = require("mongoose");
 
-const commentSchema = new mongoose.Schema({
-  user: { type: mongoose.Types.ObjectId, ref: "users", required: true },
-  comment: { type: String, required: true },
-  createdAt: { type: Date, default: new Date().getTime() },
-  parent: { type: mongoose.Types.ObjectId },
-});
+const { default: mongoose } = require("mongoose");
+const { CommentSchema } = require("./public.schema");
+
+
 const Schema = new mongoose.Schema(
   {
     author: { type: mongoose.Types.ObjectId,ref: 'user', required: true },
@@ -16,7 +12,7 @@ const Schema = new mongoose.Schema(
     image: { type: String, required: true },
     tags: { type: [String], default: [] },
     category: { type: mongoose.Types.ObjectId, required: true },
-    comments: { type: [commentSchema], default: [] },
+    comments: { type: [CommentSchema], default: [] },
     likes: { type: [mongoose.Types.ObjectId], ref: "users", default: [] },
     dislikes: { type: [mongoose.Types.ObjectId], ref: "users", default: [] },
     bookmarks: { type: [mongoose.Types.ObjectId], ref: "users", default: [] },

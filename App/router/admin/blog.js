@@ -8,6 +8,61 @@ const router = require("express").Router();
 
 /**
  * @swagger
+ *  components:
+ *      schemas:
+ *          Blog:
+ *              type: object
+ *              required:
+ *                  -   title
+ *                  -   short_text
+ *                  -   text
+ *                  -   tags
+ *                  -   category
+ *                  -   image
+ *              properties:
+ *                  title:
+ *                      type: string
+ *                      description: the title of Blog
+ *                  short_text:
+ *                      type: string
+ *                      description: the summary of the text of blog
+ *                  text:
+ *                      type: string
+ *                      description: the text of blog
+ *                  tags:
+ *                      type: string
+ *                      description: the list of the tags for example(tag1#tag2#tag_foo)
+ *                  category:
+ *                      type: string
+ *                      description: the id of category for foreignField in blog
+ *                  image:
+ *                      type: file
+ *                      description: the index picture of blog
+ *          BlogUpdate:
+ *              type: object
+ *              properties:
+ *                  title:
+ *                      type: string
+ *                      description: the title of category
+ *                  short_text:
+ *                      type: string
+ *                      description: the summary of text of blog
+ *                  text:
+ *                      type: string
+ *                      description: the text of blog
+ *                  tags:
+ *                      type: string
+ *                      description: the list of tags for example(tag1#tag2#tag_foo)
+ *                  category:
+ *                      type: string
+ *                      description: the id of category for foreignField in blog
+ *                  image:
+ *                      type: file
+ *                      description: the index picture of blog
+ */ 
+
+/**
+ * @swagger
  *  /admin/blogs:
  *      get :
  *            tags : [Blogs(AdminPanel)]
@@ -31,39 +86,19 @@ router.get("/", BlogController.getListOfBlogs);
  *      post :
  *            tags : [Blogs(AdminPanel)]
  *            summary : create a new blog
- *            consumes :
- *                -     multipart/form-data
  *            parameters :
  *            -   name : accesstoken
  *                in : header
  *                example : Bearer token...
- *                value : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjA5NTE2NzI0NSIsImlhdCI6MTcwMDQyMDQ1NywiZXhwIjoxNzAwNTA2ODU3fQ.REc4UQgejTChMUosHuWNB7xZGWdeow1ZJ4pXgw4SulA
+ *                value : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjA5NTE4NTg5OCIsImlhdCI6MTcwMTA3MDgyNiwiZXhwIjoxNzAxMTU3MjI2fQ.NupZT9x7ec8yTyM6HYzzf6_uBvPNQ-DIo-xWLuW45_g
  *                required : true
  *                type : string
- *            -   name : title
- *                in : formData
- *                required : true
- *                type : string
- *            -   name : text
- *                in : formData
- *                required : true
- *                type : string
- *            -   name : short_text
- *                in : formData
- *                required : true
- *                type : string
- *            -   name : tags
- *                example : tag1#tag2_foo#foo_bar || undefined || str
- *                in : formData
- *                type : string
- *            -   name : category
- *                in : formData
- *                required : true
- *                type : string
- *            -   name : image
- *                in : formData
- *                required : false
- *                type : file
+ *            requestBody:
+ *              required: true
+ *              content:
+ *                  multipart/form-data:
+ *                      schema:
+ *                          $ref: '#/components/schemas/Blog'
  *            responses:
  *                  201:
  *                      description : Created
@@ -127,38 +162,25 @@ router.delete("/:id", BlogController.deleteBlogById);
  *      patch :
  *            tags : [Blogs(AdminPanel)]
  *            summary : update blog by id
- *            consumes :
- *                -     multipart/form-data
+ *            consumes: 
+ *              -   multipart/form-data
  *            parameters :
- *            -   name : accesstoken
- *                in : header
- *                example : Bearer token...
- *                value : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjA5NTE4NTg5OCIsImlhdCI6MTcwMDU2MzEyNCwiZXhwIjoxNzAwNjQ5NTI0fQ.Dx5DIlYS8fdWuLFpnTJ6KZTXg2waJbbetWh6Mtt4_5c
- *                required : true
- *                type : string
- *            -   name : title
- *                in : formData
- *                type : string
- *            -   name : id
- *                in : path
- *                type : string
- *                required : true
- *            -   name : text
- *                in : formData
- *                type : string
- *            -   name : short_text
- *                in : formData
- *                type : string
- *            -   name : tags
- *                example : tag1#tag2_foo#foo_bar || undefined || str
- *                in : formData
- *                type : string
- *            -   name : category
- *                in : formData
- *                type : string
- *            -   name : image
- *                in : formData
- *                type : file
+ *               -   name : accesstoken
+ *                   in : header
+ *                   example : Bearer token...
+ *                   value : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjA5NTE4NTg5OCIsImlhdCI6MTcwMDU2MzEyNCwiZXhwIjoxNzAwNjQ5NTI0fQ.Dx5DIlYS8fdWuLFpnTJ6KZTXg2waJbbetWh6Mtt4_5c
+ *                   required : true
+ *                   type : string
+ *               -   name : id
+ *                   in : path
+ *                   type : string
+ *                   required : true
+ *            requestBody:
+ *              required: true
+ *              content:
+ *                  multipart/form-data:
+ *                      schema:
+ *                          $ref: '#/components/schemas/BlogUpdate'
  *            responses:
  *                  201:
  *                      description : Created
