@@ -187,5 +187,5 @@ router.delete("/:id", BlogController.deleteBlogById);
  */
 router.patch("/update/:id",uploadFile.single("image"),stringToArray("tags"),BlogController.updateBlogById);
 module.exports = {
-  BlogAdminApiRoutes: router,
+  AdminApiBlogRoutes: router,
 };

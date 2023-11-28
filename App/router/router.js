@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const { verifyAccessToken, checkRole } = require("../http/middlewares/verifyAccessToken");
 const { AdminRoutes } = require("./admin/admin.routes");
+const { AdminApiProductRoutes } = require("./admin/product");
 const { HomeRoutes } = require("./api");
 const { DeveloperRoutes } = require("./developer.routes");
 

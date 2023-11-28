@@ -18,7 +18,7 @@ const Schema = new mongoose.Schema({
         type : {type : String , default : []}, //virtual or physical
         time : {type : String },
         format : {type : String },
-        owner : {type :String , default : []},
+        supplier : {type :String , default : []},
         feature : {type : Object , default : {
                 length : '',
                 height : '',
