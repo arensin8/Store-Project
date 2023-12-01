@@ -50,7 +50,9 @@ module.exports = class application {
                 url: "http://localhost:5000",
               },
             ],
+            authAction :{ authentication: {name: "authentication", schema: {type: "apiKey", in: "header", name: "Authorization", description: ""}, value: "Bearer <JWT>"} }
           },
+
           apis: ["app/router/**/*.js"],
         }),
         { explorer: true }

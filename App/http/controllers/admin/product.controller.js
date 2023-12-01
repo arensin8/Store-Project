@@ -1,9 +1,11 @@
+const { createProductSchema } = require("../../validators/admin/product.schema");
 const Controller = require("../controller");
 
 class ProductController extends Controller {
-  addProduct(req, res, next) {
+  async addProduct(req, res, next) {
     try {
-      return res.json(req.body);
+      const productBody = await createProductSchema.validateAsync(req.body)
+      return res.json(productBody);
     } catch (error) {
       next(error);
     }

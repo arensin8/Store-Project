@@ -51,6 +51,22 @@ const router = require("express").Router();
  *                  image : 
  *                        type : file
  *                        description : djksjs
+ *                  height:
+ *                       type: string
+ *                       description: the height of the product package
+ *                       example: 100
+ *                  width:
+ *                       type: string
+ *                       description: the width of the  product package
+ *                       example: 100
+ *                  weight:
+ *                       type: string
+ *                       description: the weight of the product package
+ *                       example: 100
+ *                  length:
+ *                       type: string
+ *                       description: the length of the product package
+ *                       example: 100
  *             
  *                      
  */
@@ -62,13 +78,6 @@ const router = require("express").Router();
  *      post:
  *           tags: [Product(AdminPanel)]
  *           summary: create and save product
- *           parameters :
- *               -   name : accesstoken
- *                   in : header
- *                   example : Bearer token...
- *                   value : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjA5NTE4NTg5OCIsImlhdCI6MTcwMDU2MzEyNCwiZXhwIjoxNzAwNjQ5NTI0fQ.Dx5DIlYS8fdWuLFpnTJ6KZTXg2waJbbetWh6Mtt4_5c
- *                   required : true
- *                   type : string
  *           requestBody:
  *              required: true
  *              content:

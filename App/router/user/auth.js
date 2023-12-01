@@ -28,7 +28,7 @@ const router = require("express").Router();
  *                  code:
  *                      type: integer
  *                      description: received code from getOTP 
- *          RefreshToken:
+*          RefreshToken:
  *              type: object
  *              required:
  *                  -   refreshToken
