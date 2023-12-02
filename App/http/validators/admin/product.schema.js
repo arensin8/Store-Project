@@ -9,6 +9,10 @@ const createProductSchema = Joi.object({
   category: Joi.string().pattern(mongoIdPattern).error(new Error("Category not found!")),
   price: Joi.number().error(new Error("Entered price is incorrect")),
   count: Joi.number().error(new Error("Entered count is incorrect")),
+  weight: Joi.number().empty().error(new Error("Entered weight is incorrect")),
+  height: Joi.number().empty().error(new Error("Entered height is incorrect")),
+  length: Joi.number().empty().error(new Error("Entered length is incorrect")),
+  width: Joi.number().empty().error(new Error("Entered width is incorrect")),
   discount: Joi.number().error(new Error("Entered discount is incorrect")),
   filename: Joi.string().pattern(/(\.jpg|\.png|\.gif|\.jpeg|\.webp)$/).error(new Error("Your uploaded image has invalid format")),
   fileUploadPath : Joi.allow()

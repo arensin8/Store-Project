@@ -1,4 +1,7 @@
-const { ProductController } = require("../../http/controllers/admin/product.controller");
+const productController = require("../../http/controllers/admin/product.controller");
+const {
+  ProductController,
+} = require("../../http/controllers/admin/product.controller");
 const { stringToArray } = require("../../http/middlewares/stringToArray");
 const { uploadFile } = require("../../utils/multer");
 
@@ -10,7 +13,7 @@ const router = require("express").Router();
  *      schemas:
  *          Product:
  *              type: object
- *              required: 
+ *              required:
  *                  -   title
  *                  -   short_text
  *                  -   text
@@ -48,51 +51,78 @@ const router = require("express").Router();
  *                      type: string
  *                      description: the title of product
  *                      example: 100
- *                  image : 
+ *                  image :
  *                        type : file
- *                        description : djksjs
+ *                        description : somee
  *                  height:
  *                       type: string
  *                       description: the height of the product package
- *                       example: 100
+ *                       example: 0
  *                  width:
  *                       type: string
  *                       description: the width of the  product package
- *                       example: 100
+ *                       example: 0
  *                  weight:
  *                       type: string
  *                       description: the weight of the product package
- *                       example: 100
+ *                       example: 0
  *                  length:
  *                       type: string
  *                       description: the length of the product package
- *                       example: 100
- *             
- *                      
+ *                       example: 0
  */
-
 
 /**
  * @swagger
- *   /admin/products/add :
+ *  /admin/products/add:
  *      post:
- *           tags: [Product(AdminPanel)]
- *           summary: create and save product
- *           requestBody:
+ *          tags: [Product(AdminPanel)]
+ *          summary: create and save product
+ *          parameters:
+ *                -    name : accesstoken
+ *                     in : header
+ *                     example : Bearer token...
+ *                     value : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjA5NTE4NTg5OCIsImlhdCI6MTcwMTUwNjA5MywiZXhwIjoxNzAxNTkyNDkzfQ.jwU6NAhtDo_1XbssVvKlx-yGwon9DP07Co55Qh9HDO0
+ *                     required : true
+ *                     type : string
+ *          requestBody:
  *              required: true
  *              content:
  *                  multipart/form-data:
  *                      schema:
  *                          $ref: '#/components/schemas/Product'
- *           responses:
- *                201:
- *                    description: Created Product
- */           
+ *          responses:
+ *              201:
+ *                  description: created new Product
+ */
 
-router.post('/add' , uploadFile.single("image"), stringToArray('tags'), ProductController.addProduct);
+router.post(
+  "/add",
+  uploadFile.array("image"),
+  stringToArray("tags"),
+  ProductController.addProduct
+);
+
+/**
+ * @swagger
+ *  /admin/products/all:
+ *      get:
+ *          tags: [Product(AdminPanel)]
+ *          summary: Get all product
+ *          parameters:
+ *                -    name : accesstoken
+ *                     in : header
+ *                     example : Bearer token...
+ *                     value : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjA5NTE4NTg5OCIsImlhdCI6MTcwMTUwNjA5MywiZXhwIjoxNzAxNTkyNDkzfQ.jwU6NAhtDo_1XbssVvKlx-yGwon9DP07Co55Qh9HDO0
+ *                     required : true
+ *                     type : string
+ *          responses:
+ *              201:
+ *                  description: created new Product
+ */
+router.get("/all", ProductController.getAllProducts);
 // router.patch();
 // router.delete();
-// router.get();
 // router.get();
 
 module.exports = {

@@ -37,9 +37,9 @@ module.exports = class application {
           swaggerDefinition: {
             openapi: "3.0.0",
             info: {
-              title: "Aren's Store",
-              version: "1.0.0",
-              description: "The biggest clothing store in Armenia",
+              title: "Aren's store",
+              version: "2.0.0",
+              description: "The biggest store",
               contact: {
                 name: "Aren Sinaei",
                 email: "arensinani4@gmail.com",
@@ -50,10 +50,18 @@ module.exports = class application {
                 url: "http://localhost:5000",
               },
             ],
-            authAction :{ authentication: {name: "authentication", schema: {type: "apiKey", in: "header", name: "Authorization", description: ""}, value: "Bearer <JWT>"} }
+            // components: {
+            //   securitySchemes: {
+            //     BearerAuth: {
+            //       type: "http",
+            //       scheme: "bearer",
+            //       bearerFormat: "JWT",
+            //     },
+            //   },
+            // },
+            // security: [{ BearerAuth: [] }],
           },
-
-          apis: ["app/router/**/*.js"],
+          apis: ["./app/router/**/*.js"],
         }),
         { explorer: true }
       )
