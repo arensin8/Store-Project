@@ -1,5 +1,5 @@
 const { ProductModel } = require("../../../models/products");
-const { deleteFileInPublic } = require("../../../utils/functions");
+const { deleteFileInPublic, returnListOfImagesFromRequest } = require("../../../utils/functions");
 const {
   createProductSchema,
 } = require("../../validators/admin/product.schema");
@@ -9,14 +9,9 @@ const path = require("path");
 class ProductController extends Controller {
   async addProduct(req, res, next) {
     try {
+      const images = returnListOfImagesFromRequest(req?.files || [], req.body.fileUploadPath)
       const productBody = await createProductSchema.validateAsync(req.body);
-      req.body.image = path.join(
-        productBody.fileUploadPath,
-        productBody.filename
-      );
-      const image = req.body.image.replace(/\\/g, "/");
-      const supplier = req.user._id;
-
+      const supplier = req?.user._id;
       const {
         title,
         text,
@@ -55,7 +50,7 @@ class ProductController extends Controller {
         price,
         count,
         discount,
-        image,
+        images,
         supplier,
         feature,
         type,

@@ -15,10 +15,16 @@ function createRoute(req) {
     "uploads",
     "blogs",
     year,
-    month,
+    month ,
     day
   );
-  req.body.fileUploadPath = path.join("uploads", "blogs", year, month, day);
+  req.body.fileUploadPath = path.join(
+    "uploads",
+    "blogs",
+    year,
+    month ,
+    day
+  );
   fs.mkdirSync(directory, { recursive: true });
   return directory;
 }

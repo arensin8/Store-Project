@@ -51,9 +51,11 @@ const router = require("express").Router();
  *                      type: string
  *                      description: the title of product
  *                      example: 100
- *                  image :
- *                        type : file
- *                        description : somee
+ *                  images :
+ *                        type : array
+ *                        items : 
+ *                              type : string
+ *                              format : binary
  *                  height:
  *                       type: string
  *                       description: the height of the product package
@@ -96,12 +98,7 @@ const router = require("express").Router();
  *                  description: created new Product
  */
 
-router.post(
-  "/add",
-  uploadFile.array("image"),
-  stringToArray("tags"),
-  ProductController.addProduct
-);
+router.post("/add",uploadFile.array("images" , 10),stringToArray("tags"),ProductController.addProduct);
 
 /**
  * @swagger
@@ -118,7 +115,7 @@ router.post(
  *                     type : string
  *          responses:
  *              201:
- *                  description: created new Product
+ *                  description: Received Product
  */
 router.get("/all", ProductController.getAllProducts);
 // router.patch();

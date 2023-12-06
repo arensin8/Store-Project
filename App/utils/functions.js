@@ -69,10 +69,19 @@ function deleteFileInPublic( fileAddress ){
   }
 }
 
+function returnListOfImagesFromRequest(files , fileUploadPath){
+  if(files?.length > 0){
+    return (files.map(file => path.join(fileUploadPath , file.filename)).map(item => item.replace(/\\/g, "/")))
+  }else{
+    return []
+  }
+}
+
 module.exports = {
   randomNumberGen,
   SignAccessToken,
   SignRefreshToken,
   verifyRefreshToken,
-  deleteFileInPublic
+  deleteFileInPublic,
+  returnListOfImagesFromRequest
 };
