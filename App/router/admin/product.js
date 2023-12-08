@@ -7,6 +7,26 @@ const { uploadFile } = require("../../utils/multer");
 
 const router = require("express").Router();
 
+
+/**
+ * @swagger
+ *  components:
+ *      schemas:
+ *          Color:
+ *              type: array
+ *              items: 
+ *                  type: string
+ *                  enum:
+ *                      -   black
+ *                      -   white
+ *                      -   gray                
+ *                      -   red
+ *                      -   blue
+ *                      -   green
+ *                      -   orange
+ *                      -   purple
+ */ 
+
 /**
  * @swagger
  *  components:
@@ -72,6 +92,8 @@ const router = require("express").Router();
  *                       type: string
  *                       description: the length of the product package
  *                       example: 0
+//  *                  colors:
+//  *                      $ref: '#/components/schemas/Color'
  */
 
 /**
@@ -118,9 +140,30 @@ router.post("/add",uploadFile.array("images" , 10),stringToArray("tags"),Product
  *                  description: Received Product
  */
 router.get("/all", ProductController.getAllProducts);
-// router.patch();
+/**
+ * @swagger
+ *  /admin/products/{id}:
+ *      get:
+ *          tags: [Product(AdminPanel)]
+ *          summary: Get product by id
+ *          parameters:
+ *                -    name : accesstoken
+ *                     in : header
+ *                     example : Bearer token...
+ *                     value : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjA5NTE4NTg5OCIsImlhdCI6MTcwMjA0Nzg3MCwiZXhwIjoxNzAyMTM0MjcwfQ.b_5ygyBQkhJuDm2icmSbJmmTxnm-FoOt1WqTaZ0S0Q8
+ *                     required : true
+ *                     type : string
+ *                -    name : id
+ *                     in : path 
+ *                     required : true
+ *                     type : string
+ *          responses:
+ *              201:
+ *                  description: Received Product
+ */
+router.get('/:id' , ProductController.getProductById);
 // router.delete();
-// router.get();
+// router.patch();
 
 module.exports = {
   AdminApiProductRoutes: router,

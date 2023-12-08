@@ -15,11 +15,11 @@ const Schema = new mongoose.Schema({
   price: { type: Number, default: 0 },
   discount: { type: Number, default: 0 },
   count: { type: Number },
-  type: { type: String, default : ""}, //virtual or physical
+  type: { type: String, default: "" }, //virtual or physical
   time: { type: String },
   format: { type: String },
-  supplier : {type: mongoose.Types.ObjectId, ref:"user", required : true},
-  feature: {
+  supplier: { type: mongoose.Types.ObjectId, ref: "user", required: true },
+  features: {
     type: Object,
     default: {
       length: "",
@@ -28,7 +28,6 @@ const Schema = new mongoose.Schema({
       weight: "",
       colors: [],
       madeIn: "",
-      model: [],
     },
   },
 });

@@ -1,15 +1,23 @@
+const createHttpError = require("http-errors");
 const { ProductModel } = require("../../../models/products");
-const { deleteFileInPublic, returnListOfImagesFromRequest } = require("../../../utils/functions");
+const {
+  deleteFileInPublic,
+  returnListOfImagesFromRequest,
+} = require("../../../utils/functions");
 const {
   createProductSchema,
 } = require("../../validators/admin/product.schema");
+const { objectIdValidator } = require("../../validators/public.validator");
 const Controller = require("../controller");
 const path = require("path");
 
 class ProductController extends Controller {
   async addProduct(req, res, next) {
     try {
-      const images = returnListOfImagesFromRequest(req?.files || [], req.body.fileUploadPath)
+      const images = returnListOfImagesFromRequest(
+        req?.files || [],
+        req.body.fileUploadPath
+      );
       const productBody = await createProductSchema.validateAsync(req.body);
       const supplier = req?.user._id;
       const {
@@ -25,11 +33,13 @@ class ProductController extends Controller {
         height,
         width,
         length,
+        colors,
       } = productBody;
 
       let feature = {};
+      feature.colors = colors;
       let type = "physical";
-      if (width || height || weight || length) {
+      if (!isNaN(+width) || !isNaN(+height) || !isNaN(+length) || !isNaN(+weight)) {
         if (!width) feature.width = 0;
         else feature.width = width;
         if (!height) feature.height = 0;
@@ -91,11 +101,24 @@ class ProductController extends Controller {
       next(error);
     }
   }
-  getProductById(req, res, next) {
+  async getProductById(req, res, next) {
     try {
+      const { id } = req.params;
+      const product = await this.findProductById(id);
+      res.status(200).json({
+        statusCode: 200,
+        product,
+      });
     } catch (error) {
       next(error);
     }
+  }
+
+  async findProductById(productID) {
+    const { id } = await objectIdValidator.validateAsync({ id: productID });
+    const product = await ProductModel.findById(id);
+    if (!product) throw createHttpError.NotFound("Product not found!");
+    return product;
   }
 }
 
