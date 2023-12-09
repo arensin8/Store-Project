@@ -12,7 +12,10 @@ const createProductSchema = Joi.object({
     .min(0)
     .max(20)
     .error(new Error("Tags must be lower than 20")),
-  colors: Joi.array().allow('').min(0).max(20).error(new Error("Colors must be lower than 20")),
+  colors: Joi.string()
+    .max(255)
+    .error(new Error("colors must be lower than 20")),
+
   category: Joi.string()
     .regex(mongoIdPattern)
     .error(new Error("Category not found!")),
@@ -27,7 +30,7 @@ const createProductSchema = Joi.object({
     .regex(/(\.jpg|\.png|\.gif|\.jpeg|\.webp)$/)
     .error(new Error("Your uploaded image has invalid format")),
   fileUploadPath: Joi.allow(),
-  type: Joi.string().regex(/virtual|physical/i),
+  type: Joi.string().regex(/^(virtual|physical)$/i).error(new Error("type should be virtual or physical")),
 });
 
 module.exports = {

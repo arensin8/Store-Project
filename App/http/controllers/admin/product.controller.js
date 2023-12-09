@@ -10,6 +10,7 @@ const {
 const { objectIdValidator } = require("../../validators/public.validator");
 const Controller = require("../controller");
 const path = require("path");
+const { StatusCodes: httpStatus } = require("http-status-codes");
 
 class ProductController extends Controller {
   async addProduct(req, res, next) {
@@ -34,23 +35,26 @@ class ProductController extends Controller {
         width,
         length,
         colors,
+        type,
       } = productBody;
-
-      let feature = {};
-      feature.colors = colors;
-      let type = "physical";
-      if (!isNaN(+width) || !isNaN(+height) || !isNaN(+length) || !isNaN(+weight)) {
-        if (!width) feature.width = 0;
-        else feature.width = width;
-        if (!height) feature.height = 0;
-        else feature.height = height;
-        if (!weight) feature.weight = 0;
-        else feature.weight = weight;
-        if (!length) feature.length = 0;
-        else feature.length = length;
-      } else {
-        type = "virtual";
+      let features = {};
+      features.colors = colors;
+      if (
+        !isNaN(+width) ||
+        !isNaN(+height) ||
+        !isNaN(+length) ||
+        !isNaN(+weight)
+      ) {
+        if (!width) features.width = 0;
+        else features.width = +width;
+        if (!height) features.height = 0;
+        else features.height = +height;
+        if (!weight) features.weight = 0;
+        else features.weight = +weight;
+        if (!length) features.length = 0;
+        else features.length = +length;
       }
+
       const product = await ProductModel.create({
         title,
         text,
@@ -62,12 +66,12 @@ class ProductController extends Controller {
         discount,
         images,
         supplier,
-        feature,
+        features,
         type,
       });
-      return res.status(200).json({
+      return res.status(httpStatus.CREATED).json({
         data: {
-          statusCode: 200,
+          statusCode: httpStatus.CREATED,
           message: "Product created successfully",
         },
       });
@@ -82,18 +86,37 @@ class ProductController extends Controller {
       next(error);
     }
   }
-  removeProduct(req, res, next) {
+  async removeProduct(req, res, next) {
     try {
+      const { id } = req.params;
+      const product = await this.findProductById(id);
+      const removeResult = await ProductModel.deleteOne({ _id: product._id });
+      if (removeResult.deletedCount == 0)
+        throw new createHttpError.InternalServerError("Deleting failed");
+      res.status(httpStatus.OK).json({
+        statusCode: httpStatus.OK,
+        message: "Deleted successfully",
+      });
     } catch (error) {
       next(error);
     }
   }
   async getAllProducts(req, res, next) {
     try {
-      const products = await ProductModel.find({});
+      const searchText = req?.query?.search || "";
+      let products;
+      if (searchText) {
+        products = await ProductModel.find({
+          $text: {
+            $search: searchText,
+          },
+        });
+      } else {
+        products = await ProductModel.find({});
+      }
       return res.json({
         data: {
-          statusCode: 200,
+          statusCode: httpStatus.OK,
           products,
         },
       });
@@ -105,8 +128,8 @@ class ProductController extends Controller {
     try {
       const { id } = req.params;
       const product = await this.findProductById(id);
-      res.status(200).json({
-        statusCode: 200,
+      res.status(httpStatus.OK).json({
+        statusCode: httpStatus.OK,
         product,
       });
     } catch (error) {

@@ -4,6 +4,7 @@ const { createBlogSchema } = require("../../validators/admin/blog.schema");
 const Controller = require("../controller");
 const path = require("path");
 const createError = require("http-errors");
+const { StatusCodes: httpStatus } = require("http-status-codes");
 
 class BlogController extends Controller {
   async createBlog(req, res, next) {
@@ -26,9 +27,9 @@ class BlogController extends Controller {
         tags,
         author,
       });
-      return res.status(201).json({
+      return res.status(httpStatus.CREATED).json({
         data: {
-          statusCode: 201,
+          statusCode: httpStatus.CREATED,
           message: "Blog created successfully",
         },
       });
@@ -41,9 +42,9 @@ class BlogController extends Controller {
     try {
       const { id } = req.params;
       const blog = await this.findBlog(id);
-      return res.status(200).json({
+      return res.status(httpStatus.OK).json({
         data: {
-          statusCode: 200,
+          statusCode: httpStatus.OK,
           blog,
         },
       });
@@ -86,9 +87,9 @@ class BlogController extends Controller {
           },
         },
       ]);
-      return res.status(200).json({
+      return res.status(httpStatus.OK).json({
         data: {
-          statusCode: 200,
+          statusCode: httpStatus.OK,
           blogs,
         },
       });
@@ -108,9 +109,9 @@ class BlogController extends Controller {
     const result = await BlogsModel.deleteOne({ _id: id });
     if (result.deletedCount == 0)
       throw createError.InternalServerError("Delete failed");
-    res.status(200).json({
+    res.status(httpStatus.OK).json({
       data: {
-        statusCode: 200,
+        statusCode: httpStatus.OK,
         message: "Deleted successfully",
       },
     });
@@ -129,7 +130,13 @@ class BlogController extends Controller {
       }
       const data = req.body;
       let nullishData = ["", " ", 0, "0", null, undefined];
-      let blackListFields = ["comments", "likes", "dislikes", "bookmarks" , "author"];
+      let blackListFields = [
+        "comments",
+        "likes",
+        "dislikes",
+        "bookmarks",
+        "author",
+      ];
       Object.keys(data).forEach((key) => {
         if (blackListFields.includes(key)) delete data[key];
         if (typeof data[key] == "string") data[key] = data[key].trim();
@@ -137,12 +144,16 @@ class BlogController extends Controller {
         if (Array.isArray(data[key] && Array.length > 0))
           data[key] == data[key].map((item) => item.trim());
       });
-      const updateResult = await BlogsModel.updateOne({_id : id },{$set : data});
-      if(updateResult.modifiedCount == 0) throw createError.InternalServerError('Blog updating failed')
+      const updateResult = await BlogsModel.updateOne(
+        { _id: id },
+        { $set: data }
+      );
+      if (updateResult.modifiedCount == 0)
+        throw createError.InternalServerError("Blog updating failed");
 
-      return res.status(200).json({
+      return res.status(httpStatus.OK).json({
         data: {
-          statusCode: 200,
+          statusCode: httpStatus.OK,
           message: "Blog updated successfully",
         },
       });

@@ -1,4 +1,6 @@
 const createError = require("http-errors");
+const { StatusCodes: httpStatus } = require("http-status-codes");
+
 
 const {
   getOptSchema,
@@ -25,9 +27,9 @@ class UserAuthController extends Controller {
       const result = this.saveUser(phone, code);
       if (!result)
         throw createError.Unauthorized("login unsuccessful, please try again");
-      return res.status(200).send({
+      return res.status(httpStatus.OK).send({
         data: {
-          statusCode: 200,
+          statusCode: httpStatus.OK,
           message: "The code has been sent to you",
           code,
           phone,
@@ -51,7 +53,7 @@ class UserAuthController extends Controller {
         throw createError.Unauthorized("your code is expired");
       const accessToken = await SignAccessToken(user._id);
       const refreshToken = await SignRefreshToken(user._id)
-      return res.status(200).json({
+      return res.status(httpStatus.OK).json({
         data: {
           accessToken,
           refreshToken
@@ -87,8 +89,6 @@ class UserAuthController extends Controller {
     };
     const user = await this.checkExistUser(phone);
     if (user) {
-      //   console.log(user.otp, now);
-      //   if (+user.otp.expiresIn > now) throw createError.Forbidden("کد اعتبار سنجی قبلی هنوز منقضی نشده است")
       return await this.updateUser(phone, { otp });
     }
     return await UserModel.create({

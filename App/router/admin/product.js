@@ -7,7 +7,6 @@ const { uploadFile } = require("../../utils/multer");
 
 const router = require("express").Router();
 
-
 /**
  * @swagger
  *  components:
@@ -92,8 +91,12 @@ const router = require("express").Router();
  *                       type: string
  *                       description: the length of the product package
  *                       example: 0
-//  *                  colors:
-//  *                      $ref: '#/components/schemas/Color'
+ *                  type:
+ *                      type: string
+ *                      description: the type of product 
+ *                      example: virtual or physical
+ *                  colors: 
+ *                      $ref: '#/components/schemas/Color'
  */
 
 /**
@@ -135,6 +138,10 @@ router.post("/add",uploadFile.array("images" , 10),stringToArray("tags"),Product
  *                     value : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjA5NTE4NTg5OCIsImlhdCI6MTcwMTUwNjA5MywiZXhwIjoxNzAxNTkyNDkzfQ.jwU6NAhtDo_1XbssVvKlx-yGwon9DP07Co55Qh9HDO0
  *                     required : true
  *                     type : string
+ *                -    in : query
+ *                     name : search
+ *                     type : string
+ *                     description : text for the search bt title,text,short_text in products
  *          responses:
  *              201:
  *                  description: Received Product
@@ -162,6 +169,30 @@ router.get("/all", ProductController.getAllProducts);
  *                  description: Received Product
  */
 router.get('/:id' , ProductController.getProductById);
+
+/**
+ * @swagger
+ *  /admin/products/remove/{id}:
+ *      delete:
+ *          tags: [Product(AdminPanel)]
+ *          summary: Remove product by id
+ *          parameters:
+ *                -    name : accesstoken
+ *                     in : header
+ *                     example : Bearer token...
+ *                     value : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjA5NTE4NTg5OCIsImlhdCI6MTcwMjA0Nzg3MCwiZXhwIjoxNzAyMTM0MjcwfQ.b_5ygyBQkhJuDm2icmSbJmmTxnm-FoOt1WqTaZ0S0Q8
+ *                     required : true
+ *                     type : string
+ *                -    name : id
+ *                     in : path 
+ *                     required : true
+ *                     type : string
+ *          responses:
+ *              201:
+ *                  description: Received Product
+ */
+router.delete('/remove/:id' , ProductController.removeProduct);
+
 // router.delete();
 // router.patch();
 
