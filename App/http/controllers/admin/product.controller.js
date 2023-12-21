@@ -3,6 +3,9 @@ const { ProductModel } = require("../../../models/products");
 const {
   deleteFileInPublic,
   returnListOfImagesFromRequest,
+  setFeatures,
+  copyObject,
+  deleteInvalidPropertiesInObject,
 } = require("../../../utils/functions");
 const {
   createProductSchema,
@@ -11,6 +14,20 @@ const { objectIdValidator } = require("../../validators/public.validator");
 const Controller = require("../controller");
 const path = require("path");
 const { StatusCodes: httpStatus } = require("http-status-codes");
+
+const ProductBlackList = {
+  BOOKMARKS:"bookmarks",
+  LIKES:"likes",
+  DISLIKES:"dislikes",
+  SUPPLIER:"supplier",
+  COMMENTS:"comments",
+  WEIGHT:"weight",
+  HEIGHT:"height",
+  WIDTH:"width",
+  LENGTH:"length",
+  COLORS:"colors",
+}
+Object.freeze(ProductBlackList)
 
 class ProductController extends Controller {
   async addProduct(req, res, next) {
@@ -30,31 +47,10 @@ class ProductController extends Controller {
         price,
         count,
         discount,
-        weight,
-        height,
-        width,
-        length,
-        colors,
         type,
       } = productBody;
-      let features = {};
-      features.colors = colors;
-      if (
-        !isNaN(+width) ||
-        !isNaN(+height) ||
-        !isNaN(+length) ||
-        !isNaN(+weight)
-      ) {
-        if (!width) features.width = 0;
-        else features.width = +width;
-        if (!height) features.height = 0;
-        else features.height = +height;
-        if (!weight) features.weight = 0;
-        else features.weight = +weight;
-        if (!length) features.length = 0;
-        else features.length = +length;
-      }
 
+      let features = setFeatures(req.body);
       const product = await ProductModel.create({
         title,
         text,
@@ -80,8 +76,30 @@ class ProductController extends Controller {
       deleteFileInPublic(req.body.image);
     }
   }
-  editProduct(req, res, next) {
+  async editProduct(req, res, next) {
     try {
+      const { id } = req.params;
+      const product = await this.findProductById(id);
+      const data = copyObject(req.body);
+      data.images = returnListOfImagesFromRequest(
+        req?.files || [],
+        req.body.fileUploadPath
+      );
+      data.features = setFeatures(req.body);
+      let blackListFields = Object.values(ProductBlackList)
+      deleteInvalidPropertiesInObject(data , blackListFields)
+      const updateProductResult = await ProductModel.updateOne(
+        { _id: product._id },
+        { $set: data }
+      );
+      if (updateProductResult.modifiedCount == 0)
+        throw createHttpError.InternalServerError("Internal server error");
+      return res.status(httpStatus.OK).json({
+        data : {
+          status : httpStatus.OK,
+          message : 'product updated successfully'
+        }
+      });
     } catch (error) {
       next(error);
     }

@@ -1,8 +1,8 @@
 const JWT = require("jsonwebtoken");
 const createError = require("http-errors");
 const { UserModel } = require("../models/users");
-const fs = require('fs')
-const path = require('path')
+const fs = require("fs");
+const path = require("path");
 const {
   ACCESS_TOKEN_SECRET_KEY,
   REFRESH_TOKEN_SECRET_KEY,
@@ -61,20 +61,55 @@ function verifyRefreshToken(token) {
   });
 }
 
-function deleteFileInPublic( fileAddress ){
-  if(fileAddress){
-    const pathFile = path.join(__dirname, "..", ".." , "public" , fileAddress)
-    fs.unlinkSync(pathFile)
-
+function deleteFileInPublic(fileAddress) {
+  if (fileAddress) {
+    const pathFile = path.join(__dirname, "..", "..", "public", fileAddress);
+    fs.unlinkSync(pathFile);
   }
 }
 
-function returnListOfImagesFromRequest(files , fileUploadPath){
-  if(files?.length > 0){
-    return (files.map(file => path.join(fileUploadPath , file.filename)).map(item => item.replace(/\\/g, "/")))
-  }else{
-    return []
+function returnListOfImagesFromRequest(files, fileUploadPath) {
+  if (files?.length > 0) {
+    return files
+      .map((file) => path.join(fileUploadPath, file.filename))
+      .map((item) => item.replace(/\\/g, "/"));
+  } else {
+    return [];
   }
+}
+
+function setFeatures(body) {
+  const { colors, width, length, height, weight } = body;
+  let features = {};
+  features.colors = colors;
+  if (!isNaN(+width) || !isNaN(+height) || !isNaN(+length) || !isNaN(+weight)) {
+    if (!width) features.width = 0;
+    else features.width = +width;
+    if (!height) features.height = 0;
+    else features.height = +height;
+    if (!weight) features.weight = 0;
+    else features.weight = +weight;
+    if (!length) features.length = 0;
+    else features.length = +length;
+  }
+  return features
+}
+
+function deleteInvalidPropertiesInObject(data = {} , blackListFields = []){
+  let nullishData = ["", " ", 0, "0", null, undefined];
+  Object.keys(data).forEach((key) => {
+    if (blackListFields.includes(key)) delete data[key];
+    if (typeof data[key] == "string") data[key] = data[key].trim();
+    if (nullishData.includes(data[key])) delete data[key];
+    if (Array.isArray(data[key] && data[key].length > 0))
+      data[key] == data[key].map((item) => item.trim());
+    if (Array.isArray(data[key] && data[key].length == 0)) delete data[key];
+  });
+  return data
+}
+
+function copyObject(object) {
+  return JSON.parse(JSON.stringify(object));
 }
 
 module.exports = {
@@ -83,5 +118,8 @@ module.exports = {
   SignRefreshToken,
   verifyRefreshToken,
   deleteFileInPublic,
-  returnListOfImagesFromRequest
+  returnListOfImagesFromRequest,
+  copyObject,
+  setFeatures,
+  deleteInvalidPropertiesInObject
 };

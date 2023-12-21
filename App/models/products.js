@@ -26,7 +26,7 @@ const ProductSchema = new mongoose.Schema({
       height: "",
       width: "",
       weight: "",
-      colors: [String],
+      colors: [],
       madeIn: "",
     },
   },
