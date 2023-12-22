@@ -7,16 +7,14 @@ const Episodes = new mongoose.Schema({
   type: { type: String, default: "unlock" },
   time: { type: String, required: true },
 });
-// Episodes.virtual("videoURL").get(function () {
-//   return `${process.env.BASE_URL}:${process.env.APPLICATION_PORT}/${this.videoAddress}`;
-// });
+
 const Chapter = new mongoose.Schema({
   title: { type: String, required: true },
   text: { type: String, default: "" },
   episodes: { type: [Episodes], default: [] },
 });
 
-const Schema = new mongoose.Schema({
+const CourseSchema = new mongoose.Schema({
   title: { type: String, required: true },
   short_text: { type: String, required: true },
   text: { type: String, required: true },
@@ -33,11 +31,12 @@ const Schema = new mongoose.Schema({
   type: { type: String, default: "free" /*free,cash,premium*/, required: true },
   time: { type: String, default: "00:00:00" },
   teacher: { type: String, ref: "user", required: true },
-  chapter: { type: [Chapter], default : []},
-  students: { type: [mongoose.Types.ObjectId], default: [], ref : 'user' },
-
+  chapters: { type: [Chapter], default: [] },
+  students: { type: [mongoose.Types.ObjectId], default: [], ref: "user" },
 });
 
+CourseSchema.index({ title: "text", short_text: "text", text: "text" });
+
 module.exports = {
-  CoursesModel: mongoose.model("course", Schema),
+  CoursesModel: mongoose.model("course", CourseSchema),
 };
