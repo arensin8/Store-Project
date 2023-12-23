@@ -1,7 +1,97 @@
 const { CourseController } = require('../../http/controllers/admin/course.controller')
+const { stringToArray } = require('../../http/middlewares/stringToArray')
+const { uploadFile } = require('../../utils/multer')
 
 const router = require('express').Router()
 
+/**
+ * @swagger
+ *  components:
+ *      schemas:
+ *          Types:
+ *              type: array
+ *              items:
+ *                  type: string
+ *                  enum:
+ *                      -   cash
+ *                      -   free
+ *                      -   premium
+ */
+
+/**
+ * @swagger
+ *  components:
+ *      schemas:
+ *          Course:
+ *              type: object
+ *              required:
+ *                  -   title
+ *                  -   short_text
+ *                  -   text
+ *                  -   tags
+ *                  -   category
+ *                  -   price
+ *                  -   discount
+ *                  -   image
+ *                  -   type
+ *              properties:
+ *                  title:
+ *                      type: string
+ *                      description: the title of course
+ *                  short_text:
+ *                      type: string
+ *                      description: the short text of course
+ *                  text:
+ *                      type: string
+ *                      description: the text of course
+ *                  tags:
+ *                      type: array
+ *                      description: the tags of course
+ *                  category:
+ *                      type: string
+ *                      description: the category of course
+ *                      example: 6279e994c1e47a98d0f356d3
+ *                  price:
+ *                      type: string
+ *                      description: the price of course
+ *                      example: 2500000
+ *                  discount:
+ *                      type: string
+ *                      description: the discount of course
+ *                      example: 20
+ *                  image :
+ *                        type : string      
+ *                        format : binary
+ *                  type:
+ *                      $ref: '#/components/schemas/Types'
+ */
+
+
+/**
+ * @swagger
+ *  /admin/courses/add:
+ *      post:
+ *          tags: [Course(AdminPanel)]
+ *          summary: create and save course
+ *          parameters:
+ *                -    name : accesstoken
+ *                     in : header
+ *                     example : Bearer token...
+ *                     value : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjA5NTE4NTg5OCIsImlhdCI6MTcwMTUwNjA5MywiZXhwIjoxNzAxNTkyNDkzfQ.jwU6NAhtDo_1XbssVvKlx-yGwon9DP07Co55Qh9HDO0
+ *                     required : true
+ *                     type : string
+ *          requestBody:
+ *              required: true
+ *              content:
+ *                  multipart/form-data:
+ *                      schema:
+ *                          $ref: '#/components/schemas/Course'
+ *          responses:
+ *              201:
+ *                  description: created new Product
+ */
+
+router.post("/add",uploadFile.single("images"),stringToArray("tags"),CourseController.getAllCourses)
 /**
  * @swagger
  *  /admin/courses/all :
