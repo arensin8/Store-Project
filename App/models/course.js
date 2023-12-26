@@ -30,6 +30,7 @@ const CourseSchema = new mongoose.Schema({
   count: { type: Number },
   type: { type: String, default: "free" /*free,cash,premium*/, required: true },
   time: { type: String, default: "00:00:00" },
+  status: { type: String, default: "notStarted" /*notStarted,completed,ongoing */ },
   teacher: { type: String, ref: "user", required: true },
   chapters: { type: [Chapter], default: [] },
   students: { type: [mongoose.Types.ObjectId], default: [], ref: "user" },

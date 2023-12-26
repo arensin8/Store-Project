@@ -15,7 +15,6 @@ const createProductSchema = Joi.object({
   colors: Joi.string()
     .max(255)
     .error(new Error("colors must be lower than 20")),
-
   category: Joi.string()
     .regex(mongoIdPattern)
     .error(new Error("Category not found!")),

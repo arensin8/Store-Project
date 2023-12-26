@@ -9,13 +9,11 @@ const router = require('express').Router()
  *  components:
  *      schemas:
  *          Types:
- *              type: array
- *              items:
- *                  type: string
- *                  enum:
- *                      -   cash
- *                      -   free
- *                      -   premium
+ *              type: string
+ *              enum:
+ *                  -   cash
+ *                  -   free
+ *                  -   premium
  */
 
 /**
@@ -91,7 +89,7 @@ const router = require('express').Router()
  *                  description: created new Product
  */
 
-router.post("/add",uploadFile.single("images"),stringToArray("tags"),CourseController.getAllCourses)
+router.post("/add",uploadFile.single("image"),stringToArray("tags"),CourseController.addCourse)
 /**
  * @swagger
  *  /admin/courses/all :

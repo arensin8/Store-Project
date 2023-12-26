@@ -16,18 +16,18 @@ const path = require("path");
 const { StatusCodes: httpStatus } = require("http-status-codes");
 
 const ProductBlackList = {
-  BOOKMARKS:"bookmarks",
-  LIKES:"likes",
-  DISLIKES:"dislikes",
-  SUPPLIER:"supplier",
-  COMMENTS:"comments",
-  WEIGHT:"weight",
-  HEIGHT:"height",
-  WIDTH:"width",
-  LENGTH:"length",
-  COLORS:"colors",
-}
-Object.freeze(ProductBlackList)
+  BOOKMARKS: "bookmarks",
+  LIKES: "likes",
+  DISLIKES: "dislikes",
+  SUPPLIER: "supplier",
+  COMMENTS: "comments",
+  WEIGHT: "weight",
+  HEIGHT: "height",
+  WIDTH: "width",
+  LENGTH: "length",
+  COLORS: "colors",
+};
+Object.freeze(ProductBlackList);
 
 class ProductController extends Controller {
   async addProduct(req, res, next) {
@@ -66,8 +66,8 @@ class ProductController extends Controller {
         type,
       });
       return res.status(httpStatus.CREATED).json({
+        statusCode: httpStatus.CREATED,
         data: {
-          statusCode: httpStatus.CREATED,
           message: "Product created successfully",
         },
       });
@@ -86,8 +86,8 @@ class ProductController extends Controller {
         req.body.fileUploadPath
       );
       data.features = setFeatures(req.body);
-      let blackListFields = Object.values(ProductBlackList)
-      deleteInvalidPropertiesInObject(data , blackListFields)
+      let blackListFields = Object.values(ProductBlackList);
+      deleteInvalidPropertiesInObject(data, blackListFields);
       const updateProductResult = await ProductModel.updateOne(
         { _id: product._id },
         { $set: data }
@@ -95,10 +95,10 @@ class ProductController extends Controller {
       if (updateProductResult.modifiedCount == 0)
         throw createHttpError.InternalServerError("Internal server error");
       return res.status(httpStatus.OK).json({
-        data : {
-          status : httpStatus.OK,
-          message : 'product updated successfully'
-        }
+        statusCode: httpStatus.OK,
+        data: {
+          message: "product updated successfully",
+        },
       });
     } catch (error) {
       next(error);
@@ -113,7 +113,9 @@ class ProductController extends Controller {
         throw new createHttpError.InternalServerError("Deleting failed");
       res.status(httpStatus.OK).json({
         statusCode: httpStatus.OK,
-        message: "Deleted successfully",
+        data: {
+          message: "Deleted successfully",
+        },
       });
     } catch (error) {
       next(error);
@@ -132,9 +134,9 @@ class ProductController extends Controller {
       } else {
         products = await ProductModel.find({});
       }
-      return res.json({
+      return res.status(httpStatus.OK).json({
+        statusCode: httpStatus.OK,
         data: {
-          statusCode: httpStatus.OK,
           products,
         },
       });
@@ -148,7 +150,9 @@ class ProductController extends Controller {
       const product = await this.findProductById(id);
       res.status(httpStatus.OK).json({
         statusCode: httpStatus.OK,
-        product,
+        data: {
+          product,
+        },
       });
     } catch (error) {
       next(error);

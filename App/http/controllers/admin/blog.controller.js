@@ -28,8 +28,8 @@ class BlogController extends Controller {
         author,
       });
       return res.status(httpStatus.CREATED).json({
+        statusCode: httpStatus.CREATED,
         data: {
-          statusCode: httpStatus.CREATED,
           message: "Blog created successfully",
         },
       });
@@ -43,8 +43,8 @@ class BlogController extends Controller {
       const { id } = req.params;
       const blog = await this.findBlog(id);
       return res.status(httpStatus.OK).json({
+        statusCode: httpStatus.OK,
         data: {
-          statusCode: httpStatus.OK,
           blog,
         },
       });
@@ -88,8 +88,8 @@ class BlogController extends Controller {
         },
       ]);
       return res.status(httpStatus.OK).json({
+        statusCode: httpStatus.OK,
         data: {
-          statusCode: httpStatus.OK,
           blogs,
         },
       });
@@ -104,18 +104,18 @@ class BlogController extends Controller {
     }
   }
   async deleteBlogById(req, res, next) {
-    const { id } = req.params;
-    await this.findBlog(id);
-    const result = await BlogsModel.deleteOne({ _id: id });
-    if (result.deletedCount == 0)
-      throw createError.InternalServerError("Delete failed");
-    res.status(httpStatus.OK).json({
-      data: {
-        statusCode: httpStatus.OK,
-        message: "Deleted successfully",
-      },
-    });
     try {
+      const { id } = req.params;
+      await this.findBlog(id);
+      const result = await BlogsModel.deleteOne({ _id: id });
+      if (result.deletedCount == 0)
+        throw createError.InternalServerError("Delete failed");
+      res.status(httpStatus.OK).json({
+        statusCode: httpStatus.OK,
+        data: {
+          message: "Deleted successfully",
+        },
+      });
     } catch (error) {
       next(error);
     }
@@ -152,8 +152,8 @@ class BlogController extends Controller {
         throw createError.InternalServerError("Blog updating failed");
 
       return res.status(httpStatus.OK).json({
+        statusCode: httpStatus.OK,
         data: {
-          statusCode: httpStatus.OK,
           message: "Blog updated successfully",
         },
       });
