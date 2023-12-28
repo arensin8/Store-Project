@@ -17,7 +17,7 @@ module.exports = {
 
 // {
 //   "data": {
-//     "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjA5NTE4NTg5OCIsImlhdCI6MTcwMzU3NzQ3MCwiZXhwIjoxNzAzNjYzODcwfQ.G2wAw8_uFaG-ysAtxdcdk1k4_wZobDy4rprDrRx1v9s",
-//     "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjA5NTE4NTg5OCIsImlhdCI6MTcwMzU3NzQ3MCwiZXhwIjoxNzAzNjYzODcwfQ.oZiQoNbiA_ol7Utx6BPsH37-c2YFTUOlhhe73tcRjpQ"
+//     "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjA5NTE4NTg5OCIsImlhdCI6MTcwMzc1MjQwMSwiZXhwIjoxNzAzODM4ODAxfQ.6WLvt2Ek7A72NtKXEKlM2nmxxhkpnVn2rY8CICgf5e8",
+//     "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjA5NTE4NTg5OCIsImlhdCI6MTcwMzc1MjQwMSwiZXhwIjoxNzAzODM4ODAxfQ.9pcYdxx_tKc9Up3jzvnsxywVfxQ82PbaJymVYnZmuf4"
 //   }
 // }

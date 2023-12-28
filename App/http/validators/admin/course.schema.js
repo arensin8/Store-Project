@@ -9,7 +9,7 @@ const createCourseSchema = Joi.object({
   category: Joi.string().regex(mongoIdPattern).error(new Error("Category not found!")),
   price: Joi.number().error(new Error("Entered price is incorrect")),
   discount: Joi.number().error(new Error("Entered discount is incorrect")),
-  filename: Joi.string().regex(/(\.jpg|\.png|\.gif|\.jpeg|\.webp)$/).error(new Error("Your uploaded image has invalid format")),
+  filename: Joi.string().regex(/(\.jpg|\.png|\.gif|\.jpeg|\.webp)$/i).error(new Error("Your uploaded image has invalid format")),
   fileUploadPath: Joi.allow(),
   type: Joi.string().regex(/^(free|cash|premium)$/i).error(new Error("type should be cash,free or premium")),
 });

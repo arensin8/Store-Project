@@ -286,11 +286,8 @@ router.delete("/remove/:id", ProductController.removeProduct);
  *              200:
  *                  description: update Product
  */
-
 router.patch("/edit/:id",uploadFile.array("images", 10),stringToArray("tags", "colors"),ProductController.editProduct);
 
-// router.delete();
-// router.patch();
 
 module.exports = {
   AdminApiProductRoutes: router,

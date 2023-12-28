@@ -26,7 +26,7 @@ const createProductSchema = Joi.object({
   width: Joi.number().empty().error(new Error("Entered width is incorrect")),
   discount: Joi.number().error(new Error("Entered discount is incorrect")),
   filename: Joi.string()
-    .regex(/(\.jpg|\.png|\.gif|\.jpeg|\.webp)$/)
+    .regex(/(\.jpg|\.png|\.gif|\.jpeg|\.webp)$/i)
     .error(new Error("Your uploaded image has invalid format")),
   fileUploadPath: Joi.allow(),
   type: Joi.string().regex(/^(virtual|physical)$/i).error(new Error("type should be virtual or physical")),

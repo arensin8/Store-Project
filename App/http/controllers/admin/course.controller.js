@@ -30,8 +30,11 @@ class CourseController extends Controller {
       await createCourseSchema.validateAsync(req.body);
       const { fileUploadPath, filename } = req.body;
       const image = path.join(fileUploadPath, filename).replace(/\\/g, "/");
-      const { text, short_text, title, price, discount, type, tags, category } =req.body;
-      const teacher = req.user._id
+      const { text, short_text, title, price, discount, type, tags, category } =
+        req.body;
+      if (Number(price) && type === "free")
+        throw createHttpError.BadRequest(`You can't set price for free items`);
+      const teacher = req.user._id;
       const course = await CoursesModel.create({
         text,
         short_text,
@@ -42,15 +45,34 @@ class CourseController extends Controller {
         tags,
         category,
         image,
-        time : "00:00:00",
-        teacher
+        time: "00:00:00",
+        teacher,
       });
-      if(!course?._id) throw createHttpError.InternalServerError('Creating course uncompleted')
+      if (!course?._id)
+        throw createHttpError.InternalServerError(
+          "Creating course uncompleted"
+        );
       return res.status(HttpStatus.CREATED).json({
-    statusCode : HttpStatus.CREATED,
-        data : {
-          message : 'Course created successfully'
-        }
+        statusCode: HttpStatus.CREATED,
+        data: {
+          message: "Course created successfully",
+        },
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async getCourseById(req, res, next) {
+    try {
+      const { id } = req.params;
+      const course = await CoursesModel.findById(id);
+      if (!course) throw createHttpError.NotFound("Course not found");
+      return res.status(HttpStatus.OK).json({
+        statusCode: HttpStatus.OK,
+        data: {
+          course,
+        },
       });
     } catch (error) {
       next(error);

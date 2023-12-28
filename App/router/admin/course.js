@@ -105,7 +105,7 @@ router.post("/add",uploadFile.single("image"),stringToArray("tags"),CourseContro
  *                     type : string
  *                -    in : query
  *                     name : search
- *                     type : text
+ *                     type : string
  *                     description : search in courses by text,short_text or title
  *            responses:
  *                  200:
@@ -113,6 +113,30 @@ router.post("/add",uploadFile.single("image"),stringToArray("tags"),CourseContro
  */
 
 router.get("/all" , CourseController.getAllCourses)
+
+/**
+ * @swagger
+ *  /admin/courses/{id} :
+ *      get :
+ *            tags : [Course(AdminPanel)]
+ *            summary : Get course by id
+ *            parameters:
+ *                -    name : accesstoken
+ *                     in : header
+ *                     example : Bearer token...
+ *                     value : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjA5NTE4NTg5OCIsImlhdCI6MTcwMDU2MzEyNCwiZXhwIjoxNzAwNjQ5NTI0fQ.Dx5DIlYS8fdWuLFpnTJ6KZTXg2waJbbetWh6Mtt4_5c
+ *                     required : true
+ *                     type : string
+ *                -    in : path
+ *                     name : id
+ *                     type : string
+ *                     description : search in courses by text,short_text or title
+ *            responses:
+ *                  200:
+ *                      description : Success
+ */
+
+router.get("/:id" , CourseController.getCourseById)
 // router.post()
 // router.delete()
 // router.put()

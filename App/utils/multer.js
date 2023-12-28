@@ -30,7 +30,7 @@ function createRoute(req) {
 }
 const fileFilter = function (req, file, cb) {
   const ext = path.extname(file.originalname);
-  const mimeTypes = [".webp", ".jpg", ".jpeg", ".png", ".gif"];
+  const mimeTypes = [".webp", ".JPG", ".JPEG", ".PNG", ".gif"];
   if (mimeTypes.includes(ext)) {
     return cb(null, true);
   }
