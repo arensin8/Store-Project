@@ -43,6 +43,10 @@
  *            responses:
  *                  201:
  *                      description : Success
+ *                      content:
+ *                          application/json:
+ *                              schema:
+ *                                  $ref: '#/definitions/publicDefinition'
 */
 
 //get all parents
@@ -127,6 +131,10 @@
  *            responses:
  *                  200:
  *                      description : Success
+ *                      content:
+ *                          application/json:
+ *                              schema:
+ *                                  $ref: '#/definitions/publicDefinition'
 */
 
 //get all without populate
@@ -201,6 +209,10 @@
  *      responses:
  *        200:
  *          description: success
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      $ref: '#/definitions/publicDefinition'
  *        500:
  *          description: internalServerError
 */

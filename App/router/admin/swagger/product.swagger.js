@@ -92,7 +92,7 @@
  *                      $ref: '#/components/schemas/Color'
  */
 
-//edit-product
+//Edit-product
 /**
  * @swagger
  *  components:
@@ -180,6 +180,10 @@
  *          responses:
  *              201:
  *                  description: created new Product
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              $ref: '#/definitions/publicDefinition'
  */
 
 //get all
@@ -249,6 +253,10 @@
  *          responses:
  *              201:
  *                  description: Received Product
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              $ref: '#/definitions/publicDefinition'
  */
 
 //update
@@ -279,4 +287,8 @@
  *          responses:
  *              200:
  *                  description: update Product
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              $ref: '#/definitions/publicDefinition'
  */

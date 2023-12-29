@@ -97,6 +97,10 @@
  *            responses:
  *                  201:
  *                      description : Created
+ *                      content:
+ *                          application/json:
+ *                              schema:
+ *                                  $ref: '#/definitions/publicDefinition'
 */
 
 //get by id
@@ -143,6 +147,10 @@
  *            responses:
  *                  200:
  *                      description : Success
+ *                      content:
+ *                          application/json:
+ *                              schema:
+ *                                  $ref: '#/definitions/publicDefinition'
 */
 
 //update
@@ -174,4 +182,8 @@
  *            responses:
  *                  201:
  *                      description : Created
+ *                      content:
+ *                          application/json:
+ *                              schema:
+ *                                  $ref: '#/definitions/publicDefinition'
 */

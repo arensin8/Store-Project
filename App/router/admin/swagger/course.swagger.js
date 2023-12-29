@@ -61,8 +61,6 @@
  *                  -   premium
  */
 
-
-
 //course
 /**
  * @swagger
@@ -138,7 +136,7 @@
  *                  content:
  *                      application/json:
  *                          schema:
- *                              $ref: '#/definitions/ListOfCourses'
+ *                                $ref: '#/definitions/publicDefinition'
  */
 
 //get all
