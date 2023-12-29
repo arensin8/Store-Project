@@ -1,3 +1,53 @@
+//definitions
+/**
+ * @swagger
+ *  definitions:
+ *      ListOfCourses:
+ *          type: object
+ *          properties:
+ *              statusCode:
+ *                  type: integer
+ *                  example: 200
+ *              data:
+ *                  type: object
+ *                  properties:
+ *                      courses:
+ *                          type: array
+ *                          items:
+ *                              type: object
+ *                              properties:
+ *                                  _id:
+ *                                      type: string
+ *                                      example: "62822e4ff68cdded54aa928d"
+ *                                  title:
+ *                                      type: string
+ *                                      example: "title of course"
+ *                                  short_text:
+ *                                      type: string
+ *                                      example: "summary text of course"
+ *                                  text:
+ *                                      type: string
+ *                                      example: "text and description of course"
+ *                                  status:
+ *                                      type: string
+ *                                      example: "notStarted | Completed | onGoing"
+ *                                  time:
+ *                                      type: string
+ *                                      example: "01:22:34"
+ *                                  price:
+ *                                      type: integer
+ *                                      example: 250,000
+ *                                  discount:
+ *                                      type: integer
+ *                                      example: 20
+ *                                  studentCount:
+ *                                      type: integer
+ *                                      example: 340
+ *                                  teacher:
+ *                                      type: string
+ *                                      example: "Aren Sinaei"
+ */
+
 //types
 /**
  * @swagger
@@ -10,6 +60,8 @@
  *                  -   free
  *                  -   premium
  */
+
+
 
 //course
 /**
@@ -54,12 +106,11 @@
  *                      description: the discount of course
  *                      example: 20
  *                  image :
- *                        type : string      
+ *                        type : string
  *                        format : binary
  *                  type:
  *                      $ref: '#/components/schemas/Types'
  */
-
 
 //add
 /**
@@ -84,6 +135,10 @@
  *          responses:
  *              201:
  *                  description: created new Product
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              $ref: '#/definitions/ListOfCourses'
  */
 
 //get all
@@ -107,7 +162,7 @@
  *            responses:
  *                  200:
  *                      description : Success
-*/
+ */
 
 //get by id
 /**
@@ -130,4 +185,4 @@
  *            responses:
  *                  200:
  *                      description : Success
-*/
+ */

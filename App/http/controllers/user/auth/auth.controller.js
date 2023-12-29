@@ -28,8 +28,8 @@ class UserAuthController extends Controller {
       if (!result)
         throw createError.Unauthorized("login unsuccessful, please try again");
       return res.status(httpStatus.OK).send({
+        statusCode: httpStatus.OK,
         data: {
-          statusCode: httpStatus.OK,
           message: "The code has been sent to you",
           code,
           phone,
@@ -54,6 +54,7 @@ class UserAuthController extends Controller {
       const accessToken = await SignAccessToken(user._id);
       const refreshToken = await SignRefreshToken(user._id)
       return res.status(httpStatus.OK).json({
+        statusCode : httpStatus.OK,
         data: {
           accessToken,
           refreshToken
@@ -72,6 +73,7 @@ class UserAuthController extends Controller {
       const accessToken = await SignAccessToken(user._id)
       const newRefreshToken = await SignRefreshToken(user._id)
       res.json({
+        statusCode : httpStatus.OK,
         data : {
           accessToken,
           refreshToken : newRefreshToken
@@ -88,15 +90,10 @@ class UserAuthController extends Controller {
       expiresIn: now + 120000,
     };
     const user = await this.checkExistUser(phone);
-    if (user) {
-      return await this.updateUser(phone, { otp });
-    }
-    return await UserModel.create({
-      phone,
-      otp,
-      Role: [ROLES.USER],
-    });
+    if (user) {return await this.updateUser(phone, { otp });}
+    return await UserModel.create({phone,otp,Role: [ROLES.USER],});
   }
+  
   async checkExistUser(phone) {
     const user = await UserModel.findOne({ phone });
     return user;
