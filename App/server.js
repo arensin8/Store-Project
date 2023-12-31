@@ -21,7 +21,7 @@ module.exports = class application {
     this.createServer();
     this.createRoutes();
     this.errorHandling();
-    this.initRedis();
+    // this.initRedis();
   }
   configApplication() {
     this.#app.use(cors());
@@ -47,7 +47,8 @@ module.exports = class application {
             },
             servers: [
               {
-                url: "http://localhost:5000",
+                url: "http://localhost:3000",
+                // url: "http://localhost:5000",
               },
             ],
             // components: {
@@ -69,13 +70,25 @@ module.exports = class application {
   }
   createServer() {
     const http = require("http");
-    http.createServer(this.#app).listen(this.#PORT, () => {
+    const server = http.createServer(this.#app);
+
+    // Add an error event handler
+    server.on("error", (err) => {
+      console.error("Server error:", err);
+      // Handle the error appropriately, e.g., close the server or take corrective action.
+    });
+
+    server.listen(this.#PORT, () => {
       console.log("run > http://localhost:" + this.#PORT);
     });
   }
+
   async connectToMongoDB() {
     try {
-      await mongoose.connect(this.#DB_URL);
+      await mongoose.connect(this.#DB_URL, {
+        useNewUrlParser: true,
+        UseUnifiedTopology: true,
+      });
       console.log("Connected to MongoDB");
 
       // Add your event listeners here, if needed.
@@ -94,9 +107,9 @@ module.exports = class application {
       console.error("Error connecting to MongoDB:", error.message);
     }
   }
-  initRedis() {
-    require("./utils/init_redis");
-  }
+  // initRedis() {
+  //   require("./utils/init_redis");
+  // }
   createRoutes() {
     this.#app.use(AllRoutes);
   }

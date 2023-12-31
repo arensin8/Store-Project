@@ -7,7 +7,7 @@ const {
   ACCESS_TOKEN_SECRET_KEY,
   REFRESH_TOKEN_SECRET_KEY,
 } = require("./constans");
-const redisClient = require("./init_redis");
+// const redisClient = require("./init_redis");
 
 function randomNumberGen() {
   return Math.floor(Math.random() * 90000) + 10000;
@@ -40,7 +40,7 @@ function SignRefreshToken(userId) {
     };
     JWT.sign(payload, REFRESH_TOKEN_SECRET_KEY, options, async (err, token) => {
       if (err) reject(createError.InternalServerError("Internal server error"));
-      await redisClient.SETEX(String(userId), 365 * 24 * 60 * 60, token);
+      // await redisClient.SETEX(String(userId), 365 * 24 * 60 * 60, token);
       resolve(token);
     });
   });
