@@ -1,5 +1,5 @@
 const Joi = require("@hapi/joi");
-const { mongoIdPattern } = require("../../../utils/constans");
+const { mongoIdPattern } = require("../../../utils/constant");
 
 const createProductSchema = Joi.object({
   title: Joi.string()

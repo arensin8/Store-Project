@@ -1,5 +1,5 @@
 const JWT = require("jsonwebtoken");
-const { ACCESS_TOKEN_SECRET_KEY } = require("../../utils/constans");
+const { ACCESS_TOKEN_SECRET_KEY } = require("../../utils/constant");
 const createError = require("http-errors");
 const { UserModel } = require("../../models/users");
 

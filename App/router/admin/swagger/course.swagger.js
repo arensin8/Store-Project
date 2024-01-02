@@ -66,6 +66,21 @@
  * @swagger
  *  components:
  *      schemas:
+ *          AddChapter:
+ *              type: object
+ *              required:
+ *                  -   id
+ *                  -   title       
+ *              properties:
+ *                  id:
+ *                      type: string
+ *                      example: 6593d4fda794c679af158444
+ *                  title: 
+ *                      type: string
+ *                      example: chapter 1 zero - hero javascript
+ *                  text: 
+ *                      type: string
+ *                      example: the describe about this chapter
  *          Course:
  *              type: object
  *              required:
@@ -183,4 +198,36 @@
  *            responses:
  *                  200:
  *                      description : Success
+ */
+
+//add chapter
+/**
+ * @swagger
+ *  /admin/courses/add-chapter:
+ *      put:
+ *          tags: [Course(AdminPanel)]
+ *          summary: create new Chapter for courses
+ *          parameters:
+ *                -    name : accesstoken
+ *                     in : header
+ *                     example : Bearer token...
+ *                     value : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjA5NTE4NTg5OCIsImlhdCI6MTcwMDU2MzEyNCwiZXhwIjoxNzAwNjQ5NTI0fQ.Dx5DIlYS8fdWuLFpnTJ6KZTXg2waJbbetWh6Mtt4_5c
+ *                     required : true
+ *                     type : string
+ *          requestBody:
+ *              required: true
+ *              content:
+ *                  application/x-www-form-urlencoded: 
+ *                      schema:
+ *                          $ref: '#/components/schemas/AddChapter'
+ *                  application/json: 
+ *                      schema:
+ *                          $ref: '#/components/schemas/AddChapter'
+ *          responses:
+ *              200:
+ *                  description: success
+ *                  content:
+ *                      application/json:
+ *                          schema: 
+ *                              $ref: '#/definitions/publicDefinition'
  */

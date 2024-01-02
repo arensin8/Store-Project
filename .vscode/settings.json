@@ -1,5 +1,7 @@
 {
-        "editor.fontSize": 12,
+        "editor.fontSize": 16,
         "editor.tabSize": 4,
-        "files.autoSave": "afterDelay"
+        "files.autoSave": "afterDelay",
+        "workbench.sideBar.location": "left",
+        "workbench.view.alwaysShowHeaderActions": false
 }

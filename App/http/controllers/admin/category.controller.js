@@ -116,6 +116,7 @@ class CategoryController extends Controller {
       next(error);
     }
   }
+  
   async getAllCategoriesWithoutPopulate(req, res, next) {
     try {
       const categories = await CategoriesModel.aggregate([{ $match: {} }]);

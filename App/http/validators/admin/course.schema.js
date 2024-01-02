@@ -1,5 +1,5 @@
 const Joi = require("@hapi/joi");
-const { mongoIdPattern } = require("../../../utils/constans");
+const { mongoIdPattern } = require("../../../utils/constant");
 
 const createCourseSchema = Joi.object({
   title: Joi.string().min(3).max(30).error(new Error("Course title is incorrect")),

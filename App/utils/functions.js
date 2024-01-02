@@ -6,7 +6,7 @@ const path = require("path");
 const {
   ACCESS_TOKEN_SECRET_KEY,
   REFRESH_TOKEN_SECRET_KEY,
-} = require("./constans");
+} = require("./constant");
 // const redisClient = require("./init_redis");
 
 function randomNumberGen() {
