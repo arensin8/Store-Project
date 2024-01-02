@@ -1,11 +1,12 @@
 const { StatusCodes: HttpStatus } = require("http-status-codes");
-const { CoursesModel } = require("../../../models/course");
-const Controller = require("../controller");
+const { CoursesModel } = require("../../../../models/course");
+const Controller = require("../../controller");
 const path = require("path");
-const { createCourseSchema } = require("../../validators/admin/course.schema");
+const {
+  createCourseSchema,
+} = require("../../../validators/admin/course.schema");
 const createHttpError = require("http-errors");
 const { default: mongoose } = require("mongoose");
-const { objectIdValidator } = require("../../validators/public.validator");
 
 class CourseController extends Controller {
   async getAllCourses(req, res, next) {
@@ -80,32 +81,7 @@ class CourseController extends Controller {
       next(error);
     }
   }
-  async addChapter(req, res, next) {
-    try {
-      const {  id,text, title } = req.body;
-      await this.findCourseById(id)
-      const saveChapterResult = await CoursesModel.updateOne(
-        { _id: id },
-        {
-          $push: {
-            chapters: { title, text, episodes: [] },
-          },
-        }
-      );
-      if (saveChapterResult.modifiedCount == 0)
-        throw createHttpError.InternalServerError(
-          "Chapter isn't added successfully"
-        );
-      res.status(HttpStatus.CREATED).json({
-        statusCode: HttpStatus.CREATED,
-        data: {
-          message: "Chapter added successfully",
-        },
-      });
-    } catch (error) {
-      next(error);
-    }
-  }
+  
   async findCourseById(id) {
     if (!mongoose.isValidObjectId(id))
       throw createHttpError.BadRequest("Id is incorrect");

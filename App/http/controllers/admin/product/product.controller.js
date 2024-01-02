@@ -1,17 +1,17 @@
 const createHttpError = require("http-errors");
-const { ProductModel } = require("../../../models/products");
+const { ProductModel } = require("../../../../models/products");
 const {
   deleteFileInPublic,
   returnListOfImagesFromRequest,
   setFeatures,
   copyObject,
   deleteInvalidPropertiesInObject,
-} = require("../../../utils/functions");
+} = require("../../../../utils/functions");
 const {
   createProductSchema,
-} = require("../../validators/admin/product.schema");
-const { objectIdValidator } = require("../../validators/public.validator");
-const Controller = require("../controller");
+} = require("../../../validators/admin/product.schema");
+const { objectIdValidator } = require("../../../validators/public.validator");
+const Controller = require("../../controller");
 const path = require("path");
 const { StatusCodes: httpStatus } = require("http-status-codes");
 

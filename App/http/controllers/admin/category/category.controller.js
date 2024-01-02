@@ -1,11 +1,11 @@
 const createError = require("http-errors");
-const { CategoriesModel } = require("../../../models/categories");
-const Controller = require("../controller");
+const { CategoriesModel } = require("../../../../models/categories");
+const Controller = require("../../controller");
 const {
   addCategorySchema,
   updateCategorySchema,
-} = require("../../validators/admin/category.schema");
-const categories = require("../../../models/categories");
+} = require("../../../validators/admin/category.schema");
+const categories = require("../../../../models/categories");
 const { default: mongoose } = require("mongoose");
 const { StatusCodes: httpStatus } = require("http-status-codes");
 
@@ -116,7 +116,7 @@ class CategoryController extends Controller {
       next(error);
     }
   }
-  
+
   async getAllCategoriesWithoutPopulate(req, res, next) {
     try {
       const categories = await CategoriesModel.aggregate([{ $match: {} }]);

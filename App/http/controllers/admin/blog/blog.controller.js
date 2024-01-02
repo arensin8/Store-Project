@@ -1,7 +1,7 @@
-const { BlogsModel } = require("../../../models/blogs");
-const { deleteFileInPublic } = require("../../../utils/functions");
-const { createBlogSchema } = require("../../validators/admin/blog.schema");
-const Controller = require("../controller");
+const { BlogsModel } = require("../../../../models/blogs");
+const { deleteFileInPublic } = require("../../../../utils/functions");
+const { createBlogSchema } = require("../../../validators/admin/blog.schema");
+const Controller = require("../../controller");
 const path = require("path");
 const createError = require("http-errors");
 const { StatusCodes: httpStatus } = require("http-status-codes");
