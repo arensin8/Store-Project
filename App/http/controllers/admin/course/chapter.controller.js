@@ -46,6 +46,38 @@ class ChapterController extends Controller {
       next(error);
     }
   }
+
+  async removeChapterById(req, res, next) {
+    try {
+        const { chapterID } = req.params;
+        console.log("chapterID:", chapterID);
+        await this.getOneChapter(chapterID);
+
+        const removeChapterResult = await CoursesModel.updateOne(
+            { chapters: { _id: chapterID } },
+            {
+                $pull: {
+                    chapters: { _id: chapterID }
+                }
+            }
+        );
+
+        if (removeChapterResult.nModified === 0) {
+            throw new createHttpError.InternalServerError("حذف فصل انجام نشد");
+        }
+
+        return res.status(HttpStatus.OK).json({
+            statusCode: HttpStatus.OK,
+            data: {
+                message: "حذف فصل با موفقیت انجام شد"
+            }
+        });
+    } catch (error) {
+        next(error);
+    }
+}
+
+
   async getChaptersOfCourse(id) {
     const chapters = await CoursesModel.findOne(
       { _id: id },
@@ -54,6 +86,14 @@ class ChapterController extends Controller {
     if (!chapters)
       throw createHttpError.NotFound("This course don't have any chapters");
     return chapters;
+  }
+  async getOneChapter(id) {
+    const chapter = await CoursesModel.findOne(
+      { "chapters._id": id },
+      { "$.": 1 }
+    );
+    if (!chapter) throw createHttpError.NotFound("Chapter not found");
+    return chapter;
   }
 }
 

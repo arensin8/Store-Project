@@ -1,3 +1,4 @@
+
 /**
  * @swagger
  *  components:
@@ -10,14 +11,23 @@
  *              properties:
  *                  id:
  *                      type: string
- *                      example: 6593d4fda794c679af158444
+ *                      example: 6279e994c1e47a98d0f356d3
  *                  title: 
  *                      type: string
  *                      example: chapter 1 zero - hero javascript
  *                  text: 
  *                      type: string
  *                      example: the describe about this chapter
-*/
+ *          EditChapter:
+ *              type: object     
+ *              properties:
+ *                  title: 
+ *                      type: string
+ *                      example: chapter 1 zero - hero javascript
+ *                  text: 
+ *                      type: string
+ *                      example: the describe about this chapter
+ */
 
 //chapter def
 /**
@@ -107,32 +117,29 @@
  *                              $ref: '#/definitions/chaptersOfCourseDefinition'
  */
 
+//remove chapter
 /**
  * @swagger
- *  components:
- *      schemas:
- *          AddChapter:
- *              type: object
- *              required:
- *                  -   id
- *                  -   title       
- *              properties:
- *                  id:
- *                      type: string
- *                      example: 6279e994c1e47a98d0f356d3
- *                  title: 
- *                      type: string
- *                      example: chapter 1 zero - hero javascript
- *                  text: 
- *                      type: string
- *                      example: the describe about this chapter
- *          EditChapter:
- *              type: object     
- *              properties:
- *                  title: 
- *                      type: string
- *                      example: chapter 1 zero - hero javascript
- *                  text: 
- *                      type: string
- *                      example: the describe about this chapter
+ *  /admin/chapters/remove/{chapterID}:
+ *      patch:
+ *          tags: [Chapter(AdminPanel)]
+ *          summary: remove a Chapter of course
+ *          parameters:
+ *                -    name : accesstoken
+ *                     in : header
+ *                     example : Bearer token...
+ *                     value : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjA5NTE4NTg5OCIsImlhdCI6MTcwMDU2MzEyNCwiZXhwIjoxNzAwNjQ5NTI0fQ.Dx5DIlYS8fdWuLFpnTJ6KZTXg2waJbbetWh6Mtt4_5c
+ *                     required : true
+ *                     type : string
+ *                -    name : chapterID
+ *                     in : path
+ *                     required : true
+ *                     type : string
+ *          responses:
+ *              200:
+ *                  description: success
+ *                  content:
+ *                      application/json:
+ *                          schema: 
+ *                              $ref: '#/definitions/publicDefinition'
  */
