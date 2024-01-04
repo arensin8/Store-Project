@@ -143,3 +143,39 @@
  *                          schema: 
  *                              $ref: '#/definitions/publicDefinition'
  */
+
+//update chapter
+/**
+ * @swagger
+ *  /admin/chapters/update/{chapterId}:
+ *      patch:
+ *          tags: [Chapter(AdminPanel)]
+ *          summary: Update Chapter of course
+ *          parameters:
+ *                -    name : accesstoken
+ *                     in : header
+ *                     example : Bearer token...
+ *                     value : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjA5NTE4NTg5OCIsImlhdCI6MTcwMDU2MzEyNCwiZXhwIjoxNzAwNjQ5NTI0fQ.Dx5DIlYS8fdWuLFpnTJ6KZTXg2waJbbetWh6Mtt4_5c
+ *                     required : true
+ *                     type : string
+ *                -    name : chapterId
+ *                     in : path
+ *                     required : true
+ *                     type : string
+ *          requestBody:
+ *              required: true
+ *              content:
+ *                  application/x-www-form-urlencoded: 
+ *                      schema:
+ *                          $ref: '#/components/schemas/EditChapter'
+ *                  application/json: 
+ *                      schema:
+ *                          $ref: '#/components/schemas/EditChapter'
+ *          responses:
+ *              200:
+ *                  description: success
+ *                  content:
+ *                      application/json:
+ *                          schema: 
+ *                              $ref: '#/definitions/publicDefinition'
+ */

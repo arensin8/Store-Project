@@ -1,4 +1,5 @@
 const { CoursesModel } = require("../../../../models/course");
+const { deleteInvalidPropertiesInObject } = require("../../../../utils/functions");
 const Controller = require("../../controller");
 const { CourseController } = require("./course.controller");
 const createHttpError = require("http-errors");
@@ -70,6 +71,31 @@ class ChapterController extends Controller {
         statusCode: HttpStatus.OK,
         data: {
           message: "Chapter Deleted successfully",
+        },
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async updateChapterById(req, res, next) {
+    try {
+      const { chapterId } = req.params;
+      await this.getOneChapter(chapterId);
+      const data = req.body;
+      deleteInvalidPropertiesInObject(data , ['_id'])
+      const updateChapterResult = await CoursesModel.updateOne(
+        { "chapters._id": chapterId },
+        { $set: { "chapters.$" : data}, }
+      );
+      if (updateChapterResult.modifiedCount == 0)
+        throw new createHttpError.InternalServerError(
+          "Chapter updating failed!"
+        );
+      return res.status(HttpStatus.OK).json({
+        statusCode: HttpStatus.OK,
+        data: {
+          message: "Chapter Updated successfully",
         },
       });
     } catch (error) {
