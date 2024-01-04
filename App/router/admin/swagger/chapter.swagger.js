@@ -120,7 +120,7 @@
 //remove chapter
 /**
  * @swagger
- *  /admin/chapters/remove/{chapterID}:
+ *  /admin/chapters/remove/{chapterId}:
  *      patch:
  *          tags: [Chapter(AdminPanel)]
  *          summary: remove a Chapter of course
@@ -131,7 +131,7 @@
  *                     value : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjA5NTE4NTg5OCIsImlhdCI6MTcwMDU2MzEyNCwiZXhwIjoxNzAwNjQ5NTI0fQ.Dx5DIlYS8fdWuLFpnTJ6KZTXg2waJbbetWh6Mtt4_5c
  *                     required : true
  *                     type : string
- *                -    name : chapterID
+ *                -    name : chapterId
  *                     in : path
  *                     required : true
  *                     type : string
