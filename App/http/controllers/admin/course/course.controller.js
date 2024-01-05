@@ -14,10 +14,27 @@ class CourseController extends Controller {
       const { search } = req.query;
       let courses;
       if (search)
-        courses = await CoursesModel.find({ $text: { $search: search } }).sort({
-          _id: -1,
-        });
-      else courses = await CoursesModel.find({}).sort({ _id: -1 });
+        courses = await CoursesModel.find({ $text: { $search: search } })
+          .populate([
+            {
+              path: "teacher",
+              select: { first_name: 1, last_name: 1, phone: 1, email: 1 },
+            },
+            // { path: "category", select: { children: 0, parent: 0 } },
+          ])
+          .sort({
+            _id: -1,
+          });
+      else
+        courses = await CoursesModel.find({})
+          .populate([
+            {
+              path: "teacher",
+              select: { first_name: 1, last_name: 1, phone: 1, email: 1},
+            },
+            // { path: "category", select: { parent : 0 } },
+          ])
+          .sort({ _id: -1 });
       res.status(HttpStatus.OK).json({
         statusCode: HttpStatus.OK,
         data: {
@@ -81,7 +98,7 @@ class CourseController extends Controller {
       next(error);
     }
   }
-  
+
   async findCourseById(id) {
     if (!mongoose.isValidObjectId(id))
       throw createHttpError.BadRequest("Id is incorrect");

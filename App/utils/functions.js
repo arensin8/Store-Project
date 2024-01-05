@@ -7,6 +7,7 @@ const {
   ACCESS_TOKEN_SECRET_KEY,
   REFRESH_TOKEN_SECRET_KEY,
 } = require("./constant");
+const { log } = require("console");
 // const redisClient = require("./init_redis");
 
 function randomNumberGen() {
@@ -112,6 +113,25 @@ function copyObject(object) {
   return JSON.parse(JSON.stringify(object));
 }
 
+function getTime(seconds) {
+  let total = Math.round(seconds) / 60;
+  let [minutes, percent] = String(total).split(".");
+  let second = Math.round((percent * 60) / 100).toString().substring(0, 2);
+  console.log('second:',second);
+  let hour = 0;
+  if (minutes > 60) {
+      total = minutes / 60
+       let [h1, percent] = String(total).split(".");
+       hour = h1,
+       minutes = Math.round((percent * 60) / 100).toString().substring(0, 2);
+  }
+  if(String(hour).length ==1) hour = `0${hour}`
+  if(String(minutes).length ==1) minutes = `0${minutes}`
+  if(String(second).length ==1) second = `0${second}`
+  
+  return (hour + ":" + minutes + ":" +second)
+}
+
 module.exports = {
   randomNumberGen,
   SignAccessToken,
@@ -121,5 +141,6 @@ module.exports = {
   returnListOfImagesFromRequest,
   copyObject,
   setFeatures,
-  deleteInvalidPropertiesInObject
+  deleteInvalidPropertiesInObject,
+  getTime
 };

@@ -38,6 +38,15 @@ const fileFilter = function (req, file, cb) {
   return cb(createHttpError.BadRequest("File format is invalid"));
 };
 
+const videoFilter = function (req, file, cb) {
+  const ext = path.extname(file.originalname);
+  const mimeTypes = [".mp4", ".mpg", ".mov", ".mkv", ".avi"];
+  if (mimeTypes.includes(ext)) {
+    return cb(null, true);
+  }
+  return cb(createHttpError.BadRequest("Video format is invalid"));
+};
+
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     if (file.originalname) {
@@ -56,13 +65,12 @@ const storage = multer.diskStorage({
     cb(null, null);
   },
 });
-const maxSize = 1 * 1000 * 1000; //1Mb
-const uploadFile = multer({
-  storage,
-  fileFilter,
-  limits: { fileSize: maxSize },
-});
+const imageMaxSize = 1 * 1000 * 1000; //1Mb
+const videoMaxSize = 300 * 1000 * 1000; //300Mb
+const uploadFile = multer({storage,fileFilter,limits: { fileSize: imageMaxSize }});
+const uploadVideo = multer({storage,videoFilter,limits: { fileSize: videoMaxSize }});
 
 module.exports = {
   uploadFile,
+  uploadVideo
 };

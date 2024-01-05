@@ -14,6 +14,17 @@ const createCourseSchema = Joi.object({
   type: Joi.string().regex(/^(free|cash|premium)$/i).error(new Error("type should be cash,free or premium")),
 });
 
+const createEpisodeSchema = Joi.object({
+  title: Joi.string().min(3).max(30).error(new Error("Course title is incorrect")),
+  text: Joi.string().error(new Error("Your text is incorrect")),
+  courseId: Joi.string().regex(mongoIdPattern).error(new Error("Course id is incorrect")),
+  chapterId: Joi.string().regex(mongoIdPattern).error(new Error("Chapter id is incorrect")),
+  type: Joi.string().regex(/^(lock|unlock)$/i).error(new Error("type should be lock or unlock")),
+  filename: Joi.string().regex(/(\.mp4|\.mpg|\.avi|\.mov|\.mkv)$/i).error(new Error("Your uploaded video has invalid format")),
+  fileUploadPath: Joi.allow(),
+});
+
 module.exports = {
   createCourseSchema,
+  createEpisodeSchema
 };
