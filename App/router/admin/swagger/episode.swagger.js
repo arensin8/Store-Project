@@ -49,6 +49,10 @@
  *                      enum:
  *                          -   unlock
  *                          -   lock
+ *                  video: 
+ *                      type: string
+ *                      description: the file of video 
+ *                      format: binary
  */
 
 //add episode
@@ -98,6 +102,39 @@
  *                     name: episodeId
  *                     type : string
  *                     required: true
+ *          responses:
+ *              200:
+ *                  description: Success
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                                $ref: '#/definitions/publicDefinition'
+ */
+
+/**
+ * @swagger
+ *  /admin/episodes/update/{episodeId}:
+ *      patch:
+ *          tags: [Episode(AdminPanel)]
+ *          summary: update episode
+ *          parameters:
+ *                -    name : accesstoken
+ *                     in : header
+ *                     example : Bearer token...
+ *                     value : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjA5NTE4NTg5OCIsImlhdCI6MTcwMTUwNjA5MywiZXhwIjoxNzAxNTkyNDkzfQ.jwU6NAhtDo_1XbssVvKlx-yGwon9DP07Co55Qh9HDO0
+ *                     required : true
+ *                     type : string
+ *                -    in : path
+ *                     name: episodeId
+ *                     type : string
+ *                     required: true
+ * 
+ *          requestBody:
+ *              required: true
+ *              content:
+ *                  multipart/form-data:
+ *                      schema:
+ *                          $ref: '#/components/schemas/EditEpisode'
  *          responses:
  *              200:
  *                  description: Success

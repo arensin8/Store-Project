@@ -5,6 +5,7 @@ const { uploadVideo } = require("../../utils/multer");
 
   router.post('/add', uploadVideo.single('video'),EpisodeController.addEpisode)
   router.delete('/remove/:episodeId',EpisodeController.removeEpisode)
+  router.patch('/update/:episodeId',EpisodeController.editEpisode)
   
   module.exports = {
     AdminApiEpisodeRoutes: router,
