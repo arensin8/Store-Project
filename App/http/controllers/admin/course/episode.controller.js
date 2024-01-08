@@ -4,7 +4,11 @@ const {
 } = require("../../../validators/admin/course.schema");
 const Controller = require("../../controller");
 const path = require("path");
-const { getTime, copyObject } = require("../../../../utils/functions");
+const {
+  getTime,
+  copyObject,
+  deleteInvalidPropertiesInObject,
+} = require("../../../../utils/functions");
 const { CoursesModel } = require("../../../../models/course");
 const { StatusCodes: HttpStatus } = require("http-status-codes");
 const createHttpError = require("http-errors");
@@ -55,19 +59,18 @@ class EpisodeController extends Controller {
 
   async removeEpisode(req, res, next) {
     try {
-      // const { id: episodeId } = await objectIdValidator.validateAsync({
-      //   _id: req.params.episodeId,
-      // });
-      const { episodeId } = req.params;
+      const { id: episodeId } = await objectIdValidator.validateAsync({
+        id: req.params.episodeId,
+      });
       await this.getOneEpisode(episodeId);
       const removeEpisodeResult = await CoursesModel.updateOne(
         { "chapters.episodes._id": episodeId },
         {
           $pull: {
             "chapters.$.episodes": {
-                _id: episodeId
-            }
-        }
+              _id: episodeId,
+            },
+          },
         }
       );
       if (removeEpisodeResult.modifiedCount === 0) {
@@ -88,39 +91,58 @@ class EpisodeController extends Controller {
 
   async editEpisode(req, res, next) {
     try {
-      const {
-        title,
-        text,
-        courseId,
-        chapterId,
-        filename,
-        fileUploadPath,
-        type,
-      } = await createEpisodeSchema.validateAsync(req.body);
-      const videoPath = path.join(fileUploadPath, filename).replace(/\\/g, "/");
-      const videoURL = `${process.env.BASE_URL}:${process.env.APPLICATION_PORT}/${videoPath}`;
-      const seconds = await getVideoDurationInSeconds(videoURL);
-      const time = getTime(seconds);
-      const episode = { title, text, time, videoPath, type };
-      const createEpisodeResult = await CoursesModel.updateOne(
+      const { id: episodeId } = await objectIdValidator.validateAsync({
+        id: req.params.episodeId,
+      });
+      const episode = await this.getOneEpisode(episodeId);
+      console.log(episode);
+      const { filename, fileUploadPath } = req.body;
+      let blackListFields = ["_id"];
+      if (filename && fileUploadPath) {
+        const fileAddress = path.join(fileUploadPath, filename);
+        req.body.videoAddress = fileAddress.replace(/\\/g, "/");
+        const videoURL = `${process.env.BASE_URL}:${process.env.APPLICATION_PORT}/${req.body.videoAddress}`;
+        const seconds = await getVideoDurationInSeconds(videoURL);
+        req.body.time = getTime(seconds);
+        blackListFields.push("filename");
+        blackListFields.push("fileUploadPath");
+      } else {
+        blackListFields.push("time");
+        blackListFields.push("videoAddress");
+      }
+      const data = req.body;
+      console.log(data);
+      deleteInvalidPropertiesInObject(data, blackListFields);
+      const newEpisode = {
+        ...episode,
+        ...data,
+      };
+      const editEpisodeResult = await CoursesModel.updateOne(
         {
-          _id: courseId,
-          "chapters._id": chapterId,
+          "chapters.episodes._id": episodeId,
         },
         {
-          $push: {
-            "chapters.$.episodes": episode,
+          $set: {
+            "chapters.$.episodes.$[episode]": newEpisode,
           },
+        },
+        {
+          arrayFilters: [
+            {
+              "episode._id": episodeId,
+            },
+          ],
         }
       );
-      if (createEpisodeResult.modifiedCount == 0)
+
+      if (!editEpisodeResult.modifiedCount)
         throw new createHttpError.InternalServerError(
-          "Episode creating failed!"
+          "Episode updating failed"
         );
-      return res.status(HttpStatus.CREATED).json({
-        statusCode: HttpStatus.CREATED,
+      return res.status(HttpStatus.OK).json({
+        statusCode: HttpStatus.OK,
         data: {
-          message: "Episode created successfully",
+          message: "Episode updated successfully",
         },
       });
     } catch (error) {
@@ -129,14 +151,16 @@ class EpisodeController extends Controller {
   }
 
   async getOneEpisode(id) {
-    const episode = await CoursesModel.findOne(
+    const course = await CoursesModel.findOne(
       { "chapters.episodes._id": id },
       {
         "chapters.episodes.$": 1,
       }
     );
+    if (!course) throw new createHttpError.NotFound("Course not found!");
+    const episode = await course?.chapters?.[0]?.episodes?.[0];
     if (!episode) throw new createHttpError.NotFound("Episode not found!");
-    return episode;
+    return copyObject(episode);
   }
 }
 
