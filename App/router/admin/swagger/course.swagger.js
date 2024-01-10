@@ -66,7 +66,7 @@
  * @swagger
  *  components:
  *      schemas:
- *          Course:
+ *          Insert-Course:
  *              type: object
  *              required:
  *                  -   title
@@ -108,6 +108,49 @@
  *                        format : binary
  *                  type:
  *                      $ref: '#/components/schemas/Types'
+ *          Edit-discount-course-status:
+ *              type: object
+ *              required: 
+ *                  -   discountStatus
+ *              properties:
+ *                  discountStatus:
+ *                      $ref: '#/components/schemas/Status'
+ *          Edit-Course:
+ *              type: object
+ *              properties:
+ *                  title:
+ *                      type: string
+ *                      description: the title of course
+ *                      example: course title
+ *                  short_text:
+ *                      type: string
+ *                      description: the title of course
+ *                      example: short text about course
+ *                  text:
+ *                      type: string
+ *                      description: the title of course
+ *                      example: text about the course
+ *                  tags:
+ *                      type: array
+ *                      description: the tags of course
+ *                  category:
+ *                      type: string
+ *                      description: the category of course
+ *                      example: 659cfaf3bf60af1ecd132b8c
+ *                  price:
+ *                      type: string
+ *                      description: the title of course
+ *                      example: 2500000
+ *                  discount:
+ *                      type: string
+ *                      description: the title of course
+ *                      example: 20
+ *                  image:
+ *                      type: string
+ *                      format: binary
+ *                  type:
+ *                      $ref: '#/components/schemas/Types'
+ *                      
  */
 
 //add
@@ -129,7 +172,7 @@
  *              content:
  *                  multipart/form-data:
  *                      schema:
- *                          $ref: '#/components/schemas/Course'
+ *                          $ref: '#/components/schemas/Insert-Course'
  *          responses:
  *              201:
  *                  description: created new Product
@@ -185,4 +228,37 @@
  *                      description : Success
  */
 
-
+//update by id
+/**
+ * @swagger
+ *  /admin/courses/update/{id}:
+ *      patch:
+ *          tags: [Course(AdminPanel)]
+ *          summary: edit and save course
+ *          parameters:
+ *              -   name : accesstoken
+ *                  in : header
+ *                  example : Bearer token...
+ *                  value : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjA5NTE4NTg5OCIsImlhdCI6MTcwMDU2MzEyNCwiZXhwIjoxNzAwNjQ5NTI0fQ.Dx5DIlYS8fdWuLFpnTJ6KZTXg2waJbbetWh6Mtt4_5c
+ *                  required : true
+ *                  type : string
+ *              -   in: path
+ *                  name: id
+ *                  type: string
+ *                  required: true
+ *          requestBody:
+ *              required: true
+ *              content:
+ *                  multipart/form-data:
+ *                      schema:
+ *                          $ref: '#/components/schemas/Edit-Course'
+ *          
+ *          responses:
+ *              201:
+ *                  description: created new course
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              $ref: '#/definitions/publicDefinition'
+ * 
+ */

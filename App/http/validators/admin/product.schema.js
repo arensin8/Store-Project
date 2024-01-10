@@ -12,7 +12,7 @@ const createProductSchema = Joi.object({
     .min(0)
     .max(20)
     .error(new Error("Tags must be lower than 20")),
-  colors: Joi.string()
+  colors: Joi.array().min(0)
     .max(255)
     .error(new Error("colors must be lower than 20")),
   category: Joi.string()

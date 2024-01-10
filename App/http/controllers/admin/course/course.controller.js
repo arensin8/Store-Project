@@ -7,6 +7,12 @@ const {
 } = require("../../../validators/admin/course.schema");
 const createHttpError = require("http-errors");
 const { default: mongoose } = require("mongoose");
+const {
+  copyObject,
+  deleteInvalidPropertiesInObject,
+  deleteFileInPublic,
+  getCourseDuration,
+} = require("../../../../utils/functions");
 
 class CourseController extends Controller {
   async getAllCourses(req, res, next) {
@@ -30,7 +36,7 @@ class CourseController extends Controller {
           .populate([
             {
               path: "teacher",
-              select: { first_name: 1, last_name: 1, phone: 1, email: 1},
+              select: { first_name: 1, last_name: 1, phone: 1, email: 1 },
             },
             // { path: "category", select: { parent : 0 } },
           ])
@@ -65,7 +71,6 @@ class CourseController extends Controller {
         tags,
         category,
         image,
-        time: "00:00:00",
         teacher,
       });
       if (!course?._id)
@@ -87,6 +92,7 @@ class CourseController extends Controller {
     try {
       const { id } = req.params;
       const course = await CoursesModel.findById(id);
+      course.time = getCourseDuration(course.chapters)
       if (!course) throw createHttpError.NotFound("Course not found");
       return res.status(HttpStatus.OK).json({
         statusCode: HttpStatus.OK,
@@ -98,10 +104,49 @@ class CourseController extends Controller {
       next(error);
     }
   }
+  async updateCourse(req, res, next) {
+    try {
+      const { id } = req.params;
+      const course = await this.findCourseById(id);
+      const data = copyObject(req.body);
+      let blackListFields = [
+        "time",
+        "students",
+        "comments",
+        "chapters",
+        "episodes",
+        "likes",
+        "dislikes",
+        "bookmarks",
+        "filename",
+        "fileUploadPath",
+      ];
+      deleteInvalidPropertiesInObject(data, blackListFields);
+      const { filename, fileUploadPath } = req.body;
+      if (req.file) {
+        data.image = path.join(fileUploadPath, filename);
+        deleteFileInPublic(course.image);
+      }
+      const updateCourseResult = await CoursesModel.findOneAndUpdate(
+        { _id: id },
+        data
+      );
+      if (updateCourseResult.modifiedCount == 0)
+        throw new createHttpError.InternalServerError("Course updating failed");
+      return res.status(HttpStatus.OK).json({
+        statusCode: HttpStatus.OK,
+        data: {
+          message: "Course updated successfully",
+        },
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
 
   async findCourseById(id) {
     if (!mongoose.isValidObjectId(id))
-      throw createHttpError.BadRequest("Id is incorrect");
+      throw new createHttpError.BadRequest("Id is incorrect");
     const course = await CoursesModel.findById(id);
     if (!course) throw createHttpError.NotFound("course not found");
     return course;

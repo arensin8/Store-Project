@@ -14,10 +14,15 @@ router.post(
 );
 router.get("/all", CourseController.getAllCourses);
 router.get("/:id", CourseController.getCourseById);
+router.patch(
+  "/update/:id",
+  uploadFile.single("image"),
+  stringToArray("tags"),
+  CourseController.updateCourse
+);
 // router.post()
 // router.delete()
 // router.put()
-// router.patch()
 // router.get()
 
 module.exports = {

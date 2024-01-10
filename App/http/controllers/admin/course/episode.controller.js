@@ -158,7 +158,7 @@ class EpisodeController extends Controller {
       }
     );
     if (!course) throw new createHttpError.NotFound("Course not found!");
-    const episode = await course?.chapters?.[0]?.episodes?.[0];
+    const episode = course?.chapters?.[0]?.episodes?.[0];
     if (!episode) throw new createHttpError.NotFound("Episode not found!");
     return copyObject(episode);
   }

@@ -8,12 +8,7 @@ const { uploadFile } = require("../../utils/multer");
 const router = require("express").Router();
 
 router.get("/all", ProductController.getAllProducts);
-router.post(
-  "/add",
-  uploadFile.array("images", 10),
-  stringToArray("tags", "colors"),
-  ProductController.addProduct
-);
+router.post("/add",uploadFile.array("images", 10),stringToArray("tags", "colors"),ProductController.addProduct);
 router.get("/:id", ProductController.getProductById);
 router.patch(
   "/edit/:id",

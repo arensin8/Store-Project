@@ -1,5 +1,6 @@
 const { default: mongoose } = require("mongoose");
 const { CommentSchema } = require("./public.schema");
+const { getCourseDuration } = require("../utils/functions");
 
 const Episodes = new mongoose.Schema(
   {
@@ -11,6 +12,10 @@ const Episodes = new mongoose.Schema(
   },
   { toJSON: { virtuals: true } }
 );
+
+Episodes.virtual("videoURL").get(function(){
+  return `${process.env.BASE_URL}:${process.env.APPLICATION_PORT}/${this.videoPath}`
+});
 
 const Chapter = new mongoose.Schema({
   title: { type: String, required: true },
@@ -42,7 +47,6 @@ const CourseSchema = new mongoose.Schema(
       default: "free" /*free,cash,premium*/,
       required: true,
     },
-    time: { type: String, default: "00:00:00" },
     status: {
       type: String,
       default: "notStarted" /*notStarted,completed,ongoing */,
@@ -59,6 +63,14 @@ const CourseSchema = new mongoose.Schema(
 );
 
 CourseSchema.index({ title: "text", short_text: "text", text: "text" });
+
+CourseSchema.virtual("imageURL").get(function(){
+  return `${process.env.BASE_URL}:${process.env.APPLICATION_PORT}/${this.image}`
+});
+
+CourseSchema.virtual("totalTime").get(function(){
+  return getCourseDuration(this.chapters)
+});
 
 module.exports = {
   CoursesModel: mongoose.model("course", CourseSchema),

@@ -5,12 +5,12 @@
  *      schemas:
  *          Color:
  *              type: array
- *              items:
+ *              items: 
  *                  type: string
  *                  enum:
  *                      -   black
  *                      -   white
- *                      -   gray
+ *                      -   gray                
  *                      -   red
  *                      -   blue
  *                      -   green
@@ -50,7 +50,7 @@
  *                  category:
  *                      type: string
  *                      description: the title of product
- *                      example: 6279e994c1e47a98d0f356d3
+ *                      example: 659cfaecbf60af1ecd132b89
  *                  price:
  *                      type: string
  *                      description: the title of product
