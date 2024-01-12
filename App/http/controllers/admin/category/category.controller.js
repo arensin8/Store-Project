@@ -5,7 +5,6 @@ const {
   addCategorySchema,
   updateCategorySchema,
 } = require("../../../validators/admin/category.schema");
-const categories = require("../../../../models/categories");
 const { default: mongoose } = require("mongoose");
 const { StatusCodes: httpStatus } = require("http-status-codes");
 
@@ -134,26 +133,26 @@ class CategoryController extends Controller {
     try {
       const { id: _id } = req.params;
       const idToSearch = new mongoose.Types.ObjectId(_id);
-      // const category = await CategoriesModel.aggregate([
-      //   {
-      //     $match: { _id: idToSearch },
-      //   },
-      //   {
-      //     $lookup: {
-      //       from: "categories",
-      //       localField: "_id",
-      //       foreignField: "parent",
-      //       as: "children",
-      //     },
-      //   },
-      //   {
-      //     $project: {
-      //       __v: 0,
-      //       "children.__v": 0,
-      //       "children.parent": 0,
-      //     },
-      //   },
-      // ]);
+      const category = await CategoriesModel.aggregate([
+        {
+          $match: { _id: idToSearch },
+        },
+        {
+          $lookup: {
+            from: "categories",
+            localField: "_id",
+            foreignField: "parent",
+            as: "children",
+          },
+        },
+        {
+          $project: {
+            __v: 0,
+            "children.__v": 0,
+            "children.parent": 0,
+          },
+        },
+      ]);
 
       return res.status(httpStatus.OK).json({
         statusCode: httpStatus.OK,
@@ -168,9 +167,10 @@ class CategoryController extends Controller {
   async getAllParents(req, res, next) {
     try {
       const parents = await CategoriesModel.find(
-        { parent: undefined },
+        { parent: { $exists: false } },
         { __v: 0 }
-      );
+      );      
+  
       return res.status(httpStatus.OK).json({
         statusCode: httpStatus.OK,
         data: {
@@ -181,6 +181,7 @@ class CategoryController extends Controller {
       next(error);
     }
   }
+  
   async getChildOfParents(req, res, next) {
     try {
       const { parent } = req.params;

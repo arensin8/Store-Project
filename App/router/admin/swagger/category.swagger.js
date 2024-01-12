@@ -24,13 +24,6 @@
  *      post :
  *            tags : [Admin-Panel]
  *            summary : create new category title
- *            parameters :
- *            -   name : accesstoken
- *                in : header
- *                example : Bearer token...
- *                value : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjA5NTE4NTg5OCIsImlhdCI6MTcwMDU2MzEyNCwiZXhwIjoxNzAwNjQ5NTI0fQ.Dx5DIlYS8fdWuLFpnTJ6KZTXg2waJbbetWh6Mtt4_5c
- *                required : true
- *                type : string
  *            requestBody:
  *              required: true
  *              content:
@@ -53,16 +46,9 @@
 /**
  * @swagger
  *  /admin/category/parents:
- *      get :
+ *      get:
  *            tags : [Admin-Panel]
  *            summary : Get all parents of categories
- *            parameters:
- *                -    name : accesstoken
- *                     in : header
- *                     example : Bearer token...
- *                     value : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjA5NTE4NTg5OCIsImlhdCI6MTcwMDU2MzEyNCwiZXhwIjoxNzAwNjQ5NTI0fQ.Dx5DIlYS8fdWuLFpnTJ6KZTXg2waJbbetWh6Mtt4_5c
- *                     required : true
- *                     type : string
  *            responses:
  *                  200:
  *                      description : Success
@@ -76,12 +62,6 @@
  *            tags : [Admin-Panel]
  *            summary : Get all children of parent
  *            parameters:
- *                -    name : accesstoken
- *                     in : header
- *                     example : Bearer token...
- *                     value : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjA5NTE4NTg5OCIsImlhdCI6MTcwMDU2MzEyNCwiZXhwIjoxNzAwNjQ5NTI0fQ.Dx5DIlYS8fdWuLFpnTJ6KZTXg2waJbbetWh6Mtt4_5c
- *                     required : true
- *                     type : string
  *                -    in : path
  *                     type : string
  *                     name: parent
@@ -98,13 +78,6 @@
  *      get :
  *            tags : [Admin-Panel]
  *            summary : Get all categories
- *            parameters:
- *                -    name : accesstoken
- *                     in : header
- *                     example : Bearer token...
- *                     value : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjA5NTE4NTg5OCIsImlhdCI6MTcwMDU2MzEyNCwiZXhwIjoxNzAwNjQ5NTI0fQ.Dx5DIlYS8fdWuLFpnTJ6KZTXg2waJbbetWh6Mtt4_5c
- *                     required : true
- *                     type : string
  *            responses:
  *                  200:
  *                      description : Success
@@ -118,12 +91,6 @@
  *            tags : [Admin-Panel]
  *            summary : remove category by object-id
  *            parameters:
- *                -    name : accesstoken
- *                     in : header
- *                     example : Bearer token...
- *                     value : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjA5NTE4NTg5OCIsImlhdCI6MTcwMDU2MzEyNCwiZXhwIjoxNzAwNjQ5NTI0fQ.Dx5DIlYS8fdWuLFpnTJ6KZTXg2waJbbetWh6Mtt4_5c
- *                     required : true
- *                     type : string
  *                -    in : path
  *                     type : string
  *                     name: id
@@ -144,13 +111,6 @@
  *      get :
  *            tags : [Admin-Panel]
  *            summary : Get all categories without populate and nested structure
- *            parameters:
- *                -    name : accesstoken
- *                     in : header
- *                     example : Bearer token...
- *                     value : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjA5NTE4NTg5OCIsImlhdCI6MTcwMDU2MzEyNCwiZXhwIjoxNzAwNjQ5NTI0fQ.Dx5DIlYS8fdWuLFpnTJ6KZTXg2waJbbetWh6Mtt4_5c
- *                     required : true
- *                     type : string
  *            responses:
  *                  200:
  *                      description : Success
@@ -164,16 +124,11 @@
  *            tags : [Admin-Panel]
  *            summary : Get category by objet-id
  *            parameters:
+
  *                -    in : path
  *                     type : string
  *                     name: id
  *                     required: true
- *                -    name : accesstoken
- *                     in : header
- *                     example : Bearer token...
- *                     value : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjA5NTE4NTg5OCIsImlhdCI6MTcwMDU2MzEyNCwiZXhwIjoxNzAwNjQ5NTI0fQ.Dx5DIlYS8fdWuLFpnTJ6KZTXg2waJbbetWh6Mtt4_5c
- *                     required : true
- *                     type : string
  *            responses:
  *                  200:
  *                      description : Success
@@ -187,12 +142,6 @@
  *      tags : [Admin-Panel]
  *      summary : Edit or update category with object id
  *      parameters:
- *        - name : accesstoken
- *          in : header
- *          example : Bearer token...
- *          value : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjA5NTE4NTg5OCIsImlhdCI6MTcwMDU2MzEyNCwiZXhwIjoxNzAwNjQ5NTI0fQ.Dx5DIlYS8fdWuLFpnTJ6KZTXg2waJbbetWh6Mtt4_5c
- *          required : true
- *          type : string
  *        - in: path
  *          name: id
  *          type: string

@@ -3,6 +3,8 @@
  *      tags :
  *        -  name : Admin-Panel
  *           description : Admin actions(add,remove,edit ...) 
+ *        -  name : RBAC(AdminPanel)
+ *           description : RoleBaseAccessControl (create and manage roles and permissions)
  *        -  name : Users(AdminPanel)
  *           description : Manage users of website
  *        -  name : Course(AdminPanel)

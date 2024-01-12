@@ -62,13 +62,6 @@
  *      post:
  *          tags: [Episode(AdminPanel)]
  *          summary: create and save new episode
- *          parameters:
- *                -    name : accesstoken
- *                     in : header
- *                     example : Bearer token...
- *                     value : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjA5NTE4NTg5OCIsImlhdCI6MTcwMTUwNjA5MywiZXhwIjoxNzAxNTkyNDkzfQ.jwU6NAhtDo_1XbssVvKlx-yGwon9DP07Co55Qh9HDO0
- *                     required : true
- *                     type : string
  *          requestBody:
  *              required: true
  *              content:
@@ -92,12 +85,6 @@
  *          tags: [Episode(AdminPanel)]
  *          summary: remove episode
  *          parameters:
- *                -    name : accesstoken
- *                     in : header
- *                     example : Bearer token...
- *                     value : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjA5NTE4NTg5OCIsImlhdCI6MTcwMTUwNjA5MywiZXhwIjoxNzAxNTkyNDkzfQ.jwU6NAhtDo_1XbssVvKlx-yGwon9DP07Co55Qh9HDO0
- *                     required : true
- *                     type : string
  *                -    in : path
  *                     name: episodeId
  *                     type : string
@@ -118,12 +105,6 @@
  *          tags: [Episode(AdminPanel)]
  *          summary: update episode
  *          parameters:
- *                -    name : accesstoken
- *                     in : header
- *                     example : Bearer token...
- *                     value : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjA5NTE4NTg5OCIsImlhdCI6MTcwMTUwNjA5MywiZXhwIjoxNzAxNTkyNDkzfQ.jwU6NAhtDo_1XbssVvKlx-yGwon9DP07Co55Qh9HDO0
- *                     required : true
- *                     type : string
  *                -    in : path
  *                     name: episodeId
  *                     type : string

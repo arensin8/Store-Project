@@ -62,13 +62,6 @@
  *      get :
  *            tags : [Blogs(AdminPanel)]
  *            summary : get all blogs
- *            parameters :
- *            -   name : accesstoken
- *                in : header
- *                example : Bearer token...
- *                value : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjA5NTE2NzI0NSIsImlhdCI6MTcwMDQyMDQ1NywiZXhwIjoxNzAwNTA2ODU3fQ.REc4UQgejTChMUosHuWNB7xZGWdeow1ZJ4pXgw4SulA
- *                required : true
- *                type : string
  *            responses:
  *                  200:
  *                      description : Success
@@ -81,13 +74,6 @@
  *      post :
  *            tags : [Blogs(AdminPanel)]
  *            summary : create a new blog
- *            parameters :
- *            -   name : accesstoken
- *                in : header
- *                example : Bearer token...
- *                value : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjA5NTE4NTg5OCIsImlhdCI6MTcwMTA3MDgyNiwiZXhwIjoxNzAxMTU3MjI2fQ.NupZT9x7ec8yTyM6HYzzf6_uBvPNQ-DIo-xWLuW45_g
- *                required : true
- *                type : string
  *            requestBody:
  *              required: true
  *              content:
@@ -111,12 +97,6 @@
  *            tags : [Blogs(AdminPanel)]
  *            summary : get blog by id and populate fields
  *            parameters :
- *            -   name : accesstoken
- *                in : header
- *                example : Bearer token...
- *                value : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjA5NTE2NzI0NSIsImlhdCI6MTcwMDQyMDQ1NywiZXhwIjoxNzAwNTA2ODU3fQ.REc4UQgejTChMUosHuWNB7xZGWdeow1ZJ4pXgw4SulA
- *                required : true
- *                type : string
  *            -   name : id
  *                in : path
  *                required : true
@@ -134,12 +114,6 @@
  *            tags : [Blogs(AdminPanel)]
  *            summary : delete blog by id and populate fields
  *            parameters :
- *            -   name : accesstoken
- *                in : header
- *                example : Bearer token...
- *                value : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjA5NTE2NzI0NSIsImlhdCI6MTcwMDQyMDQ1NywiZXhwIjoxNzAwNTA2ODU3fQ.REc4UQgejTChMUosHuWNB7xZGWdeow1ZJ4pXgw4SulA
- *                required : true
- *                type : string
  *            -   name : id
  *                in : path
  *                required : true
@@ -163,12 +137,6 @@
  *            consumes: 
  *              -   multipart/form-data
  *            parameters :
- *               -   name : accesstoken
- *                   in : header
- *                   example : Bearer token...
- *                   value : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjA5NTE4NTg5OCIsImlhdCI6MTcwMDU2MzEyNCwiZXhwIjoxNzAwNjQ5NTI0fQ.Dx5DIlYS8fdWuLFpnTJ6KZTXg2waJbbetWh6Mtt4_5c
- *                   required : true
- *                   type : string
  *               -   name : id
  *                   in : path
  *                   type : string

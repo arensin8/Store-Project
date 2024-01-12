@@ -65,13 +65,6 @@
  *      put:
  *          tags: [Chapter(AdminPanel)]
  *          summary: create new Chapter for courses
- *          parameters:
- *                -    name : accesstoken
- *                     in : header
- *                     example : Bearer token...
- *                     value : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjA5NTE4NTg5OCIsImlhdCI6MTcwMDU2MzEyNCwiZXhwIjoxNzAwNjQ5NTI0fQ.Dx5DIlYS8fdWuLFpnTJ6KZTXg2waJbbetWh6Mtt4_5c
- *                     required : true
- *                     type : string
  *          requestBody:
  *              required: true
  *              content:
@@ -98,12 +91,6 @@
  *          tags: [Chapter(AdminPanel)]
  *          summary: get Chapters of course
  *          parameters:
- *                -    name : accesstoken
- *                     in : header
- *                     example : Bearer token...
- *                     value : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjA5NTE4NTg5OCIsImlhdCI6MTcwMDU2MzEyNCwiZXhwIjoxNzAwNjQ5NTI0fQ.Dx5DIlYS8fdWuLFpnTJ6KZTXg2waJbbetWh6Mtt4_5c
- *                     required : true
- *                     type : string
  *                -    name : courseID
  *                     in : path
  *                     required : true
@@ -125,12 +112,6 @@
  *          tags: [Chapter(AdminPanel)]
  *          summary: remove a Chapter of course
  *          parameters:
- *                -    name : accesstoken
- *                     in : header
- *                     example : Bearer token...
- *                     value : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjA5NTE4NTg5OCIsImlhdCI6MTcwMDU2MzEyNCwiZXhwIjoxNzAwNjQ5NTI0fQ.Dx5DIlYS8fdWuLFpnTJ6KZTXg2waJbbetWh6Mtt4_5c
- *                     required : true
- *                     type : string
  *                -    name : chapterId
  *                     in : path
  *                     required : true
@@ -152,12 +133,6 @@
  *          tags: [Chapter(AdminPanel)]
  *          summary: Update Chapter of course
  *          parameters:
- *                -    name : accesstoken
- *                     in : header
- *                     example : Bearer token...
- *                     value : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjA5NTE4NTg5OCIsImlhdCI6MTcwMDU2MzEyNCwiZXhwIjoxNzAwNjQ5NTI0fQ.Dx5DIlYS8fdWuLFpnTJ6KZTXg2waJbbetWh6Mtt4_5c
- *                     required : true
- *                     type : string
  *                -    name : chapterId
  *                     in : path
  *                     required : true

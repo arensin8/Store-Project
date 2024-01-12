@@ -164,13 +164,6 @@
  *      post:
  *          tags: [Product(AdminPanel)]
  *          summary: create and save product
- *          parameters:
- *                -    name : accesstoken
- *                     in : header
- *                     example : Bearer token...
- *                     value : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjA5NTE4NTg5OCIsImlhdCI6MTcwMTUwNjA5MywiZXhwIjoxNzAxNTkyNDkzfQ.jwU6NAhtDo_1XbssVvKlx-yGwon9DP07Co55Qh9HDO0
- *                     required : true
- *                     type : string
  *          requestBody:
  *              required: true
  *              content:
@@ -194,12 +187,6 @@
  *          tags: [Product(AdminPanel)]
  *          summary: Get all product
  *          parameters:
- *                -    name : accesstoken
- *                     in : header
- *                     example : Bearer token...
- *                     value : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjA5NTE4NTg5OCIsImlhdCI6MTcwMTUwNjA5MywiZXhwIjoxNzAxNTkyNDkzfQ.jwU6NAhtDo_1XbssVvKlx-yGwon9DP07Co55Qh9HDO0
- *                     required : true
- *                     type : string
  *                -    in : query
  *                     name : search
  *                     type : string
@@ -217,12 +204,6 @@
  *          tags: [Product(AdminPanel)]
  *          summary: Get product by id
  *          parameters:
- *                -    name : accesstoken
- *                     in : header
- *                     example : Bearer token...
- *                     value : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjA5NTE4NTg5OCIsImlhdCI6MTcwMjA0Nzg3MCwiZXhwIjoxNzAyMTM0MjcwfQ.b_5ygyBQkhJuDm2icmSbJmmTxnm-FoOt1WqTaZ0S0Q8
- *                     required : true
- *                     type : string
  *                -    name : id
  *                     in : path
  *                     required : true
@@ -240,12 +221,6 @@
  *          tags: [Product(AdminPanel)]
  *          summary: Remove product by id
  *          parameters:
- *                -    name : accesstoken
- *                     in : header
- *                     example : Bearer token...
- *                     value : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjA5NTE4NTg5OCIsImlhdCI6MTcwMjA0Nzg3MCwiZXhwIjoxNzAyMTM0MjcwfQ.b_5ygyBQkhJuDm2icmSbJmmTxnm-FoOt1WqTaZ0S0Q8
- *                     required : true
- *                     type : string
  *                -    name : id
  *                     in : path
  *                     required : true
@@ -267,12 +242,6 @@
  *          tags: [Product(AdminPanel)]
  *          summary: Update product
  *          parameters:
- *                -    name : accesstoken
- *                     in : header
- *                     example : Bearer token...
- *                     value : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjA5NTE4NTg5OCIsImlhdCI6MTcwMTUwNjA5MywiZXhwIjoxNzAxNTkyNDkzfQ.jwU6NAhtDo_1XbssVvKlx-yGwon9DP07Co55Qh9HDO0
- *                     required : true
- *                     type : string
  *                -    name : id
  *                     in : path
  *                     required : true

@@ -160,13 +160,6 @@
  *      post:
  *          tags: [Course(AdminPanel)]
  *          summary: create and save course
- *          parameters:
- *                -    name : accesstoken
- *                     in : header
- *                     example : Bearer token...
- *                     value : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjA5NTE4NTg5OCIsImlhdCI6MTcwMTUwNjA5MywiZXhwIjoxNzAxNTkyNDkzfQ.jwU6NAhtDo_1XbssVvKlx-yGwon9DP07Co55Qh9HDO0
- *                     required : true
- *                     type : string
  *          requestBody:
  *              required: true
  *              content:
@@ -190,12 +183,6 @@
  *            tags : [Course(AdminPanel)]
  *            summary : Get all courses
  *            parameters:
- *                -    name : accesstoken
- *                     in : header
- *                     example : Bearer token...
- *                     value : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjA5NTE4NTg5OCIsImlhdCI6MTcwMDU2MzEyNCwiZXhwIjoxNzAwNjQ5NTI0fQ.Dx5DIlYS8fdWuLFpnTJ6KZTXg2waJbbetWh6Mtt4_5c
- *                     required : true
- *                     type : string
  *                -    in : query
  *                     name : search
  *                     type : string
@@ -213,12 +200,6 @@
  *            tags : [Course(AdminPanel)]
  *            summary : Get course by id
  *            parameters:
- *                -    name : accesstoken
- *                     in : header
- *                     example : Bearer token...
- *                     value : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjA5NTE4NTg5OCIsImlhdCI6MTcwMDU2MzEyNCwiZXhwIjoxNzAwNjQ5NTI0fQ.Dx5DIlYS8fdWuLFpnTJ6KZTXg2waJbbetWh6Mtt4_5c
- *                     required : true
- *                     type : string
  *                -    in : path
  *                     name : id
  *                     type : string
@@ -236,12 +217,6 @@
  *          tags: [Course(AdminPanel)]
  *          summary: edit and save course
  *          parameters:
- *              -   name : accesstoken
- *                  in : header
- *                  example : Bearer token...
- *                  value : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjA5NTE4NTg5OCIsImlhdCI6MTcwMDU2MzEyNCwiZXhwIjoxNzAwNjQ5NTI0fQ.Dx5DIlYS8fdWuLFpnTJ6KZTXg2waJbbetWh6Mtt4_5c
- *                  required : true
- *                  type : string
  *              -   in: path
  *                  name: id
  *                  type: string
