@@ -58,6 +58,7 @@ const CourseSchema = new mongoose.Schema(
   {
     toJSON: {
       virtuals: true,
+      versionKey : false
     },
   }
 );

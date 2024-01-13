@@ -20,9 +20,9 @@
  *                                  _id:
  *                                      type: string
  *                                      example: "62822e4ff68cdded54aa928d"
- *                                  title:
+ *                                  name:
  *                                      type: string
- *                                      example: "title of permission"
+ *                                      example: "name of permission"
  *                                  description:
  *                                      type: string
  *                                      example: "desc of permission"
@@ -42,7 +42,7 @@
  *              properties:
  *                  name:
  *                      type: string
- *                      description: the title of permission
+ *                      description: the name of permission
  *                  description:
  *                      type: string
  *                      description: the describe of permission
@@ -58,7 +58,7 @@
  *              properties:
  *                  name:
  *                      type: string
- *                      description: the title of permission
+ *                      description: the name of permission
  *                  description:
  *                      type: string
  *                      description: the desc of permission
@@ -94,7 +94,6 @@
  *                  application/x-www-form-urlencoded:
  *                      schema:
  *                          $ref: '#/components/schemas/Permission'
- *          
  *          responses:
  *              201:
  *                  description: created new Permission

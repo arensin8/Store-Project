@@ -20,6 +20,7 @@ const UserSchema = new mongoose.Schema(
     toJSON: {
       virtuals: true,
     },
+    versionKey: false,
   }
 );
 
