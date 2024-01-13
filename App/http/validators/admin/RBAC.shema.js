@@ -4,7 +4,7 @@ const { mongoIdPattern } = require("../../../utils/constant");
 const addRoleSchema = Joi.object({
   title: Joi.string().min(3).max(30).error(new Error("Role title is incorrect")),
   permissions: Joi.array().items(Joi.string().regex(mongoIdPattern) ).error(new Error("Entered permissions are incorrect!")),
-  description: Joi.allow(),
+  description: Joi.string().min(3).max(100).error(new Error("Role desc is incorrect")),
 });
 
 const addPermissionSchema = Joi.object({

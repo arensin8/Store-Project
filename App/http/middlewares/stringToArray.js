@@ -15,6 +15,10 @@ const stringToArray = function (...args) {
             req.body[field] = [req.body[field]];
           }
         }
+        if(Array.isArray(req.body[field])){
+          req.body[field] = req.body[field].map(item => item.trim())
+          req.body[field] = [... new Set(req.body[field])]
+        }
       } else {
         req.body[field] = [];
       }

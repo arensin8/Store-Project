@@ -7,6 +7,7 @@ const { AdminApiEpisodeRoutes } = require("./episode");
 const { AdminApiUserRoutes } = require("./user");
 const { AdminApiRoleRoutes } = require("./role");
 const { AdminApiPermissionRoutes } = require("./permission");
+const { checkPermissions } = require("../../http/middlewares/permissions.guard");
 const router = require("express").Router();
 
 
@@ -16,7 +17,7 @@ router.use("/blogs", AdminApiBlogRoutes);
 router.use("/courses", AdminApiCourseRoutes);
 router.use("/chapters", AdminApiChapterRoutes);
 router.use("/episodes", AdminApiEpisodeRoutes);
-router.use("/users", AdminApiUserRoutes);
+router.use("/users", checkPermissions(['user']) ,AdminApiUserRoutes);
 router.use("/roles", AdminApiRoleRoutes);
 router.use("/permissions", AdminApiPermissionRoutes);
 

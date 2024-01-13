@@ -4,6 +4,7 @@ const Controller = require("../../controller");
 const createHttpError = require("http-errors");
 const { addRoleSchema } = require("../../../validators/admin/RBAC.shema");
 const { default: mongoose } = require("mongoose");
+const { copyObject, deleteInvalidPropertiesInObject } = require("../../../../utils/functions");
 
 class RoleController extends Controller {
   async getAllRoles(req, res, next) {
@@ -45,13 +46,30 @@ class RoleController extends Controller {
     try {
         const {field} = req.params;
         const role = await this.findRoleByIdOrTitle(field)
-        console.log(role);
         const removeRoleResult = await RoleModel.deleteOne({_id : role._id})
         if(!removeRoleResult.deletedCount) throw new createHttpError.InternalServerError('Role deleting failed')
         return res.status(HttpStatus.OK).json({
             statusCode : HttpStatus.OK,
             data : {
                 message : 'Role deleted successfully'
+            }
+        })
+    } catch (error) {
+        next(error)
+    }
+}
+async updateRoleById(req,res,next){
+    try {
+        const {id} = req.params;
+        const role = await this.findRoleByIdOrTitle(id)
+        const data = copyObject(req.body)
+        deleteInvalidPropertiesInObject(data , [])
+        const updateRoleResult = await RoleModel.updateOne({_id : role._id} , {$set : data})
+        if(!updateRoleResult.modifiedCount) throw new createHttpError.InternalServerError('Role updating failed')
+        return res.status(HttpStatus.OK).json({
+            statusCode : HttpStatus.OK,
+            data : {
+                message : 'Role updated successfully'
             }
         })
     } catch (error) {
