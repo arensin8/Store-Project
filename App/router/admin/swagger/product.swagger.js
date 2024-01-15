@@ -40,28 +40,28 @@
  *                      description: the title of product
  *                  short_text:
  *                      type: string
- *                      description: the title of product
+ *                      description: the short text of product
  *                  text:
  *                      type: string
- *                      description: the title of product
+ *                      description: the text of product
  *                  tags:
  *                      type: array
- *                      description: the title of product
+ *                      description: the tags of product
  *                  category:
  *                      type: string
- *                      description: the title of product
+ *                      description: the category of product
  *                      example: 659cfaecbf60af1ecd132b89
  *                  price:
  *                      type: string
- *                      description: the title of product
+ *                      description: the price of product
  *                      example: 2500000
  *                  discount:
  *                      type: string
- *                      description: the title of product
+ *                      description: the discount of product
  *                      example: 20
  *                  count:
  *                      type: string
- *                      description: the title of product
+ *                      description: the count of product
  *                      example: 100
  *                  images :
  *                        type : array
@@ -105,28 +105,28 @@
  *                      description: the title of product
  *                  short_text:
  *                      type: string
- *                      description: the title of product
+ *                      description: the short text of product
  *                  text:
  *                      type: string
- *                      description: the title of product
+ *                      description: the text of product
  *                  tags:
  *                      type: array
- *                      description: the title of product
+ *                      description: the tags of product
  *                  category:
  *                      type: string
- *                      description: the title of product
+ *                      description: the category of product
  *                      example: 6279e994c1e47a98d0f356d3
  *                  price:
  *                      type: string
- *                      description: the title of product
+ *                      description: the price of product
  *                      example: 2500000
  *                  discount:
  *                      type: string
- *                      description: the title of product
+ *                      description: the discount of product
  *                      example: 20
  *                  count:
  *                      type: string
- *                      description: the title of product
+ *                      description: the count of product
  *                      example: 100
  *                  images :
  *                        type : array

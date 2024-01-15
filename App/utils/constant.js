@@ -1,13 +1,22 @@
 module.exports = {
   mongoIdPattern: /^(?=[a-f\d]{24}$)(\d+[a-f]|[a-f]+\d)/i,
   EXPIRES_IN: new Date().getTime() * 120000,
-  ROLES: {
+  ROLES: Object.freeze({
     USER: "USER",
     ADMIN: "ADMIN",
     TEACHER: "TEACHER",
     WRITER: "WRITER",
     SUPPLIER: "SUPPLIER",
-  },
+  }),
+  PERMISSIONS: Object.freeze({
+    USER: ['profile'],
+    ADMIN: ["all"],
+    SUPER_ADMIN: ["all"],
+    ALL: ["all"],
+    TEACHER: ["course" , 'blog'],
+    CONTENT_MANAGER: ["course" , 'blog' , 'category' , 'product'],
+    SUPPLIER: ["product"],
+  }),
   ACCESS_TOKEN_SECRET_KEY:
     "23070C21A48C9C5A7E4913D53F1200BC89E2D61626881118B17A0E612549EA99",
   REFRESH_TOKEN_SECRET_KEY:
@@ -20,7 +29,7 @@ module.exports = {
 // {
 //   "statusCode": 200,
 //   "data": {
-//     "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjA5NTE4NTg5OCIsImlhdCI6MTcwNTEzNzgxMSwiZXhwIjoxNzA1MjI0MjExfQ.7ynl-JBBgHy__nkbY32T3toerqt2d6ro1j1t7Si6YLI",
-//     "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjA5NTE4NTg5OCIsImlhdCI6MTcwNTEzNzgxMSwiZXhwIjoxNzA1MjI0MjExfQ.W3VPkzYaaHopQf51cVcYBBFuwDChoLL-5P3_NeZhunM"
+//     "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjA5NTE4NTg5OCIsImlhdCI6MTcwNTI1MTM3OCwiZXhwIjoxNzA1MzM3Nzc4fQ.aV53yl0c-M3PqyKqyEyoN2q4NehL-I8zDygzkKEpd0k",
+//     "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjA5NTE4NTg5OCIsImlhdCI6MTcwNTI1MTM3OCwiZXhwIjoxNzA1MzM3Nzc4fQ.SlRrg2L4mncHF65bHNuU4g1SV49fEsyAxh_s2X8KiwE"
 //   }
 // }

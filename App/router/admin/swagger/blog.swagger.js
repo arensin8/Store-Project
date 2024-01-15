@@ -23,8 +23,8 @@
  *                      type: string
  *                      description: the text of blog
  *                  tags:
- *                      type: string
- *                      description: the list of the tags for example(tag1#tag2#tag_foo)
+ *                      type: array
+ *                      description: the tags of blog
  *                  category:
  *                      type: string
  *                      description: the id of category for foreignField in blog
@@ -44,8 +44,8 @@
  *                      type: string
  *                      description: the text of blog
  *                  tags:
- *                      type: string
- *                      description: the list of tags for example(tag1#tag2#tag_foo)
+ *                      type: array
+ *                      description: the tags of blog
  *                  category:
  *                      type: string
  *                      description: the id of category for foreignField in blog
