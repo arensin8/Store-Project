@@ -13,11 +13,11 @@ const router = require("express").Router();
 
 
 router.use("/category", checkPermissions([PERMISSIONS.CONTENT_MANAGER]) ,AdminApiCategoryRoutes);
-router.use("/products", checkPermissions([PERMISSIONS.SUPPLIER],[PERMISSIONS.CONTENT_MANAGER]) ,AdminApiProductRoutes);
-router.use("/blogs", checkPermissions([PERMISSIONS.TEACHER],[PERMISSIONS.CONTENT_MANAGER]) ,AdminApiBlogRoutes);
-router.use("/courses", checkPermissions([PERMISSIONS.TEACHER],[PERMISSIONS.CONTENT_MANAGER]) ,AdminApiCourseRoutes);
-router.use("/chapters", checkPermissions([PERMISSIONS.TEACHER],[PERMISSIONS.CONTENT_MANAGER]) ,AdminApiChapterRoutes);
-router.use("/episodes", checkPermissions([PERMISSIONS.TEACHER],[PERMISSIONS.CONTENT_MANAGER]) ,AdminApiEpisodeRoutes);
+router.use("/products", checkPermissions([PERMISSIONS.SUPPLIER]) ,AdminApiProductRoutes);
+router.use("/blogs", checkPermissions([PERMISSIONS.TEACHER]) ,AdminApiBlogRoutes);
+router.use("/courses", checkPermissions([PERMISSIONS.TEACHER]) ,AdminApiCourseRoutes);
+router.use("/chapters", checkPermissions([PERMISSIONS.TEACHER]) ,AdminApiChapterRoutes);
+router.use("/episodes", checkPermissions([PERMISSIONS.TEACHER]) ,AdminApiEpisodeRoutes);
 router.use("/users" ,AdminApiUserRoutes);
 router.use("/roles",checkPermissions([PERMISSIONS.ADMIN]) , AdminApiRoleRoutes);
 router.use("/permissions",checkPermissions([PERMISSIONS.ADMIN]) , AdminApiPermissionRoutes);

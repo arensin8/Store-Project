@@ -1,0 +1,16 @@
+{
+  products{
+    _id
+    title
+    text
+    imagesURL
+    supplier{
+      first_name
+      last_name
+    }
+    category{
+      _id
+      title
+    }
+  }
+}

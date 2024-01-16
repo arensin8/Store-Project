@@ -9,24 +9,28 @@ const BlogSchema = new mongoose.Schema(
     short_text: { type: String, required: true },
     image: { type: String, required: true },
     tags: { type: [String], default: [] },
-    category: { type: mongoose.Types.ObjectId, required: true },
+    category: {
+      type: mongoose.Types.ObjectId,
+      ref: "category",
+      required: true,
+    },
     comments: { type: [CommentSchema], default: [] },
     likes: { type: [mongoose.Types.ObjectId], ref: "users", default: [] },
     dislikes: { type: [mongoose.Types.ObjectId], ref: "users", default: [] },
     bookmarks: { type: [mongoose.Types.ObjectId], ref: "users", default: [] },
   },
   {
-    toJSON : {virtuals : true},
+    toJSON: { virtuals: true },
     timestamps: true,
     versionKey: false,
   }
 );
 
-BlogSchema.virtual("imageURL").get(function(){
+BlogSchema.virtual("imageURL").get(function () {
   const url = `${process.env.BASE_URL}:${process.env.APPLICATION_PORT}/${this.image}`;
   console.log("Generated Image URL:", url);
   return url;
-})
+});
 
 BlogSchema.virtual("user", {
   ref: "user",
@@ -39,8 +43,6 @@ BlogSchema.virtual("category-details", {
   localField: "_id",
   foreignField: "category",
 });
-
-
 
 module.exports = {
   BlogsModel: mongoose.model("blog", BlogSchema),

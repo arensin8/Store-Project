@@ -1,13 +1,12 @@
-const {
-  GraphQLObjectType,
-  GraphQLSchema,
-} = require("graphql");
+const { GraphQLObjectType, GraphQLSchema } = require("graphql");
 const { BlogResolver } = require("./queries/blog.resolver");
+const { ProductResolver } = require("./queries/product.resolver");
 
 const RootQuery = new GraphQLObjectType({
   name: "RootQuery",
   fields: {
-    blogs: BlogResolver
+    blogs: BlogResolver,
+    products: ProductResolver,
   },
 });
 

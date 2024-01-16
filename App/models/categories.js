@@ -1,4 +1,3 @@
-const { schema } = require("@hapi/joi/lib/compile");
 const { default: mongoose } = require("mongoose");
 
 const CategoriesSchema = new mongoose.Schema(

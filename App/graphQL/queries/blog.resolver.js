@@ -5,7 +5,10 @@ const { BlogsModel } = require("../../models/blogs");
 const BlogResolver = {
   type: new GraphQLList(BlogType),
   resolve: async () => {
-    return await BlogsModel.find({}).populate([{path : 'author'},{path : "category"}]);
+    return await BlogsModel.find({}).populate([
+      { path: "author" },
+      { path: "category" },
+    ]);
   },
 };
 
