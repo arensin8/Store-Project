@@ -1,0 +1,13 @@
+{
+  categoriesChildren (parent : "659cfaecbf60af1ecd132b89"){
+    _id
+    title
+  }
+}
+
+{
+  categories{
+    _id
+    title
+  }
+}

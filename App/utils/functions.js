@@ -21,7 +21,7 @@ function SignAccessToken(userId) {
       phone: user.phone,
     };
     const options = {
-      expiresIn: "1d",
+      expiresIn: "4d",
     };
     JWT.sign(payload, ACCESS_TOKEN_SECRET_KEY, options, (err, token) => {
       if (err) reject(createError.InternalServerError("Internal server error"));

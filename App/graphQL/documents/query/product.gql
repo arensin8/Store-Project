@@ -4,6 +4,7 @@
     title
     text
     imagesURL
+    tags
     supplier{
       first_name
       last_name
@@ -11,6 +12,12 @@
     category{
       _id
       title
+    }
+    features{
+      length
+      height
+      width
+      weight
     }
   }
 }

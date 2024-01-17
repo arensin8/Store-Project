@@ -3,7 +3,7 @@ const { AuthorType, PublicCategoryType } = require("./public.types");
 
 
 const FeaturesType = new GraphQLObjectType({
-  name: "features",
+  name: "FeaturesType",
   fields: {
       length : {type: GraphQLString},
       height : {type: GraphQLString},
