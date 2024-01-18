@@ -9,5 +9,6 @@
   categories{
     _id
     title
+    children
   }
 }

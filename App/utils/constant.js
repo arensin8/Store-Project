@@ -11,7 +11,7 @@ module.exports = {
   PERMISSIONS: Object.freeze({
     USER: ['profile'],
     ADMIN: ["all"],
-    SUPER_ADMIN: ["all"],
+    SUPERADMIN: ["all"],
     ALL: ["all"],
     TEACHER: ["course" , 'blog'],
     CONTENT_MANAGER: ["course" , 'blog' , 'category' , 'product'],
@@ -29,7 +29,7 @@ module.exports = {
 // {
 //   "statusCode": 200,
 //   "data": {
-//     "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjA5NTE4NTg5OCIsImlhdCI6MTcwNTQ4ODE0MiwiZXhwIjoxNzA1ODMzNzQyfQ.xigMCMJmrGxeUpchqlS9kmQl6APKVI-9NKvJ8HjpEhU",
-//     "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjA5NTE4NTg5OCIsImlhdCI6MTcwNTQ4ODE0MywiZXhwIjoxNzA1NTc0NTQzfQ.cfVytjgzJtIEA6YHRrkmKSpn8vAvVvljYN6AOJjlb5M"
+//     "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjA5NTE4NTg5OCIsImlhdCI6MTcwNTU3MDU0NSwiZXhwIjoxNzA1OTE2MTQ1fQ.ZBxhVah_f80k5x8uNPmCsqH2oEIlvLjtxJ5panbvf04",
+//     "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjA5NTE4NTg5OCIsImlhdCI6MTcwNTU3MDU0NiwiZXhwIjoxNzA1NjU2OTQ2fQ.e6kYS8RJ0uV_b5SGL9JmRB-_ZpdVTTDCRZcdIw10xD8"
 //   }
 // }

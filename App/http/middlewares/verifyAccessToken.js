@@ -4,13 +4,10 @@ const createError = require("http-errors");
 const { UserModel } = require("../../models/users");
 const createHttpError = require("http-errors");
 
-
 function getToken(headers) {
   const [bearer, token] = headers?.authorization?.split(" ") || [];
   if (token && ["Bearer", "bearer"].includes(bearer)) return token;
-  throw createHttpError.Unauthorized(
-    "Login unsuccessful, try again!"
-  );
+  throw createHttpError.Unauthorized("Login unsuccessful, try again!");
 }
 // function verifyAccessToken(req, res, next) {
 //   const headers = req.headers;
@@ -34,7 +31,8 @@ function verifyAccessToken(req, res, next) {
     const token = getToken(req.headers);
     JWT.verify(token, ACCESS_TOKEN_SECRET_KEY, async (err, payload) => {
       try {
-        if (err) throw createHttpError.Unauthorized("please login to your account ");
+        if (err)
+          throw createHttpError.Unauthorized("please login to your account ");
         const { mobile } = payload || {};
         const user = await UserModel.findOne(
           { mobile },
@@ -52,8 +50,30 @@ function verifyAccessToken(req, res, next) {
   }
 }
 
-
+function verifyAccessTokenInGraphQL(req, res) {
+  try {
+    const token = getToken(req.headers);
+    JWT.verify(token, ACCESS_TOKEN_SECRET_KEY, async (err, payload) => {
+      try {
+        if (err)
+          throw createHttpError.Unauthorized("please login to your account ");
+        const { mobile } = payload || {};
+        const user = await UserModel.findOne(
+          { mobile },
+          { password: 0, otp: 0 }
+        );
+        if (!user) throw createHttpError.Unauthorized("User not found!");
+        req.user = user;
+      } catch (error) {
+        throw createHttpError.Unauthorized(error.message);
+      }
+    });
+  } catch (error) {
+    throw createHttpError.Unauthorized(error.message);
+  }
+}
 
 module.exports = {
   verifyAccessToken,
+  verifyAccessTokenInGraphQL,
 };
