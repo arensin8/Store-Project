@@ -7,7 +7,6 @@ const {
   ACCESS_TOKEN_SECRET_KEY,
   REFRESH_TOKEN_SECRET_KEY,
 } = require("./constant");
-const { log } = require("console");
 // const redisClient = require("./init_redis");
 
 function randomNumberGen() {
@@ -21,7 +20,7 @@ function SignAccessToken(userId) {
       phone: user.phone,
     };
     const options = {
-      expiresIn: "4d",
+      expiresIn: 365 * 48 * 60 * 60,
     };
     JWT.sign(payload, ACCESS_TOKEN_SECRET_KEY, options, (err, token) => {
       if (err) reject(createError.InternalServerError("Internal server error"));

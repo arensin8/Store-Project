@@ -6,8 +6,9 @@ const { verifyAccessTokenInGraphQL } = require("../../http/middlewares/verifyAcc
 const BlogResolver = {
   type: new GraphQLList(BlogType),
   resolve: async (_,args,context) => {
-    const {req,res} = context
-    verifyAccessTokenInGraphQL(req,res);
+    // const {req,} = context
+    // req.user = await verifyAccessTokenInGraphQL(req);
+    // console.log(req.user);
     return await BlogsModel.find({}).populate([
       { path: "author" },
       { path: "category" },
