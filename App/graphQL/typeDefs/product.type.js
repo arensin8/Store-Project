@@ -27,7 +27,6 @@ const ProductType = new GraphQLObjectType({
     price: { type: GraphQLInt },
     count: { type: GraphQLInt },
     discount: { type: GraphQLInt },
-    price: { type: GraphQLInt },
     tags: { type: new GraphQLList(GraphQLString) },
     category: { type: PublicCategoryType },
     features : {type : FeaturesType}

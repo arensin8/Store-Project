@@ -1,7 +1,6 @@
 const { GraphQLList } = require("graphql");
 const { BlogType } = require("../typeDefs/blog.type");
 const { BlogsModel } = require("../../models/blogs");
-const { verifyAccessTokenInGraphQL } = require("../../http/middlewares/verifyAccessToken");
 
 const BlogResolver = {
   type: new GraphQLList(BlogType),
