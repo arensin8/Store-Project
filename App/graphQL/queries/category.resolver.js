@@ -11,8 +11,8 @@ const CategoryResolver = {
 
 const CategoryChildResolver = {
   type: new GraphQLList(CategoryType),
-  args: {
-    parent: { type: GraphQLString },
+  args : {
+    category : {type : GraphQLString}
   },
   resolve: async (_, args) => {
     const { parent } = args;

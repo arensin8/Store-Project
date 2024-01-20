@@ -1,27 +1,31 @@
-const { GraphQLObjectType, GraphQLString, GraphQLList, GraphQLInt } = require("graphql");
+const {
+  GraphQLObjectType,
+  GraphQLString,
+  GraphQLList,
+  GraphQLInt,
+} = require("graphql");
 const { AuthorType, PublicCategoryType } = require("./public.types");
-
 
 const FeaturesType = new GraphQLObjectType({
   name: "FeaturesType",
   fields: {
-      length : {type: GraphQLString},
-      height : {type: GraphQLString},
-      width : {type: GraphQLString},
-      weight : {type: GraphQLString},
-      colors : {type: new GraphQLList(GraphQLString)},
-      madein : {type: GraphQLString}
-  }
-})
+    length: { type: GraphQLString },
+    height: { type: GraphQLString },
+    width: { type: GraphQLString },
+    weight: { type: GraphQLString },
+    colors: { type: new GraphQLList(GraphQLString) },
+    madein: { type: GraphQLString },
+  },
+});
 const ProductType = new GraphQLObjectType({
   name: "ProductType",
   fields: {
-    _id: {type : GraphQLString},
+    _id: { type: GraphQLString },
     title: { type: GraphQLString },
     text: { type: GraphQLString },
     short_text: { type: GraphQLString },
     images: { type: GraphQLString },
-    imagesURL: { type:new GraphQLList(GraphQLString) },
+    imagesURL: { type: new GraphQLList(GraphQLString) },
     type: { type: GraphQLString },
     supplier: { type: AuthorType },
     price: { type: GraphQLInt },
@@ -29,11 +33,10 @@ const ProductType = new GraphQLObjectType({
     discount: { type: GraphQLInt },
     tags: { type: new GraphQLList(GraphQLString) },
     category: { type: PublicCategoryType },
-    features : {type : FeaturesType}
+    features: { type: FeaturesType },
   },
 });
 
 module.exports = {
   ProductType,
 };
-

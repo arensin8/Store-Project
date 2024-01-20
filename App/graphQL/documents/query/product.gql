@@ -21,3 +21,32 @@
     }
   }
 }
+
+//we can use query , fragment , Alias in graphQl also
+query getProds($categoryId :String){
+  myData : products (category : $categoryId){
+    ...prodFields
+  }
+}
+
+fragment prodFields on ProductType {
+  _id
+    title
+    text
+    imagesURL
+    tags
+    supplier{
+      first_name
+      last_name
+    }
+    category{
+      _id
+      title
+    }
+    features{
+      length
+      height
+      width
+      weight
+    }
+}
