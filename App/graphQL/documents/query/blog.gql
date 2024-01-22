@@ -12,5 +12,17 @@
         category{
             title
         }
+      comments{
+        comment
+        createdAt
+        openToComment
+        parent{
+          _id
+        }
+        user{
+          first_name
+          last_name
+        }
+      }
     }
 }

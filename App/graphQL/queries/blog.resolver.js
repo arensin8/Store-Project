@@ -13,6 +13,8 @@ const BlogResolver = {
     return await BlogsModel.find(findQuery).populate([
       { path: "author" },
       { path: "category" },
+      { path: "comments.user" },
+      { path: "comments.parent" },
     ]);
   },
 };

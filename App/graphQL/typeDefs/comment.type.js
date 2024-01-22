@@ -6,19 +6,22 @@ const ParentType = new GraphQLObjectType({
   fields: {
     _id: { type: GraphQLString },
     user: { type: UserType },
-    comment: { type: GraphQLString }
+    comment: { type: GraphQLString },
+    show : { type: GraphQLBoolean },
+    openToComment : { type: GraphQLBoolean },
+    createdAt : { type: GraphQLString }
   },
 });
 
 const CommentType = new GraphQLObjectType({
   name: "CommentType",
   fields: {
-    _id: { type: GraphQLString },
     user: { type: UserType },
     comment: { type: GraphQLString },
     parent: { type: ParentType },
     show : { type: GraphQLBoolean },
     openToComment : { type: GraphQLBoolean },
+    createdAt : { type: GraphQLString }
   },
 });
 
