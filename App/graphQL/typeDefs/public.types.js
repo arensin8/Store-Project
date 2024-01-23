@@ -6,6 +6,8 @@ const {
   GraphQLScalarType,
 } = require("graphql");
 const { toObject, parseLiteral } = require("../utils.graphql");
+
+
 const AnyType = new GraphQLScalarType({
   name: "AnyType",
   parseValue: toObject,

@@ -1,12 +1,24 @@
 const { default: mongoose } = require("mongoose");
 
+const CommentsAnswerSchema = new mongoose.Schema(
+  {
+    user: { type: mongoose.Types.ObjectId, ref: "user", required: true },
+    comment: { type: String, required: true },
+    show: { type: Boolean, default: false, required: true },
+  },
+  {
+    timestamps: {
+      createdAt: true,
+    },
+  }
+);
 const CommentSchema = new mongoose.Schema(
   {
     user: { type: mongoose.Types.ObjectId, ref: "user", required: true },
     comment: { type: String, required: true },
     show: { type: Boolean, default: false, required: true },
     openToComment: { type: Boolean, default: true },
-    parent: { type: mongoose.Types.ObjectId, ref: "comment" },
+    answers: { type: [CommentsAnswerSchema], default : [] },
   },
   {
     timestamps: {
@@ -16,5 +28,5 @@ const CommentSchema = new mongoose.Schema(
 );
 
 module.exports = {
-  CommentSchema
+  CommentSchema,
 };
