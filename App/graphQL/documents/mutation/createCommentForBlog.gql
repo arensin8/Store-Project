@@ -1,0 +1,10 @@
+mutation {
+  CreateCommentForBlog(
+    comment :"last answer of comment1 " 
+    blogId : "659cfa33bf60af1ecd132b76" 
+    parent :"65af939183d675fee7b858")
+    {
+    statusCode
+    data
+    }
+}

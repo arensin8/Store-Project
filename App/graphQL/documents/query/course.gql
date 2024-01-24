@@ -1,19 +1,35 @@
-{
-    courses{
+query getCourses($categoryId :String){
+  myData : courses (category : $categoryId){
+    ...courseFields
+  }
+}
+
+fragment courseFields on CourseType {
         _id
         title
         text
         short_text
         imageURL
-        teacher{
+        category{
+            title
+        }
+      comments{
+        comment
+        _id
+        createdAt
+        openToComment
+        answers{
+          _id
+          comment
+          createdAt
+          user{
             first_name
             last_name
-        }
-        chapters{
-          title
-          episodes{
-             title
           }
         }
-    }
+        user{
+          first_name
+          last_name
+        }
+      }
 }

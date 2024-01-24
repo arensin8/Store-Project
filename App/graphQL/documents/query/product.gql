@@ -1,35 +1,11 @@
-{
-  products{
-    _id
-    title
-    text
-    imagesURL
-    tags
-    supplier{
-      first_name
-      last_name
-    }
-    category{
-      _id
-      title
-    }
-    features{
-      length
-      height
-      width
-      weight
-    }
-  }
-}
 
-//we can use query , fragment , Alias in graphQl also
 query getProds($categoryId :String){
   myData : products (category : $categoryId){
-    ...prodFields
+    ...productFields
   }
 }
 
-fragment prodFields on ProductType {
+fragment productFields on ProductType {
   _id
     title
     text
@@ -49,4 +25,23 @@ fragment prodFields on ProductType {
       width
       weight
     }
+  comments{
+        comment
+        _id
+        createdAt
+        openToComment
+        answers{
+          _id
+          comment
+          createdAt
+          user{
+            first_name
+            last_name
+          }
+        }
+        user{
+          first_name
+          last_name
+        }
+      }
 }

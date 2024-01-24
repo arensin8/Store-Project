@@ -1,5 +1,10 @@
-{
-    blogs{
+query getBlogs($categoryId :String){
+  myData : blogs (category : $categoryId){
+    ...blogFields
+  }
+}
+
+fragment blogFields on BlogType {
         _id
         title
         text
@@ -14,15 +19,20 @@
         }
       comments{
         comment
+        _id
         createdAt
         openToComment
-        parent{
-          _id
+        answers{
+          comment
+          createdAt
+          user{
+            first_name
+            last_name
+          }
         }
         user{
           first_name
           last_name
         }
       }
-    }
 }

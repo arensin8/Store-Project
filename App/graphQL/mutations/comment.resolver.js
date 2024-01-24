@@ -1,4 +1,4 @@
-const { GraphQLList, GraphQLString } = require("graphql");
+const { GraphQLString } = require("graphql");
 const { BlogsModel } = require("../../models/blogs");
 const createHttpError = require("http-errors");
 const {
@@ -10,7 +10,6 @@ const { copyObject } = require("../../utils/functions");
 const { default: mongoose } = require("mongoose");
 const { CoursesModel } = require("../../models/course");
 const { ProductModel } = require("../../models/products");
-const { objectIdValidator } = require("../../http/validators/public.validator");
 
 const CreateCommentForBlog = {
   type: ResponseType,
@@ -23,11 +22,26 @@ const CreateCommentForBlog = {
     const { req } = context;
     const { comment, blogId, parent } = args;
     const user = await verifyAccessTokenInGraphQL(req);
-    if (!mongoose.isValidObjectId(blogId))
-      throw new createHttpError.BadRequest("blogId is incorrect");
     await checkExistsBlog(blogId);
-    if (parent && mongoose.isValidObjectId(parent)) {
+
+
+    if (!mongoose.isValidObjectId(blogId)) {
+      throw new createHttpError.BadRequest("blogId is incorrect");
+    }
+
+    // Check if the parent is a valid ObjectId
+    if (parent && !mongoose.isValidObjectId(parent)) {
+      throw new createHttpError.BadRequest("Invalid parent comment ID");
+    }
+
+    // If a parent is provided, try to add a reply; otherwise, add a new comment
+    if (parent) {
       const commentDocument = await getComment(BlogsModel, parent);
+
+      if (!commentDocument) {
+        throw new createHttpError.BadRequest("Parent comment does not exist");
+      }
+
       const createAnswerResult = await BlogsModel.updateOne(
         {
           _id: blogId,
@@ -44,15 +58,17 @@ const CreateCommentForBlog = {
           },
         }
       );
+
       if (!createAnswerResult.modifiedCount) {
         throw new createHttpError.InternalServerError(
           "The reply to the comment was not registered"
         );
       }
+
       return {
         statusCode: StatusCodes.CREATED,
         data: {
-          message: "The reply to the comment was recorded ",
+          message: "The reply to the comment was recorded",
         },
       };
     } else {
@@ -73,7 +89,7 @@ const CreateCommentForBlog = {
     return {
       statusCode: StatusCodes.CREATED,
       data: {
-        message: "Comment will be added to site after reviewing by admin ",
+        message: "Comment will be added to the site after reviewing by admin",
       },
     };
   },
@@ -94,7 +110,7 @@ const CreateCommentForProduct = {
 
 
     if (!mongoose.isValidObjectId(productId)) {
-      throw new createHttpError.BadRequest("courseId is incorrect");
+      throw new createHttpError.BadRequest("productId is incorrect");
     }
 
     // Check if the parent is a valid ObjectId
