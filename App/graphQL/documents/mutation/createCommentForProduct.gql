@@ -1,8 +1,8 @@
 mutation {
   CreateCommentForProduct(
-    comment :"comment100 " , 
+    comment : "comment100 " , 
     productId : "659d00df567437319a5fd906" , 
-    parent :"65af97cba6c3bfc935e99e")
+    parent : "65af97cba6c3bfc935e99e")
     {
     statusCode
     data

@@ -10,6 +10,7 @@ const { copyObject } = require("../../utils/functions");
 const { default: mongoose } = require("mongoose");
 const { CoursesModel } = require("../../models/course");
 const { ProductModel } = require("../../models/products");
+const { checkExistsCourse, checkExistsProduct, checkExistsBlog } = require("../utils.graphql");
 
 const CreateCommentForBlog = {
   type: ResponseType,
@@ -23,7 +24,6 @@ const CreateCommentForBlog = {
     const { comment, blogId, parent } = args;
     const user = await verifyAccessTokenInGraphQL(req);
     await checkExistsBlog(blogId);
-
 
     if (!mongoose.isValidObjectId(blogId)) {
       throw new createHttpError.BadRequest("blogId is incorrect");
@@ -108,7 +108,6 @@ const CreateCommentForProduct = {
     const user = await verifyAccessTokenInGraphQL(req);
     await checkExistsProduct(productId);
 
-
     if (!mongoose.isValidObjectId(productId)) {
       throw new createHttpError.BadRequest("productId is incorrect");
     }
@@ -120,34 +119,31 @@ const CreateCommentForProduct = {
 
     // If a parent is provided, try to add a reply; otherwise, add a new comment
     if (parent) {
-      const commentDocument = await getComment(ProductModel, parent);
+      const product = await ProductModel.findById(productId);
+
+      if (!product) {
+        throw new createHttpError.BadRequest("Product not found");
+      }
+
+      const commentDocument = product.comments.find((c) => c._id.toString() === parent);
 
       if (!commentDocument) {
         throw new createHttpError.BadRequest("Parent comment does not exist");
       }
 
-      const createAnswerResult = await CoursesModel.updateOne(
-        {
-          _id: productId,
-          "comments._id": parent,
-        },
-        {
-          $push: {
-            "comments.$.answers": {
-              comment,
-              user: user._id,
-              show: false,
-              openToComment: false,
-            },
-          },
-        }
-      );
-
-      if (!createAnswerResult.modifiedCount) {
-        throw new createHttpError.InternalServerError(
-          "The reply to the comment was not registered"
-        );
+      // Make sure 'answers' field exists before pushing into it
+      if (!commentDocument.answers) {
+        commentDocument.answers = [];
       }
+
+      commentDocument.answers.push({
+        comment,
+        user: user._id,
+        show: false,
+        openToComment: false,
+      });
+
+      await product.save();
 
       return {
         statusCode: StatusCodes.CREATED,
@@ -170,6 +166,7 @@ const CreateCommentForProduct = {
         }
       );
     }
+
     return {
       statusCode: StatusCodes.CREATED,
       data: {
@@ -178,6 +175,9 @@ const CreateCommentForProduct = {
     };
   },
 };
+
+
+
 
 const CreateCommentForCourse = {
   type: ResponseType,
@@ -191,7 +191,6 @@ const CreateCommentForCourse = {
     const { comment, courseId, parent } = args;
     const user = await verifyAccessTokenInGraphQL(req);
     await checkExistsCourse(courseId);
-
 
     if (!mongoose.isValidObjectId(courseId)) {
       throw new createHttpError.BadRequest("courseId is incorrect");
@@ -266,22 +265,6 @@ const CreateCommentForCourse = {
 
 
 
-async function checkExistsBlog(id) {
-  const blog = await BlogsModel.findById(id);
-  if (!blog) throw new createHttpError.NotFound("Blog not found");
-  return blog;
-}
-async function checkExistsCourse(id) {
-  const course = await CoursesModel.findById(id);
-  if (!course) throw new createHttpError.NotFound("course not found");
-  return course;
-}
-async function checkExistsProduct(id) {
-  const product = await ProductModel.findById(id);
-  if (!product) throw new createHttpError.NotFound("product not found");
-  return product;
-}
-
 //helper function
 async function getComment(model, id) {
   const foundComment = await model.findOne(
@@ -296,5 +279,5 @@ async function getComment(model, id) {
 module.exports = {
   CreateCommentForBlog,
   CreateCommentForCourse,
-  CreateCommentForProduct
+  CreateCommentForProduct,
 };

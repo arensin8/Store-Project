@@ -1,8 +1,8 @@
 mutation {
   CreateCommentForCourse(
-    comment :"last answer of comment1"
+    comment : "last answer of comment1"
     courseId : "6593d4fda794c679af158444" 
-    parent :"65af93918973d675fee7b858")
+    parent : "65af93918973d675fee7b858")
     {
     statusCode
     data
