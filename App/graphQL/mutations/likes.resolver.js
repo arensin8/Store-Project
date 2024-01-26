@@ -45,7 +45,7 @@ const LikeProduct = {
       message = "Like for product recorded successfully";
     } else message = "Like for product deleted successfully";
     return {
-      statusCode: StatusCodes.CREATED,
+      statusCode: StatusCodes.OK,
       data: {
         message,
       },
@@ -84,7 +84,7 @@ const LikeCourse = {
       message = "Like for course recorded successfully";
     } else message = "Like for course deleted successfully";
     return {
-      statusCode: StatusCodes.CREATED,
+      statusCode: StatusCodes.OK,
       data: {
         message,
       },
@@ -122,7 +122,7 @@ const LikeBlog = {
       message = "Like for blog recorded successfully";
     } else message = "Like for blog deleted successfully";
     return {
-      statusCode: StatusCodes.CREATED,
+      statusCode: StatusCodes.OK,
       data: {
         message,
       },
