@@ -1,4 +1,19 @@
-const { default: mongoose } = require("mongoose");
+const { default: mongoose, mongo } = require("mongoose");
+
+const ProductSchema = new mongoose.Schema({
+  productId : {type : mongoose.Types.ObjectId , ref : 'product'},
+  count : {type : Number , default : 1}
+})
+
+const CourseSchema = new mongoose.Schema({
+  courseId : {type : mongoose.Types.ObjectId , ref : 'course'},
+  count : {type : Number , default : 1}
+})
+
+const BasketSchema = new mongoose.Schema({
+  courses : {type : [CourseSchema] , default : []},
+  products : {type : [ProductSchema] , default : []}
+})
 
 const UserSchema = new mongoose.Schema(
   {
@@ -14,6 +29,7 @@ const UserSchema = new mongoose.Schema(
     birthday: { type: String },
     role: { type: String, default: "USER" },
     courses: { type: [mongoose.Types.ObjectId], ref: "course", default: [] },
+    basket : {type : BasketSchema}
   },
   {
     timestamps: true,
