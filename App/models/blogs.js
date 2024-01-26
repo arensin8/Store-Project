@@ -15,9 +15,9 @@ const BlogSchema = new mongoose.Schema(
       required: true,
     },
     comments: { type: [CommentSchema], default: [] },
-    likes: { type: [mongoose.Types.ObjectId], ref: "users", default: [] },
-    dislikes: { type: [mongoose.Types.ObjectId], ref: "users", default: [] },
-    bookmarks: { type: [mongoose.Types.ObjectId], ref: "users", default: [] },
+    likes: { type: [mongoose.Types.ObjectId], ref: "user", default: [] },
+    dislikes: { type: [mongoose.Types.ObjectId], ref: "user", default: [] },
+    bookmarks: { type: [mongoose.Types.ObjectId], ref: "user", default: [] },
   },
   {
     toJSON: { virtuals: true },

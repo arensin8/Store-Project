@@ -1,0 +1,6 @@
+mutation {
+  DisLikeBlog(blogId : "659cfa33bf60af1ecd132b76"){
+  statusCode
+  data
+  }
+}

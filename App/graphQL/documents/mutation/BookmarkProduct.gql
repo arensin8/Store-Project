@@ -1,0 +1,6 @@
+mutation {
+ 	BookmarkProduct(productId : "659d00df567437319a5fd906"){
+  statusCode
+  data
+  }
+}
