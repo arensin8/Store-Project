@@ -1,0 +1,6 @@
+mutation {
+ 	AddProductToBasket(productId : "659d0101567437319a5fd90a"){
+  statusCode
+  data
+  }
+}

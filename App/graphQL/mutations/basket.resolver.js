@@ -9,6 +9,7 @@ const { copyObject } = require("../../utils/functions");
 const {
   verifyAccessTokenInGraphQL,
 } = require("../../http/middlewares/verifyAccessToken");
+const createHttpError = require("http-errors");
 
 const AddProductToBasket = {
   type: ResponseType,
@@ -46,21 +47,86 @@ const AddProductToBasket = {
   },
 };
 
-
 const AddCourseToBasket = {
   type: ResponseType,
   args: {
     courseId: { type: GraphQLString },
-    count: { type: GraphQLInt },
   },
   resolve: async (_, args, context) => {
     const { req } = context;
-    const { courseId, count } = args;
+    const { courseId } = args;
+    const user = await verifyAccessTokenInGraphQL(req);
     await checkExistsCourse(courseId);
+    const course = await findCourseInBasket(user._id, courseId);
+    if (course) {
+      await UserModel.updateOne(
+        { _id: user._id, "basket.courses.courseId": courseId },
+        {
+          $inc: { "basket.courses.$.count": 1 },
+        }
+      );
+    } else {
+      await UserModel.updateOne(
+        { _id: user._id },
+        {
+          $push: { "basket.courses": { courseId, count: 1 } },
+        }
+      );
+    }
+
+    return {
+      statusCode: StatusCodes.OK,
+      data: {
+        message: "course added to basket successfully",
+      },
+    };
   },
 };
 
-const RemoveProductToBasket = {
+const RemoveProductInBasket = {
+  type: ResponseType,
+  args: {
+    productId: { type: GraphQLString },
+  },
+  resolve: async (_, args, context) => {
+    const { req } = context;
+    const { productId } = args;
+    await checkExistsProduct(productId);
+    const user = await verifyAccessTokenInGraphQL(req);
+    const product = await findProductInBasket(user._id, productId);
+    let message;
+
+    if (!product)
+      throw new createHttpError.NotFound("Product not found in the basket!");
+
+    if (product.count > 1) {
+      await UserModel.updateOne(
+        { _id: user._id, "basket.products.productId": productId },
+        {
+          $inc: { "basket.products.$.count": -1 },
+        }
+      );
+      message = "Product deleted from basket (single)";
+    } else {
+      await UserModel.updateOne(
+        { _id: user._id },
+        {
+          $pull: { "basket.products": { productId } },
+        }
+      );
+      message = "Product deleted in basket successfully";
+    }
+
+    return {
+      statusCode: StatusCodes.OK,
+      data: {
+        message,
+      },
+    };
+  },
+};
+
+const RemoveCourseInBasket = {
   type: ResponseType,
   args: {
     courseId: { type: GraphQLString },
@@ -68,42 +134,74 @@ const RemoveProductToBasket = {
   resolve: async (_, args, context) => {
     const { req } = context;
     const { courseId } = args;
-    await checkExistsProduct(courseId);
-  },
-};
-
-const RemoveCourseToBasket = {
-  type: ResponseType,
-  args: {
-    courseId: { type: GraphQLString },
-  },
-  resolve: async (_, args, context) => {
-    const { req } = context;
-    const { courseId } = args;
     await checkExistsCourse(courseId);
+    const user = await verifyAccessTokenInGraphQL(req);
+    const course = await findCourseInBasket(user._id, courseId);
+    let message;
+    if (!course)
+      throw new createHttpError.NotFound("Course not found in the basket!");
+    if (course.count > 1) {
+      await UserModel.updateOne(
+        { _id: user._id, "basket.courses.courseId": courseId },
+        {
+          $inc: { "basket.courses.$.count": -1 },
+        }
+      );
+      message = "Course deleted from basket(single)";
+    } else {
+      await UserModel.updateOne(
+        { _id: user._id, "basket.courses.courseId": courseId },
+        {
+          $pull: { "basket.courses": { courseId } },
+        }
+      );
+      message = "Course deleted in basket successfully";
+    }
+
+    return {
+      statusCode: StatusCodes.OK,
+      data: {
+        message,
+      },
+    };
   },
 };
 
 async function findProductInBasket(userId, productId) {
-  const basketProduct = await UserModel.findOne(
+  const findResult = await UserModel.findOne(
     { _id: userId, "basket.products.productId": productId },
     {
       "basket.products.$": 1,
     }
   );
-  
-  if (basketProduct && basketProduct.basket && basketProduct.basket.products) {
-    const product = copyObject(basketProduct);
-    return product.basket.products[0];
+
+  if (findResult && findResult.basket && findResult.basket.products) {
+    const userDetails = copyObject(findResult);
+    return userDetails.basket.products[0];
   }
-  
+
   return null;
 }
 
+async function findCourseInBasket(userId, courseId) {
+  const findResult = await UserModel.findOne(
+    { _id: userId, "basket.courses.courseId": courseId },
+    {
+      "basket.courses.$": 1,
+    }
+  );
+
+  if (findResult && findResult.basket && findResult.basket.courses) {
+    const userDetails = copyObject(findResult);
+    return userDetails.basket.courses[0];
+  }
+
+  return null;
+}
 
 module.exports = {
   AddCourseToBasket,
   AddProductToBasket,
-  RemoveCourseToBasket,
-  RemoveProductToBasket,
+  RemoveCourseInBasket,
+  RemoveProductInBasket,
 };

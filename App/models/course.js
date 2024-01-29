@@ -54,6 +54,7 @@ const CourseSchema = new mongoose.Schema(
     teacher: { type: String, ref: "user", required: true },
     chapters: { type: [Chapter], default: [] },
     students: { type: [mongoose.Types.ObjectId], default: [], ref: "user" },
+    
   },
   {
     toJSON: {
