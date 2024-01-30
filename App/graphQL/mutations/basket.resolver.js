@@ -59,12 +59,7 @@ const AddCourseToBasket = {
     await checkExistsCourse(courseId);
     const course = await findCourseInBasket(user._id, courseId);
     if (course) {
-      await UserModel.updateOne(
-        { _id: user._id, "basket.courses.courseId": courseId },
-        {
-          $inc: { "basket.courses.$.count": 1 },
-        }
-      );
+      throw new createHttpError.BadRequest("Course has bee already added to basket")
     } else {
       await UserModel.updateOne(
         { _id: user._id },

@@ -85,22 +85,112 @@ const getUserBasket = {
           as: "productDetails",
         },
       },
+      {
+        $lookup: {
+          from: "courses",
+          localField: "basket.courses.courseId",
+          foreignField: "_id",
+          as: "courseDetails",
+        },
+      },
       { $unwind: "$productDetails" },
+      { $unwind: "$courseDetails" },
+      // {
+      //   $addFields: {
+      //     "productDetails" : {
+      //       $function: {
+      //         body: function (productDetails, products) {
+      //           productDetails.map(function (product) {
+      //             return {
+      //               ...productDetails,
+      //               basketCount: products.find(
+      //                 (item) => item.productId,
+      //                 valueOf() == product._id.valueOf()
+      //               ).count,
+      //               totalPrice:
+      //                 products.find(
+      //                   (item) => item.productId,
+      //                   valueOf() == product._id.valueOf()
+      //                 ).count * price,
+      //             };
+      //           });
+      //         },
+      //         args: ["$productDetails", "$basket.products"],
+      //         lang: "js",
+      //       },
+      //     },
+      //   },
+      // },
       {
         $addFields: {
-          "productDetails.basketDetails": {
-            $filter: {
-              //just like forEach loop
-              input: "$basket.products",
+          productDetails: {
+            $map: {
+              input: { $objectToArray: "$productDetails" },
               as: "product",
-              cond: {
-                $eq: ["$productDetails._id", "$$product.productId"],
+              in: {
+                _id: "$$product.v._id",
+                name: "$$product.v.name",
+                // Add other fields as needed
+                basketCount: {
+                  $let: {
+                    vars: {
+                      countObj: {
+                        $arrayElemAt: [
+                          {
+                            $filter: {
+                              input: "$basket.products",
+                              as: "basketProduct",
+                              cond: {
+                                $eq: [
+                                  "$$basketProduct.productId",
+                                  "$$product.v._id",
+                                ],
+                              },
+                            },
+                          },
+                          0,
+                        ],
+                      },
+                    },
+                    in: "$$countObj.count",
+                  },
+                },
+                totalPrice: {
+                  $multiply: [
+                    {
+                      $let: {
+                        vars: {
+                          countObj: {
+                            $arrayElemAt: [
+                              {
+                                $filter: {
+                                  input: "$basket.products",
+                                  as: "basketProduct",
+                                  cond: {
+                                    $eq: [
+                                      "$$basketProduct.productId",
+                                      "$$product.v._id",
+                                    ],
+                                  },
+                                },
+                              },
+                              0,
+                            ],
+                          },
+                        },
+                        in: "$$countObj.count",
+                      },
+                    },
+                    "$$product.v.price", // Replace with the actual field that stores the price
+                  ],
+                },
               },
             },
           },
         },
       },
-      { $unwind: "$productDetails.basketDetails" },
+
+      { $project: { basket: 0 } },
     ]);
     return basketResult;
   },
