@@ -7,16 +7,16 @@ const createError = require("http-errors");
 const swaggerUI = require("swagger-ui-express");
 const swaggerJsDoc = require("swagger-jsdoc");
 const cors = require("cors");
-require('dotenv').config()
+require("dotenv").config();
 const { AllRoutes } = require("./router/router");
 
 module.exports = class application {
   #app = express();
   #PORT;
-  #DB_URL;
-  constructor(PORT, DB_URL) {
+  #DB_URI;
+  constructor(PORT, DB_URI) {
     this.#PORT = PORT;
-    this.#DB_URL = DB_URL;
+    this.#DB_URI = DB_URI;
     this.configApplication();
     this.connectToMongoDB();
     this.createServer();
@@ -76,7 +76,6 @@ module.exports = class application {
         }
       )
     );
-    
   }
   createServer() {
     const http = require("http");
@@ -95,7 +94,7 @@ module.exports = class application {
 
   async connectToMongoDB() {
     try {
-      await mongoose.connect(this.#DB_URL, {
+      await mongoose.connect(this.#DB_URI, {
         useNewUrlParser: true,
         UseUnifiedTopology: true,
       });
@@ -117,6 +116,7 @@ module.exports = class application {
       console.error("Error connecting to MongoDB:", error.message);
     }
   }
+
   // initRedis() {
   //   require("./utils/init_redis");
   // }
