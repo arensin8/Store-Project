@@ -10,7 +10,7 @@ const { ProductType } = require("../typeDefs/product.type");
 const { CourseType } = require("../typeDefs/course.type");
 const { AnyType } = require("../typeDefs/public.types");
 const { UserModel } = require("../../models/users");
-const { copyObject } = require("../../utils/functions");
+const { copyObject, getBasketOfUser } = require("../../utils/functions");
 
 const getUserBookmarkedBlogs = {
   type: new GraphQLList(BlogType),
@@ -71,71 +71,8 @@ const getUserBasket = {
   resolve: async (_, args, context) => {
     const { req } = context;
     const user = await verifyAccessTokenInGraphQL(req);
-    const userDetail = await UserModel.aggregate([
-      {
-        $match: { _id: user._id },
-      },
-      {
-        $project: { basket: 1 },
-      },
-      {
-        $lookup: {
-          from: "products",
-          localField: "basket.products.productId",
-          foreignField: "_id",
-          as: "productDetails",
-        },
-      },
-      {
-        $lookup: {
-          from: "courses",
-          localField: "basket.courses.courseId",
-          foreignField: "_id",
-          as: "courseDetails",
-        },
-      },
-      {
-        $addFields: {
-          productDetails: {
-            $function: {
-              body: function (productDetails, products) {
-                return productDetails.map(function (product) {
-                  const count = products.find(
-                    (item) => item.productId.valueOf() == product._id.valueOf()
-                  ).count;
-                  const totalPrice = count * product.price;
-                  return {
-                    ...product,
-                    basketCount: count,
-                  };
-                });
-              },
-              args: ["$productDetails", "$basket.products"],
-              lang: "js",
-            },
-          },
-          courseDetails: {
-            $function: {
-              body: function (courseDetails) {
-                return courseDetails.map(function (course) {
-                  return {
-                    ...course,
-                  };
-                });
-              },
-              args: ["$courseDetails"],
-              lang: "js",
-            },
-          },
-        },
-      },
-      {
-        $project: {
-          basket: 0,
-        },
-      },
-    ]);
-    return copyObject(userDetail);
+    const userDetail = await getBasketOfUser(user._id)
+    return userDetail;
   },
 };
 

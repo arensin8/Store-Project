@@ -130,6 +130,8 @@ const RemoveCourseInBasket = {
     const { req } = context;
     const { courseId } = args;
     await checkExistsCourse(courseId);
+    const userHasCourse = await UserModel.findOne({_id: user._id , courses : courseId})
+    if(userHasCourse) throw new createHttpError.BadRequest("You have bought this course before!");
     const user = await verifyAccessTokenInGraphQL(req);
     const course = await findCourseInBasket(user._id, courseId);
     let message;

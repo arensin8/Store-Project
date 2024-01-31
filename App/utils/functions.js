@@ -162,6 +162,104 @@ function getCourseDuration(chapters = []) {
     return (hour + ":" + minute + ":" +second) 
 }
 
+async function getBasketOfUser(userId){
+  const userDetail = await UserModel.aggregate([
+    {
+      $match: { _id: userId },
+    },
+    {
+      $project: { basket: 1 },
+    },
+    {
+      $lookup: {
+        from: "products",
+        localField: "basket.products.productId",
+        foreignField: "_id",
+        as: "productDetails",
+      },
+    },
+    {
+      $lookup: {
+        from: "courses",
+        localField: "basket.courses.courseId",
+        foreignField: "_id",
+        as: "courseDetails",
+      },
+    },
+    {
+      $addFields: {
+        productDetails: {
+          $function: {
+            body: function (productDetails, products) {
+              return productDetails.map(function (product) {
+                const count = products.find(
+                  (item) => item.productId.valueOf() == product._id.valueOf()
+                ).count;
+                const totalPrice = count * product.price;
+                return {
+                  ...product,
+                  basketCount: count,
+                  totalPrice,
+                  finalPrice: totalPrice * ((100 - product.discount) / 100),
+                };
+              });
+            },
+            args: ["$productDetails", "$basket.products"],
+            lang: "js",
+          },
+        },
+        courseDetails: {
+          $function: {
+            body: function (courseDetails) {
+              return courseDetails.map(function (course) {
+                return {
+                  ...course,
+                  finalPrice: course.price * ((100 - course.discount) / 100),
+                };
+              });
+            },
+            args: ["$courseDetails"],
+            lang: "js",
+          },
+        },
+        paymentDetails: {
+          $function: {
+            body: function (courseDetails, productDetails, products) {
+              const courseAmount = courseDetails.reduce(function (total,course) {
+                return total + course.price * ((100 - course.discount) / 100);
+              }, 0);
+              const productAmount = productDetails.reduce(function (total,product) {
+                const count = products.find(
+                  (item) => item.productId.valueOf() == product._id.valueOf()
+                ).count;
+                const totalPrice = count * product.price
+                return total + totalPrice * ((100 - product.discount) / 100);
+              }, 0);
+              const courseIds = courseDetails.map(item => item._id.valueOf())
+              const productIds = productDetails.map(item => item._id.valueOf())
+              return { 
+                courseAmount,
+                productAmount,
+                paymentAmount : courseAmount + productAmount,
+                courseIds,
+                productIds
+              }
+            },
+            args: ["$courseDetails","$productDetails","$basket.products"],
+            lang: "js",
+          },
+        },
+      },
+    },
+    {
+      $project: {
+        basket: 0,
+      },
+    },
+  ]);
+  return copyObject(userDetail);
+}
+
 module.exports = {
   randomNumberGen,
   SignAccessToken,
@@ -174,4 +272,5 @@ module.exports = {
   deleteInvalidPropertiesInObject,
   getTime,
   getCourseDuration,
+  getBasketOfUser
 };
