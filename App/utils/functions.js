@@ -222,7 +222,7 @@ async function getBasketOfUser(userId){
             lang: "js",
           },
         },
-        paymentDetails: {
+        'paymentDetails': {
           $function: {
             body: function (courseDetails, productDetails, products) {
               const courseAmount = courseDetails.reduce(function (total,course) {
