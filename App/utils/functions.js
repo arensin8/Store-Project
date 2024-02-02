@@ -7,6 +7,7 @@ const {
   ACCESS_TOKEN_SECRET_KEY,
   REFRESH_TOKEN_SECRET_KEY,
 } = require("./constant");
+const moment = require("moment-jalali");
 // const redisClient = require("./init_redis");
 
 function randomNumberGen() {
@@ -162,6 +163,10 @@ function getCourseDuration(chapters = []) {
     return (hour + ":" + minute + ":" +second) 
 }
 
+function invoiceNumberGenerator(){
+  return moment().format("YYYYMMDDHHmmssSSS") + String(process.hrtime()[1]).padStart(9, 0)
+}
+
 async function getBasketOfUser(userId){
   const userDetail = await UserModel.aggregate([
     {
@@ -272,5 +277,6 @@ module.exports = {
   deleteInvalidPropertiesInObject,
   getTime,
   getCourseDuration,
-  getBasketOfUser
+  getBasketOfUser,
+  invoiceNumberGenerator
 };

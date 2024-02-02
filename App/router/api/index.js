@@ -1,5 +1,7 @@
 const homeController = require("../../http/controllers/api/home.controller");
-const { verifyAccessToken } = require("../../http/middlewares/verifyAccessToken");
+const {
+  verifyAccessToken,
+} = require("../../http/middlewares/verifyAccessToken");
 const { ApiPayment } = require("./payment");
 const router = require("express").Router();
 
@@ -17,12 +19,12 @@ const router = require("express").Router();
  *      summary :  index of routes
  *      tags : [IndexPage]
  *      description : Gets all needed data
- *      parameters : 
+ *      parameters :
  *      -     in : header
  *            name : Accesstoken
  *            example : Bearer YourToken...
  *      responses:
- *          200 : 
+ *          200 :
  *              description : success
  *          404:
  *              description : Not found!

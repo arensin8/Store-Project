@@ -2,7 +2,7 @@ const { PaymentController } = require('../../http/controllers/api/payment.contro
 const { verifyAccessToken } = require('../../http/middlewares/verifyAccessToken');
 
 const router = require('express').Router();
-router.post('/payment' , verifyAccessToken , PaymentController.paymentGateway)
+router.post('/payment' , verifyAccessToken , PaymentController.PaymentGateway)
 router.post('/verify' , () => {})
 module.exports = {
     ApiPayment : router
