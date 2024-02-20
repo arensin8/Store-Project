@@ -1,10 +1,10 @@
-const { RoomController } = require("../../http/controllers/support/room.controller");
+const { NamespaceController } = require("../../http/controllers/support/namespace.controller");
 const router = require("express").Router();
 
-router.post("/add", RoomController.addRoom);
-router.get("/all", RoomController.getAllRooms);
+router.post("/add", NamespaceController.addNamespace);
+router.get("/all", NamespaceController.getAllNamespaces);
 
 
 module.exports = {
-  roomRouter: router,
+  AdminApiNameSpaceRoute: router,
 };

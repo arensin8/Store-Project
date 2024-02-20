@@ -7,6 +7,7 @@ class NamespaceController extends Controller {
   async addNamespace(req, res, next) {
     try {
       const { title, endpoint } = req.body;
+      await this.findNamespaceWithEndpoint(endpoint)
       const nameSpace = await ConversationModel.create({ title, endpoint });
       if (!nameSpace)
         throw new createHttpError.InternalServerError(
@@ -36,6 +37,11 @@ class NamespaceController extends Controller {
     } catch (error) {
       next(error);
     }
+  }
+
+  async findNamespaceWithEndpoint(endpoint){
+    const conversation = await ConversationModel.findOne({endpoint});
+    if(conversation) throw new createHttpError.BadRequest("Namespace has already added with this name before!")
   }
 }
 

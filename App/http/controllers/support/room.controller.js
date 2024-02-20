@@ -2,12 +2,14 @@ const createHttpError = require("http-errors");
 const { ConversationModel } = require("../../../models/conversation");
 const Controller = require("../controller");
 const { StatusCodes } = require("http-status-codes");
+const path = require('path')
 
 class RoomController extends Controller {
   async addRoom(req, res, next) {
     try {
-      const { title, endpoint } = req.body;
-      const room = await ConversationModel.create({ title, endpoint });
+      const { name, description,filename,fileUploadPath } = req.body;
+      const image = path.join(fileUploadPath, filename).replace(/\\/g, "/");
+      const room = await ConversationModel.create({ name, description,image });
       if (!room)
         throw new createHttpError.InternalServerError(
           "Room creating failed!"
@@ -24,18 +26,22 @@ class RoomController extends Controller {
   }
   async getAllRooms(req, res, next) {
     try {
-      const rooms = await ConversationModel.find({}, { rooms: 0 });
-      if (!rooms)
-        throw new createHttpError.NotFound("There isnt any namespace");
+      const conversation = await ConversationModel.find({}, { rooms: 1 });
+      if (!conversation)
+        throw new createHttpError.NotFound("There isnt any rooms");
       res.statusCode(StatusCodes.OK).json({
         statusCode: StatusCodes.OK,
         data: {
-          rooms,
+          rooms : conversation.rooms,
         },
       });
     } catch (error) {
       next(error);
     }
+  }
+  async findRoomWithName(name){
+    const conversation = await ConversationModel.findOne({'rooms.name' : name});
+    if(conversation) throw new createHttpError.BadRequest("Room has already exists!")
   }
 }
 
