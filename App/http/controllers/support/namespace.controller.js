@@ -13,7 +13,7 @@ class NamespaceController extends Controller {
         throw new createHttpError.InternalServerError(
           "Name space creating failed!"
         );
-      res.statusCode(StatusCodes.CREATED).json({
+      res.status(StatusCodes.CREATED).json({
         statusCode: StatusCodes.CREATED,
         data: {
           message: "Namespace created successfully",
