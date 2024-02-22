@@ -10,6 +10,8 @@ const cors = require("cors");
 require("dotenv").config();
 const { AllRoutes } = require("./router/router");
 const expressEjsLayouts = require("express-ejs-layouts");
+const { initialSocket } = require("./utils/initSocket");
+const { socketHandler } = require("./socket.io");
 
 module.exports = class application {
   #app = express();
@@ -20,7 +22,7 @@ module.exports = class application {
     this.#DB_URI = DB_URI;
     this.configApplication();
     this.connectToMongoDB();
-    this.initTemplateEngine()
+    this.initTemplateEngine();
     this.createServer();
     this.createRoutes();
     this.errorHandling();
@@ -82,7 +84,9 @@ module.exports = class application {
   createServer() {
     const http = require("http");
     const server = http.createServer(this.#app);
-
+    const io = initialSocket(server);
+    socketHandler(io);
+    
     // Add an error event handler
     server.on("error", (err) => {
       console.error("Server error:", err);
@@ -121,13 +125,13 @@ module.exports = class application {
   // initRedis() {
   //   require("./utils/init_redis");
   // }
-  initTemplateEngine(){
-    this.#app.use(expressEjsLayouts)
-    this.#app.set('view engine' , 'ejs')
-    this.#app.set('views' , 'resource/views')
-    this.#app.set('layout extractStyles' , true)
-    this.#app.set('layout extractScripts' , true)
-    this.#app.set('layout' , './layouts/master')
+  initTemplateEngine() {
+    this.#app.use(expressEjsLayouts);
+    this.#app.set("view engine", "ejs");
+    this.#app.set("views", "resource/views");
+    this.#app.set("layout extractStyles", true);
+    this.#app.set("layout extractScripts", true);
+    this.#app.set("layout", "./layouts/master");
   }
   createRoutes() {
     this.#app.use(AllRoutes);
