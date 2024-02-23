@@ -15,10 +15,8 @@ class NamespaceSocketHandler {
     });
   }
   async createNamespaceConnection() {
-    const namespaces = await ConversationModel.find(
-      {},
-      { title: 1, endpoint: 1, rooms: 1 }
-    ).sort({ id: -1 });
+    const namespaces = await ConversationModel.find({},{ title: 1, endpoint: 1, rooms: 1 })
+    .sort({ id: -1 });
     for (const namespace of namespaces) {
       this.#io.of(`/${namespace.endpoint}`).on("connection", (socket) => {
         socket.emit("roomList", namespace.rooms);
