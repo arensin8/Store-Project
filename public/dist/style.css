@@ -54,7 +54,7 @@
       -ms-filter: "FlipH";
     }
     #frame #sidepanel #profile .wrap {
-      height: 60px;
+      height: 50px;
       line-height: 60px;
       overflow: hidden;
       -moz-transition: 0.3s height ease;
@@ -64,6 +64,7 @@
     }
   
     #frame #sidepanel #profile .wrap img {
+      
       width: 50px;
       border-radius: 50%;
       padding: 3px;
@@ -264,7 +265,8 @@
     }
     #frame #sidepanel #contacts ul li.contact .wrap {
       width: 88%;
-      margin: 0 auto;
+      /* margin: 0 auto; */
+      margin-top: 10px;
       position: relative;
     }
   
