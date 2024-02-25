@@ -15,10 +15,21 @@ class NamespaceSocketHandler {
     });
   }
   async createNamespaceConnection() {
-    const namespaces = await ConversationModel.find({},{ title: 1, endpoint: 1, rooms: 1 })
-    .sort({ id: -1 });
+    const namespaces = await ConversationModel.find(
+      {},
+      { title: 1, endpoint: 1, rooms: 1 }
+    ).sort({ id: -1 });
     for (const namespace of namespaces) {
       this.#io.of(`/${namespace.endpoint}`).on("connection", (socket) => {
+        socket.on("joinRoom", (roomName) => {
+          const rooms = Array.from(socket.rooms);
+          if (rooms.length > 1) {
+            const lastRoom = rooms[1];
+            socket.leave(lastRoom);
+          }
+          socket.join(roomName);
+          console.log(socket.rooms);
+        });
         socket.emit("roomList", namespace.rooms);
       });
     }
