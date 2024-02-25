@@ -375,8 +375,9 @@
     #roomName h3 {
       width: 100%;
       margin: 0;
-      margin-right: 15px;
-      text-align: right;
+      margin-left: 15px;
+      text-align: left;
+      font-size: 30px;
       color:#E6EAEA
     }
     #frame .content .contact-profile {
@@ -396,7 +397,7 @@
       float: left;
     }
     #frame .content .contact-profile .social-media {
-      float: right;
+      float: left;
     }
     #frame .content .contact-profile .social-media i {
       margin-left: 14px;

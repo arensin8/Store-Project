@@ -8,12 +8,17 @@ function stringToHTML(str) {
 }
 function getRoomInfo(room) {
   namespaceSocket.emit("joinRoom", room);
+  namespaceSocket.on("roomInfo", (roomInfo) => {
+    console.log(roomInfo);
+    document.querySelector("#roomName h3").innerText = roomInfo.description;
+  });
 }
 
 function initNamespaceConnection(endpoint) {
   namespaceSocket = io(`http://localhost:3000/${endpoint}`);
   namespaceSocket.on("connect", () => {
     namespaceSocket.on("roomList", (rooms) => {
+      getRoomInfo(rooms[0]?.name);
       const roomsElement = document.querySelector("#contacts ul");
       roomsElement.innerHTML = "";
       for (const room of rooms) {
@@ -33,18 +38,12 @@ function initNamespaceConnection(endpoint) {
       for (const room of roomNodes) {
         room.addEventListener("click", () => {
           const roomName = room.getAttribute("roomName");
-          getRoomInfo(roomName)
+          getRoomInfo(roomName);
         });
       }
-      document.querySelectorAll("#contacts ul .contact").forEach((item) => {
-        item.addEventListener("click", () => {
-          // document.getElementById('roomName').innerText =
-        });
-      });
     });
   });
 }
-
 
 socket.on("connect", () => {
   socket.on("NamespaceList", (namespacesList) => {
@@ -63,7 +62,6 @@ socket.on("connect", () => {
     const namespaceNodes = document.querySelectorAll(
       "#namespaces li p.namespaceTitle"
     );
-    console.log(namespaceNodes);
     for (const namespace of namespaceNodes) {
       namespace.addEventListener("click", () => {
         const endpoint = namespace.getAttribute("endpoint");
