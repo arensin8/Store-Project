@@ -26,23 +26,38 @@ class NamespaceSocketHandler {
           { rooms: 1 }
         ).sort({ id: -1 });
         socket.emit("roomList", conversation.rooms);
-        socket.on("joinRoom", (roomName) => {
+        socket.on("joinRoom", async (roomName) => {
           const rooms = Array.from(socket.rooms);
           if (rooms.length > 1) {
             const lastRoom = rooms[1];
-            // console.log(lastRoom);
             socket.leave(lastRoom);
+            await this.getCountOfOnlineUsers(namespace.endpoint, roomName);
           } else {
             // Handle the case where there's no second room
           }
 
           socket.join(roomName);
-          const roomInfo = conversation.rooms.find(item => item.name == roomName)
-          socket.emit('roomInfo' , roomInfo)
+          await this.getCountOfOnlineUsers(namespace.endpoint, roomName);
+          const roomInfo = conversation.rooms.find(
+            (item) => item.name == roomName
+          );
+          socket.emit("roomInfo", roomInfo);
+          socket.on("disconnect", async () => {
+            await this.getCountOfOnlineUsers(namespace.endpoint, roomName);
+          });
         });
-
       });
     }
+  }
+  async getCountOfOnlineUsers(endpoint, roomName) {
+    const onlineUsers = await this.#io
+      .of(`/${endpoint}`)
+      .in(roomName)
+      .allSockets();
+    this.#io
+      .of(`/${endpoint}`)
+      .in(roomName)
+      .emit("countOfOnlineUsers", Array.from(onlineUsers).length);
   }
 }
 

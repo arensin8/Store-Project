@@ -9,12 +9,15 @@ function stringToHTML(str) {
 function getRoomInfo(room) {
   namespaceSocket.emit("joinRoom", room);
   namespaceSocket.on("roomInfo", (roomInfo) => {
-    console.log(roomInfo);
     document.querySelector("#roomName h3").innerText = roomInfo.description;
+  });
+  namespaceSocket.on("countOfOnlineUsers", (count) => {
+    document.getElementById("onlineCount").innerHTML = count;
   });
 }
 
 function initNamespaceConnection(endpoint) {
+  if(namespaceSocket) namespaceSocket.close()
   namespaceSocket = io(`http://localhost:3000/${endpoint}`);
   namespaceSocket.on("connect", () => {
     namespaceSocket.on("roomList", (rooms) => {
