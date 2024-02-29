@@ -48,6 +48,30 @@ function initNamespaceConnection(endpoint) {
   });
 }
 
+function sendMessage(){
+  const message = document.querySelector('.message-input input#messageInput').value
+  if(message.trim() == ""){
+    return alert('Input can not be empty')
+  }  
+  namespaceSocket.emit('newMessage' , {
+    message
+  })
+  namespaceSocket.on('confirmMessage' , data => {
+    console.log(data);
+  })
+  const li = stringToHTML(`
+    <li class="sent">
+      <img src="http://emilcarlsson.se/assets/harveyspecter.png"
+        alt="" />
+      <p>${message}</p>
+    </li>
+  `)
+  document.querySelector('.messages ul').appendChild(li)
+  document.querySelector('.message-input input#messageInput').value = ""
+  const messagesElement = document.querySelector('div.messages')
+  messagesElement.scrollTo(0 , messagesElement.scrollHeight)
+}
+
 socket.on("connect", () => {
   socket.on("NamespaceList", (namespacesList) => {
     const namespaceElement = document.getElementById("namespaces");
@@ -72,4 +96,14 @@ socket.on("connect", () => {
       });
     }
   });
+  window.addEventListener('keydown' , e => {
+    if(e.code == 'enter'){
+      sendMessage
+    }
+  })
+  document.querySelector('button.submit').addEventListener('click' , () => {
+    sendMessage()
+  })
 });
+
+

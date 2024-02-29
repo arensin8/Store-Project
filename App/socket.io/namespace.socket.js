@@ -42,6 +42,7 @@ class NamespaceSocketHandler {
             (item) => item.name == roomName
           );
           socket.emit("roomInfo", roomInfo);
+          this.getNewMessage(socket)
           socket.on("disconnect", async () => {
             await this.getCountOfOnlineUsers(namespace.endpoint, roomName);
           });
@@ -58,6 +59,11 @@ class NamespaceSocketHandler {
       .of(`/${endpoint}`)
       .in(roomName)
       .emit("countOfOnlineUsers", Array.from(onlineUsers).length);
+  }
+  getNewMessage(socket){
+    socket.on('newMessage' , data => {
+      console.log(data);
+    })
   }
 }
 
