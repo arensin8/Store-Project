@@ -6,8 +6,10 @@ function stringToHTML(str) {
   const doc = parser.parseFromString(str, "text/html");
   return doc.body.firstChild;
 }
-function getRoomInfo(room) {
-  namespaceSocket.emit("joinRoom", room);
+function getRoomInfo(endpoint, roomName) {
+  document.querySelector("#roomName h3").setAttribute("roomName", roomName);
+  document.querySelector("#roomName h3").setAttribute("endpoint", endpoint);
+  namespaceSocket.emit("joinRoom", roomName);
   namespaceSocket.on("roomInfo", (roomInfo) => {
     document.querySelector("#roomName h3").innerText = roomInfo.description;
   });
@@ -17,11 +19,11 @@ function getRoomInfo(room) {
 }
 
 function initNamespaceConnection(endpoint) {
-  if(namespaceSocket) namespaceSocket.close()
+  if (namespaceSocket) namespaceSocket.close();
   namespaceSocket = io(`http://localhost:3000/${endpoint}`);
   namespaceSocket.on("connect", () => {
     namespaceSocket.on("roomList", (rooms) => {
-      getRoomInfo(rooms[0]?.name);
+      getRoomInfo(endpoint, rooms[0]?.name);
       const roomsElement = document.querySelector("#contacts ul");
       roomsElement.innerHTML = "";
       for (const room of rooms) {
@@ -41,35 +43,41 @@ function initNamespaceConnection(endpoint) {
       for (const room of roomNodes) {
         room.addEventListener("click", () => {
           const roomName = room.getAttribute("roomName");
-          getRoomInfo(roomName);
+          getRoomInfo(endpoint, roomName);
         });
       }
     });
   });
 }
 
-function sendMessage(){
-  const message = document.querySelector('.message-input input#messageInput').value
-  if(message.trim() == ""){
-    return alert('Input can not be empty')
-  }  
-  namespaceSocket.emit('newMessage' , {
-    message
-  })
-  namespaceSocket.on('confirmMessage' , data => {
+function sendMessage() {
+  const roomName = document.querySelector("#roomName h3").getAttribute("roomName");
+  const endpoint = document.querySelector("#roomName h3").getAttribute('endpoint')
+  const message = document.querySelector(
+    ".message-input input#messageInput"
+  ).value;
+  if (message.trim() == "") {
+    return alert("Input can not be empty");
+  }
+  namespaceSocket.emit("newMessage", {
+    message,
+    roomName,
+    endpoint
+  });
+  namespaceSocket.on("confirmMessage", (data) => {
     console.log(data);
-  })
+  });
   const li = stringToHTML(`
     <li class="sent">
       <img src="http://emilcarlsson.se/assets/harveyspecter.png"
         alt="" />
       <p>${message}</p>
     </li>
-  `)
-  document.querySelector('.messages ul').appendChild(li)
-  document.querySelector('.message-input input#messageInput').value = ""
-  const messagesElement = document.querySelector('div.messages')
-  messagesElement.scrollTo(0 , messagesElement.scrollHeight)
+  `);
+  document.querySelector(".messages ul").appendChild(li);
+  document.querySelector(".message-input input#messageInput").value = "";
+  const messagesElement = document.querySelector("div.messages");
+  messagesElement.scrollTo(0, messagesElement.scrollHeight);
 }
 
 socket.on("connect", () => {
@@ -96,14 +104,12 @@ socket.on("connect", () => {
       });
     }
   });
-  window.addEventListener('keydown' , e => {
-    if(e.code == 'enter'){
-      sendMessage
+  window.addEventListener("keydown", (e) => {
+    if (e.code == "enter") {
+      sendMessage();
     }
-  })
-  document.querySelector('button.submit').addEventListener('click' , () => {
-    sendMessage()
-  })
+  });
+  document.querySelector("button.submit").addEventListener("click", () => {
+    sendMessage();
+  });
 });
-
-

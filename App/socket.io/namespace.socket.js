@@ -61,8 +61,17 @@ class NamespaceSocketHandler {
       .emit("countOfOnlineUsers", Array.from(onlineUsers).length);
   }
   getNewMessage(socket){
-    socket.on('newMessage' , data => {
-      console.log(data);
+    socket.on('newMessage' , async data => {
+      const {message , endpoint ,roomName } = data;
+      await ConversationModel.updateOne({endpoint , "rooms.name" : roomName} , {
+        $push : {
+          "rooms.$.messages" : {
+            sender : "65911301a0f4f92c777c5a32",
+            message,
+            dateTime : Date.now()
+          }
+        }
+      })
     })
   }
 }
