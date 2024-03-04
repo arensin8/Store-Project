@@ -8,6 +8,8 @@ const router = require("express").Router();
 
 router.use("/namespace", AdminApiNameSpaceRoute)
 router.use("/room", AdminApiRoomsRoute)
+router.get("/login", SupportController.loginForm);
+router.post("/login", SupportController.login);
 router.get("/", SupportController.renderChatRoom);
 
 
