@@ -9,22 +9,21 @@ module.exports = {
     SUPPLIER: "SUPPLIER",
   }),
   PERMISSIONS: Object.freeze({
-    USER: ['profile'],
+    USER: ["profile"],
     ADMIN: ["all"],
     SUPERADMIN: ["all"],
     ALL: ["all"],
-    TEACHER: ["course" , 'blog'],
-    CONTENT_MANAGER: ["course" , 'blog' , 'category' , 'product'],
+    TEACHER: ["course", "blog"],
+    CONTENT_MANAGER: ["course", "blog", "category", "product"],
     SUPPLIER: ["product"],
   }),
   ACCESS_TOKEN_SECRET_KEY:
     "23070C21A48C9C5A7E4913D53F1200BC89E2D61626881118B17A0E612549EA99",
   REFRESH_TOKEN_SECRET_KEY:
     "65824D54D23F5997AB8AB2F43978FF04543596CD677F0E0F87222CFED53DA304",
+  COOKIE_PARSER_SECRET_KEY:
+    "F2393D3FABAECB5C6C15CB7AF650CFD3C1B0999A0DA390F3655AFAD2B789AE9D",
 };
-
-
-
 
 // {
 //   "statusCode": 200,
