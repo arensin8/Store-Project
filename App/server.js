@@ -12,6 +12,8 @@ const { AllRoutes } = require("./router/router");
 const expressEjsLayouts = require("express-ejs-layouts");
 const { initialSocket } = require("./utils/initSocket");
 const { socketHandler } = require("./socket.io");
+const cookieParser = require('cookie-parser')
+const session = require('express-session')
 
 module.exports = class application {
   #app = express();
@@ -132,6 +134,9 @@ module.exports = class application {
     this.#app.set("layout extractStyles", true);
     this.#app.set("layout extractScripts", true);
     this.#app.set("layout", "./layouts/master");
+  }
+  initClientSession(){
+    this.#app.use(cookieParser())
   }
   createRoutes() {
     this.#app.use(AllRoutes);
