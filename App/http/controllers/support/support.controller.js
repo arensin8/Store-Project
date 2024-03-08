@@ -5,8 +5,8 @@ const Controller = require("../controller");
 class SupportController extends Controller {
   loginForm(req, res, next) {
     try {
-      return res.render("login.ejs" , {
-        error : undefined
+      return res.render("login.ejs", {
+        error: undefined,
       });
     } catch (error) {
       next(error);
@@ -22,7 +22,13 @@ class SupportController extends Controller {
         });
       }
       const token = await SignAccessToken(user._id);
-      return res.json(token);
+      res.cookie("authorization", token, {
+        httpOnly: true,
+        expires: new Date(Date.now() + 1000 * 60 * 60 * 1),
+      });
+      user.token = token;
+      user.save();
+      return res.redirect("/support");
     } catch (error) {
       next(error);
     }

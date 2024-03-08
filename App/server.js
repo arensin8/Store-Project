@@ -12,8 +12,9 @@ const { AllRoutes } = require("./router/router");
 const expressEjsLayouts = require("express-ejs-layouts");
 const { initialSocket } = require("./utils/initSocket");
 const { socketHandler } = require("./socket.io");
-const cookieParser = require('cookie-parser')
-const session = require('express-session')
+const cookieParser = require("cookie-parser");
+const session = require("express-session");
+const { COOKIE_PARSER_SECRET_KEY } = require("./utils/constant");
 
 module.exports = class application {
   #app = express();
@@ -88,7 +89,7 @@ module.exports = class application {
     const server = http.createServer(this.#app);
     const io = initialSocket(server);
     socketHandler(io);
-    
+
     // Add an error event handler
     server.on("error", (err) => {
       console.error("Server error:", err);
@@ -127,6 +128,25 @@ module.exports = class application {
   // initRedis() {
   //   require("./utils/init_redis");
   // }
+  parseCookies(req, res, next) {
+    const cookieHeader = req.headers.cookie || ""; // Ensure cookie header exists
+    req.parsedCookies = cookie.parse(cookieHeader);
+    next();
+  }
+  initClientSession() {
+    // this.#app.use(cookieParser(COOKIE_PARSER_SECRET_KEY));
+    this.#app.use(this.parseCookies);
+    this.#app.use(
+      session({
+        secret: COOKIE_PARSER_SECRET_KEY,
+        resave: true,
+        saveUninitialized: true,
+        cookie: {
+          secure: false,
+        },
+      })
+    );
+  }
   initTemplateEngine() {
     this.#app.use(expressEjsLayouts);
     this.#app.set("view engine", "ejs");
@@ -135,9 +155,7 @@ module.exports = class application {
     this.#app.set("layout extractScripts", true);
     this.#app.set("layout", "./layouts/master");
   }
-  initClientSession(){
-    this.#app.use(cookieParser())
-  }
+
   createRoutes() {
     this.#app.use(AllRoutes);
   }

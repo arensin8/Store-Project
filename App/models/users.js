@@ -25,6 +25,7 @@ const UserSchema = new mongoose.Schema(
     password: { type: String },
     otp: { type: Object, default: { code: 0, expiresIn: 0 } },
     bills: { type: [], default: [] },
+    token: { type: String, default: ""},
     discount: { type: Number, default: 0 },
     birthday: { type: String },
     role: { type: String, default: "USER" },
