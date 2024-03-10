@@ -381,7 +381,8 @@
       color:#E6EAEA
     }
     #frame .content .contact-profile {
-      width: 100%;
+      display: flex;
+      justify-content: center;
       height: 60px;
       line-height: 60px;
       background: #f5f5f5;
@@ -395,7 +396,9 @@
     }
     #frame .content .contact-profile p {
       float: left;
+      margin-right: 250px;
     }
+    
     #frame .content .contact-profile .social-media {
       float: left;
     }
