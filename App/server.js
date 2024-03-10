@@ -1,4 +1,4 @@
-const { log, error } = require("console");
+const cookie = require("cookie");
 const express = require("express");
 const { default: mongoose } = require("mongoose");
 const path = require("path");
@@ -23,6 +23,7 @@ module.exports = class application {
   constructor(PORT, DB_URI) {
     this.#PORT = PORT;
     this.#DB_URI = DB_URI;
+    this.initClientSession();
     this.configApplication();
     this.connectToMongoDB();
     this.initTemplateEngine();
@@ -128,21 +129,15 @@ module.exports = class application {
   // initRedis() {
   //   require("./utils/init_redis");
   // }
-  parseCookies(req, res, next) {
-    const cookieHeader = req.headers.cookie || ""; // Ensure cookie header exists
-    req.parsedCookies = cookie.parse(cookieHeader);
-    next();
-  }
   initClientSession() {
-    // this.#app.use(cookieParser(COOKIE_PARSER_SECRET_KEY));
-    this.#app.use(this.parseCookies);
+    this.#app.use(cookieParser(COOKIE_PARSER_SECRET_KEY));
     this.#app.use(
       session({
         secret: COOKIE_PARSER_SECRET_KEY,
         resave: true,
         saveUninitialized: true,
         cookie: {
-          secure: false,
+          secure: true,
         },
       })
     );

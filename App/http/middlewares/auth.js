@@ -2,7 +2,7 @@ const { UserModel } = require("../../models/users");
 
 async function checkLogin(req, res, next) {
   try {
-    const token = req.signedCookie["authorization"];
+    const token = req.signedCookies["authorization"];
     if (token) {
       const user = await UserModel.findOne({ token });
       if (user) {
@@ -20,9 +20,7 @@ async function checkLogin(req, res, next) {
 
 async function checkAccessLogin(req, res, next) {
   try {
-    const token = req.parsedCookies.authorization;
-
-    console.log(req.signedCookie);
+    const token = req.signedCookies["authorization"];
     if (token) {
       const user = await UserModel.findOne(
         { token },

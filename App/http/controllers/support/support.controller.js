@@ -23,6 +23,7 @@ class SupportController extends Controller {
       }
       const token = await SignAccessToken(user._id);
       res.cookie("authorization", token, {
+        signed: true,
         httpOnly: true,
         expires: new Date(Date.now() + 1000 * 60 * 60 * 1),
       });
