@@ -42,7 +42,7 @@ class NamespaceSocketHandler {
             (item) => item.name == roomName
           );
           socket.emit("roomInfo", roomInfo);
-          this.getNewMessage(socket)
+          this.getNewMessage(socket);
           socket.on("disconnect", async () => {
             await this.getCountOfOnlineUsers(namespace.endpoint, roomName);
           });
@@ -60,19 +60,22 @@ class NamespaceSocketHandler {
       .in(roomName)
       .emit("countOfOnlineUsers", Array.from(onlineUsers).length);
   }
-  getNewMessage(socket){
-    socket.on('newMessage' , async data => {
-      const {message , endpoint ,roomName } = data;
-      await ConversationModel.updateOne({endpoint , "rooms.name" : roomName} , {
-        $push : {
-          "rooms.$.messages" : {
-            sender : "65911301a0f4f92c777c5a32",
-            message,
-            dateTime : Date.now()
-          }
+  getNewMessage(socket) {
+    socket.on("newMessage", async (data) => {
+      const { message, endpoint, roomName, sender } = data;
+      await ConversationModel.updateOne(
+        { endpoint, "rooms.name": roomName },
+        {
+          $push: {
+            "rooms.$.messages": {
+              sender,
+              message,
+              dateTime: Date.now(),
+            },
+          },
         }
-      })
-    })
+      );
+    });
   }
 }
 

@@ -51,18 +51,25 @@ function initNamespaceConnection(endpoint) {
 }
 
 function sendMessage() {
-  const roomName = document.querySelector("#roomName h3").getAttribute("roomName");
-  const endpoint = document.querySelector("#roomName h3").getAttribute('endpoint')
+  const roomName = document
+    .querySelector("#roomName h3")
+    .getAttribute("roomName");
+  const endpoint = document
+    .querySelector("#roomName h3")
+    .getAttribute("endpoint");
   const message = document.querySelector(
     ".message-input input#messageInput"
   ).value;
   if (message.trim() == "") {
     return alert("Input can not be empty");
   }
+  const userId = document.getElementById("userId").value;
+  console.log(userId);
   namespaceSocket.emit("newMessage", {
     message,
     roomName,
-    endpoint
+    endpoint,
+    sender: userId,
   });
   namespaceSocket.on("confirmMessage", (data) => {
     console.log(data);

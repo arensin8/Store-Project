@@ -9,7 +9,7 @@
             <%}else{%>
                 <p><%=req.user.mobile%></p>
             <%}%>
-        <input type="hidden" id="userID" >
+        <input type="hidden" id="userId" value="<%=req.user._id%>" >
                     <div class="social-media">
                         <span id="onlinesCount"><span>Online People :  </span><span id="onlineCount">-</span></span>
                     </div>
