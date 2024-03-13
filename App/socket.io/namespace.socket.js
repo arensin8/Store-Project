@@ -75,6 +75,7 @@ class NamespaceSocketHandler {
           },
         }
       );
+      this.#io.emit("confirmMessage", data);
     });
   }
 }

@@ -74,17 +74,20 @@ function sendMessage() {
   namespaceSocket.on("confirmMessage", (data) => {
     console.log(data);
   });
-  const li = stringToHTML(`
-    <li class="sent">
-      <img src="http://emilcarlsson.se/assets/harveyspecter.png"
-        alt="" />
-      <p>${message}</p>
-    </li>
-  `);
-  document.querySelector(".messages ul").appendChild(li);
-  document.querySelector(".message-input input#messageInput").value = "";
-  const messagesElement = document.querySelector("div.messages");
-  messagesElement.scrollTo(0, messagesElement.scrollHeight);
+  socket.off("confirmMessage");
+  socket.on("confirmMessage", (data) => {
+    const li = stringToHTML(`
+      <li class="${userId == data.sender ? "replies" : "sent"}">
+        <img src="http://emilcarlsson.se/assets/harveyspecter.png"
+          alt="" />
+        <p>${data.message}</p>
+      </li>
+    `);
+    document.querySelector(".messages ul").appendChild(li);
+    document.querySelector(".message-input input#messageInput").value = "";
+    const messagesElement = document.querySelector("div.messages");
+    messagesElement.scrollTo(0, messagesElement.scrollHeight);
+  });
 }
 
 socket.on("connect", () => {
