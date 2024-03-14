@@ -71,13 +71,13 @@ function sendMessage() {
     endpoint,
     sender: userId,
   });
+  // namespaceSocket.on("confirmMessage", (data) => {
+  //   console.log(data);
+  // });
+  namespaceSocket.off("confirmMessage");
   namespaceSocket.on("confirmMessage", (data) => {
-    console.log(data);
-  });
-  socket.off("confirmMessage");
-  socket.on("confirmMessage", (data) => {
     const li = stringToHTML(`
-      <li class="${(userId == data.sender) ? "sent" : "replies"}">
+      <li class="${userId == data.sender ? "sent" : "replies"}">
         <img src="http://emilcarlsson.se/assets/harveyspecter.png"
           alt="" />
         <p>${data.message}</p>

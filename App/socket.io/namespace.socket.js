@@ -62,7 +62,7 @@ class NamespaceSocketHandler {
   }
   getNewMessage(socket) {
     socket.on("newMessage", async (data) => {
-      const { message, endpoint, roomName, sender } = data;
+      const { message, roomName, endpoint, sender } = data;
       await ConversationModel.updateOne(
         { endpoint, "rooms.name": roomName },
         {
@@ -75,7 +75,7 @@ class NamespaceSocketHandler {
           },
         }
       );
-      this.#io.emit("confirmMessage", data);
+      this.#io.of(`/${endpoint}`).in(roomName).emit("confirmMessage", data);
     });
   }
 }
