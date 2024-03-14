@@ -77,7 +77,7 @@ function sendMessage() {
   socket.off("confirmMessage");
   socket.on("confirmMessage", (data) => {
     const li = stringToHTML(`
-      <li class="${userId == data.sender ? "replies" : "sent"}">
+      <li class="${(userId == data.sender) ? "sent" : "replies"}">
         <img src="http://emilcarlsson.se/assets/harveyspecter.png"
           alt="" />
         <p>${data.message}</p>
