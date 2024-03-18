@@ -51,14 +51,8 @@ class NamespaceSocketHandler {
     }
   }
   async getCountOfOnlineUsers(endpoint, roomName) {
-    const onlineUsers = await this.#io
-      .of(`/${endpoint}`)
-      .in(roomName)
-      .allSockets();
-    this.#io
-      .of(`/${endpoint}`)
-      .in(roomName)
-      .emit("countOfOnlineUsers", Array.from(onlineUsers).length);
+    const onlineUsers = await this.#io.of(`/${endpoint}`).in(roomName).allSockets();
+    this.#io.of(`/${endpoint}`).in(roomName).emit("countOfOnlineUsers", Array.from(onlineUsers).length);
   }
   getNewMessage(socket) {
     socket.on("newMessage", async (data) => {
