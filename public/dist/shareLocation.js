@@ -32,7 +32,7 @@ function getLocation() {
                         <img src="https://media-exp1.licdn.com/dms/image/C5603AQE3g9gHNfxGrQ/profile-displayphoto-shrink_200_200/0/1645507738281?e=1659571200&v=beta&t=wtwELdT1gp6ICp3UigC2EgutGAQgDP2sZKUx0mjCTwI"
                             alt="" />
                     </li>   
-                `);
+        `);
         const p = stringToHTML(
           `<p id="location-me" style="width: 200px; height:150px;"></p>`
         );
