@@ -6,11 +6,18 @@ const MessageSchema = new mongoose.Schema({
   dateTime: { type: String },
 });
 
+const LocationSchema = new mongoose.Schema({
+  sender: { type: mongoose.Types.ObjectId, ref: "user" },
+  location: { type: Object , default : {}},
+  dateTime: { type: String },
+});
+
 const RoomsSchema = new mongoose.Schema({
   name: { type: String },
   description: { type: String },
   image: { type: String },
   messages: { type: [MessageSchema], default: [] },
+  locations: { type: [LocationSchema], default: [] },
 });
 
 const ConversationSchema = new mongoose.Schema({

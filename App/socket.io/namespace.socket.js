@@ -1,4 +1,6 @@
 const { ConversationModel } = require("../models/conversation");
+const path = require("path");
+const fs = require("fs");
 
 class NamespaceSocketHandler {
   #io;
@@ -43,6 +45,7 @@ class NamespaceSocketHandler {
           );
           socket.emit("roomInfo", roomInfo);
           this.getNewMessage(socket);
+          this.getNewLocation(socket);
           socket.on("disconnect", async () => {
             await this.getCountOfOnlineUsers(namespace.endpoint, roomName);
           });
@@ -51,8 +54,14 @@ class NamespaceSocketHandler {
     }
   }
   async getCountOfOnlineUsers(endpoint, roomName) {
-    const onlineUsers = await this.#io.of(`/${endpoint}`).in(roomName).allSockets();
-    this.#io.of(`/${endpoint}`).in(roomName).emit("countOfOnlineUsers", Array.from(onlineUsers).length);
+    const onlineUsers = await this.#io
+      .of(`/${endpoint}`)
+      .in(roomName)
+      .allSockets();
+    this.#io
+      .of(`/${endpoint}`)
+      .in(roomName)
+      .emit("countOfOnlineUsers", Array.from(onlineUsers).length);
   }
   getNewMessage(socket) {
     socket.on("newMessage", async (data) => {
@@ -70,6 +79,36 @@ class NamespaceSocketHandler {
         }
       );
       this.#io.of(`/${endpoint}`).in(roomName).emit("confirmMessage", data);
+    });
+  }
+  getNewLocation(socket) {
+    socket.on("newLocation", async (data) => {
+      const { location, roomName, endpoint, sender } = data;
+      await ConversationModel.updateOne(
+        { endpoint, "rooms.name": roomName },
+        {
+          $push: {
+            "rooms.$.locations": {
+              sender,
+              location,
+              dateTime: Date.now(),
+            },
+          },
+        }
+      );
+      this.#io.of(`/${endpoint}`).in(roomName).emit("confirmLocation", data);
+    });
+  }
+  uploadFiles(socket) {
+    socket.on("upload", ({ file, filename }, callback) => {
+      const ext = path.extname(filename);
+      fs.writeFile(
+        "public/uploads/sockets/" + String(Date.now() + ext),
+        file,
+        (err) => {
+          callback({ message: err ? "failure" : "success" });
+        }
+      );
     });
   }
 }
